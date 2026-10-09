@@ -1,0 +1,41 @@
+/* RAKA Micro-animations and Keyframes */
+@keyframes ring-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(1deg);
+  }
+}
+
+@keyframes mountain-float {
+  0%, 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(3px);
+  }
+}
+
+.rings {
+  transform-origin: 50% 47%;
+  animation: ring-float 16s ease-in-out infinite;
+}
+
+.mountain-lines {
+  animation: mountain-float 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

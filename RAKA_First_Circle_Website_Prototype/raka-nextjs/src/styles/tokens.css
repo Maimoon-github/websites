@@ -1,0 +1,17 @@
+/* RAKA Design Tokens */
+:root {
+  --black: #0b0b0a;
+  --dark: #151411;
+  --dark2: #1b1916;
+  --gold: #c8a977;
+  --gold-strong: #e0bf84;
+  --muted-gold: #857052;
+  --cream: #f4f0e8;
+  --pale: #ebe5d9;
+  --paper: #fcfaf6;
+  --ink: #181712;
+  --muted: #aba69f;
+  --sans: var(--font-inter, Inter), -apple-system, BlinkMacSystemFont, 'Avenir Next', Avenir, 'Helvetica Neue', Arial, sans-serif;
+  --serif: var(--font-bodoni, 'Bodoni Moda'), 'Bodoni MT', 'Didot', 'Times New Roman', Georgia, serif;
+  --max: 1250px;
+}
