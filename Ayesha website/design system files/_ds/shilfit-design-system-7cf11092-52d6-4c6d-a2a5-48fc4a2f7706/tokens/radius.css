@@ -1,0 +1,8 @@
+/* Corner radii — only four values exist in the file */
+:root{
+--radius-card:15px;      /* testimonial / spec / photo cards */
+--radius-panel:20px;     /* large product panels, nav cart pill, small badges */
+--radius-pill:50px;      /* buttons */
+--radius-round:50%;      /* avatars, glow ellipses */
+--bar-width:4px;         /* the gold section rule */
+}

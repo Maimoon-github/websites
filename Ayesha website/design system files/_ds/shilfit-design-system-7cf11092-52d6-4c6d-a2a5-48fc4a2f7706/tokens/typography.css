@@ -1,0 +1,32 @@
+/* Type — Montserrat everywhere except one Poppins display lockup */
+:root{
+--font-sans:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+--font-display-alt:"Poppins",var(--font-sans);
+
+--fw-regular:400; /* @kind font */--fw-medium:500; /* @kind font */--fw-semibold:600; /* @kind font */--fw-bold:700; /* @kind font */--fw-extrabold:800; /* @kind font */--fw-black:900; /* @kind font */
+
+/* Sizes used in the file, verbatim */
+--fs-10:10px;--fs-12:12px;--fs-13:13px;--fs-14:14px;--fs-15:15px;--fs-16:16px;--fs-18:18px;--fs-20:20px;--fs-22:22px;--fs-26:26px;--fs-28:28px;--fs-30:30px;--fs-56:56px;--fs-70:70px;
+
+/* Line heights — the file only ever uses 100% or 1.45 */
+--lh-tight:100%; /* @kind other */
+--lh-body:1.45; /* @kind other */
+--ls-display:-0.02em; /* @kind other */
+
+/* Semantic roles */
+--type-display:var(--fw-black) var(--fs-56)/var(--lh-tight) var(--font-sans);
+--type-display-poppins:var(--fw-bold) var(--fs-70)/100px var(--font-display-alt);
+--type-h2:var(--fw-extrabold) var(--fs-30)/var(--lh-body) var(--font-sans);
+--type-h3:var(--fw-extrabold) var(--fs-26)/var(--lh-tight) var(--font-sans);
+--type-h4:var(--fw-bold) var(--fs-22)/var(--lh-tight) var(--font-sans);
+--type-lead:var(--fw-medium) var(--fs-18)/var(--lh-body) var(--font-sans);
+--type-body:var(--fw-medium) var(--fs-15)/var(--lh-body) var(--font-sans);
+--type-body-sm:var(--fw-medium) var(--fs-14)/var(--lh-body) var(--font-sans);
+--type-label:var(--fw-semibold) var(--fs-12)/var(--lh-tight) var(--font-sans);
+--type-eyebrow:var(--fw-semibold) var(--fs-12)/var(--lh-tight) var(--font-sans);
+--type-badge:var(--fw-bold) var(--fs-13)/var(--lh-body) var(--font-sans);
+--type-caption:var(--fw-regular) var(--fs-10)/var(--lh-body) var(--font-sans);
+--type-nav:var(--fw-medium) var(--fs-16)/var(--lh-tight) var(--font-sans);
+--type-button:var(--fw-bold) var(--fs-18)/var(--lh-tight) var(--font-sans);
+--type-stat:var(--fw-extrabold) var(--fs-30)/var(--lh-body) var(--font-sans);
+}

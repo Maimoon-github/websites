@@ -1,0 +1,51 @@
+/* ShilFit colour system — values transcribed verbatim from shilfit.fig */
+:root{
+/* Base neutrals — the page is near-black warm charcoal */
+--shil-black:rgb(13,12,10);
+--shil-black-900:rgb(11,10,9);
+--shil-surface-1:rgb(17,16,14);
+--shil-surface-2:rgb(23,22,20);
+--shil-surface-3:rgb(30,30,30);
+--shil-white:rgb(255,255,255);
+--shil-pure-black:rgb(0,0,0);
+
+/* Brand golds */
+--shil-gold:rgb(255,197,103);
+--shil-gold-soft:rgb(238,197,131);
+--shil-tan:rgb(196,164,132);
+--shil-maroon:rgb(109,17,29);
+
+/* Alpha derivatives — the only tints the file uses */
+--shil-gold-80:rgba(255,197,103,0.8);
+--shil-gold-50:rgba(255,197,103,0.5);
+--shil-gold-32:rgba(255,197,103,0.32);
+--shil-gold-30:rgba(255,197,103,0.3);
+--shil-tan-12:rgba(196,164,132,0.12);
+--shil-scrim-05:rgba(217,217,217,0.05);
+--shil-scrim-02:rgba(217,217,217,0.02);
+--shil-white-70:rgba(255,255,255,0.7);
+--shil-white-60:rgba(255,255,255,0.6);
+--shil-white-40:rgba(255,255,255,0.4);
+
+/* Semantic aliases */
+--page-bg:var(--shil-black);
+--surface-card:var(--shil-scrim-05);
+--surface-card-quiet:var(--shil-scrim-02);
+--surface-solid:var(--shil-surface-1);
+--surface-inset:var(--shil-surface-3);
+--border-card:var(--shil-gold-50);
+--border-pill:var(--shil-gold-30);
+--text-primary:var(--shil-white);
+--text-body:var(--shil-white-70);
+--text-muted:var(--shil-white-40);
+--text-accent:var(--shil-gold);
+--text-accent-quiet:var(--shil-gold-80);
+--text-on-gold:var(--shil-black);
+--action-primary-bg:var(--shil-gold);
+--action-primary-fg:var(--shil-black);
+--action-invert-bg:var(--shil-white);
+--action-invert-fg:var(--shil-pure-black);
+--accent-bar:var(--shil-gold-soft);
+--link-color:var(--shil-gold);
+--link-color-hover:var(--shil-white);
+}

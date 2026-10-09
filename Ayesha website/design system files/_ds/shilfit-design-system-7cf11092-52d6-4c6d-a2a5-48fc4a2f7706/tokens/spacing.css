@@ -1,0 +1,17 @@
+/* Layout & spacing — measured off the 1920px desktop artboard */
+:root{
+--page-width:1920px;
+--content-width:1144px;   /* 388px gutters left and right */
+--page-gutter:388px;
+--col-gap:20px;           /* gap between the two 562px columns */
+--col-width:562px;
+
+--space-4:4px;--space-6:6px;--space-8:8px;--space-10:10px;--space-12:12px;
+--space-15:15px;--space-16:16px;--space-20:20px;--space-24:24px;--space-30:30px;
+--space-34:34px;--space-40:40px;--space-56:56px;--space-80:80px;--space-120:120px;
+
+--card-pad:30px;          /* 422 - 392 on the 562px cards */
+--pill-pad-x:16px;
+--button-pad-x:24px;
+--nav-height:120px; /* @kind spacing */
+}

@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Ayesha Amin | Professional Video Editor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;700&amp;family=Saira+Condensed:wght@600;700;800&amp;display=swap">
+<script src="./cms/cms-core.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#050505;color:#bbbbbb;font-family:'Archivo',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+a{color:#ffffff;text-decoration:none}
+a:hover{color:#e22718}
+::selection{background:#e22718;color:#fff}
+:focus-visible{outline:2px solid #e22718;outline-offset:3px}
+button,input,select,textarea{font:inherit}
+@keyframes reelmarquee{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 6px))}}
+@keyframes grain{0%,100%{transform:translate(0,0)}17%{transform:translate(-4%,-6%)}33%{transform:translate(-9%,3%)}50%{transform:translate(6%,-9%)}67%{transform:translate(-3%,9%)}83%{transform:translate(8%,4%)}}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important;animation:none !important}}
+</style>
+</helmet>
+<div id="top" ref="{{ rootRef }}" style="position:relative;background:#050505;color:#bbbbbb;min-height:100vh;overflow-x:clip">
+{{ grainEl }}
+{{ proseStyle }}
+{{ curtainEl }}
+<a href="#main" onClick="{{ skipToMain }}" style="position:absolute;left:12px;top:-60px;z-index:500;background:#c8200f;color:#fff;padding:12px 16px;font-size:14px;font-weight:700" style-focus="top:12px">Skip to content</a>
+
+<sc-if value="{{ isPreview }}" hint-placeholder-val="{{ false }}">
+  <div role="status" style="position:fixed;left:0;right:0;bottom:0;z-index:260;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;padding:10px clamp(16px,3vw,32px);background:#f4b400;color:#050505;font-size:13px;font-weight:700;letter-spacing:.5px">
+    <span>PREVIEW: showing unpublished drafts. Visitors see the published version.</span>
+    <a href="Ayesha Admin.dc.html" style="color:#050505;text-decoration:underline">Back to dashboard</a>
+  </div>
+</sc-if>
+
+<header ref="{{ headerRef }}" style="position:{{ headerPos }};top:0;left:0;right:0;z-index:100;background:rgba(5,5,5,0);border-bottom:1px solid rgba(0,0,0,0);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:background .4s, border-color .4s">
+  <nav aria-label="Primary" style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px);height:{{ headerH }};display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px">
+    <ul data-nav-links="" style="display:{{ navLinksDisplay }};justify-self:start;list-style:none;margin:0;padding:0;gap:clamp(14px,1.6vw,30px)">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+        <li style="display:flex">
+          <a href="{{ item.href }}" target="{{ item.target }}" onClick="{{ item.go }}" aria-current="{{ item.current }}" style="position:relative;display:flex;flex-direction:column;gap:6px;padding:12px 0;font-size:14px;font-weight:400;letter-spacing:0.5px;color:{{ item.color }};transition:color .3s" style-hover="color:#ffffff">
+            <span>{{ item.label }}</span>
+            <span aria-hidden="true" style="height:2px;background:#e22718;transform:{{ item.bar }};transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1)"></span>
+          </a>
+        </li>
+      </sc-for>
+    </ul>
+    <a href="#/" onClick="{{ goHome }}" aria-label="Ayesha Amin, home" data-logo="" style="grid-column:2;display:block;width:{{ logoW }};height:{{ logoBoxH }};overflow:hidden;position:relative">
+      <img src="{{ logoSrc }}" alt="Ayesha" style="position:{{ logoPos }};left:0;top:{{ logoTop }};width:{{ logoW }};height:{{ logoImgH }};display:block;filter:{{ logoFilter }};mix-blend-mode:{{ logoBlend }}">
+    </a>
+    <div style="grid-column:3;justify-self:end;display:flex;align-items:center;gap:16px">
+      <sc-if value="{{ hire.show }}">
+        <a href="{{ hire.href }}" onClick="{{ hire.go }}" data-magnetic="" style="display:{{ hireDisplay }};align-items:center;height:44px;padding:0 22px;background:#c8200f;color:#fff;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:background .25s" style-hover="background:#e22718;color:#fff" style-active="background:#a81a0c">{{ hire.label }}</a>
+      </sc-if>
+      <button type="button" onClick="{{ openMenu }}" aria-label="Open menu" aria-expanded="{{ menuExpanded }}" aria-controls="mobile-menu" style="display:{{ burgerDisplay }};width:48px;height:48px;align-items:center;justify-content:center;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;padding:0">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h10"></path></svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div id="mobile-menu" ref="{{ menuRef }}" role="dialog" aria-modal="true" aria-label="Menu" style="position:fixed;inset:0;z-index:150;background:#050505;display:flex;flex-direction:column;overflow-y:auto">
+    <div style="height:4px;background:#e22718"></div>
+    <div style="display:flex;justify-content:flex-end;align-items:center;height:72px;padding:0 clamp(20px,4vw,64px)">
+      <button type="button" onClick="{{ closeMenu }}" aria-label="Close menu" style="width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;padding:0">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <ul style="list-style:none;margin:0;padding:16px clamp(20px,4vw,64px);display:flex;flex-direction:column">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+        <li data-menu-item="" style="border-bottom:1px solid #262626;overflow:hidden">
+          <a href="{{ item.href }}" target="{{ item.target }}" onClick="{{ item.go }}" style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:40px;line-height:1;text-transform:uppercase;color:{{ item.color }}">
+            <span>{{ item.label }}</span><span style="font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#7e7e7e">{{ item.num }}</span>
+          </a>
+        </li>
+      </sc-for>
+    </ul>
+    <sc-if value="{{ hire.show }}">
+      <div data-menu-item="" style="padding:8px clamp(20px,4vw,64px) 48px">
+        <a href="{{ hire.href }}" onClick="{{ hire.go }}" style="display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 24px;background:#c8200f;color:#fff;font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">{{ hire.label }}
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </a>
+      </div>
+    </sc-if>
+  </div>
+</sc-if>
+
+<main id="main" tabindex="-1" style="outline:none">
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{ sections }}" as="sec" hint-placeholder-count="1">
+<div>
+  <sc-if value="{{ sec.isHero }}">
+    <section id="{{ sec.anchor }}" data-hero="" data-screen-label="Hero" aria-label="Introduction" style="position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate;overflow:hidden">
+      <div style="position:absolute;inset:0;z-index:-2;background:#111;overflow:hidden">
+        <sc-if value="{{ sec.bg }}"><img data-hero-bg="" src="{{ sec.bg }}" alt="" fetchpriority="high" decoding="async" style="position:absolute;inset:-6% 0;width:100%;height:112%;object-fit:cover;display:block;will-change:transform"></sc-if>
+        <sc-if value="{{ sec.hasVideo }}"><div data-hero-bg="" style="position:absolute;inset:0;width:100%;height:100%;overflow:hidden;container-type:size;will-change:transform">{{ sec.vEl }}</div></sc-if>
+      </div>
+      <div aria-hidden="true" style="position:absolute;inset:0;z-index:-1;pointer-events:none;background:#050505;opacity:{{ sec.overlay }}"></div>
+      <div aria-hidden="true" style="position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg, rgba(5,5,5,0) 50%, #050505 100%)"></div>
+      <div data-hero-content="" style="width:100%;max-width:1600px;margin:0 auto;padding:128px clamp(20px,4vw,64px) 0;opacity:{{ heroVis }}">
+        <p style="display:flex;align-items:center;gap:16px;margin:0 0 clamp(20px,2.5vw,36px);font-size:clamp(12px,1vw,14px);font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e6e6e6"><span data-hero-line="" aria-hidden="true" style="width:48px;height:2px;background:#e22718;flex:none"></span><span data-hero-eyebrow="">{{ sec.d.eyebrow }}</span></p>
+        <h1 data-hero-title="" style="margin:0;max-width:13ch;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(39px,7.35vw,129px);line-height:0.9;letter-spacing:-1px;text-transform:uppercase;color:#ffffff;text-wrap:balance">{{ sec.d.heading }}</h1>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:32px;align-items:end;margin-top:clamp(24px,3vw,42px)">
+          <p data-hero-sub="" style="margin:0;max-width:56ch;font-size:clamp(17px,1.35vw,20px);line-height:1.6;font-weight:300;color:#e6e6e6;text-wrap:pretty">{{ sec.d.subheading }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px">
+            <sc-if value="{{ sec.primary.label }}">
+              <a data-hero-btn="" data-magnetic="" href="{{ sec.primary.href }}" onClick="{{ sec.primary.go }}" style="display:inline-flex;align-items:center;gap:14px;height:56px;padding:0 28px;background:#c8200f;color:#fff;font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:background .25s" style-hover="background:#e22718;color:#fff" style-active="background:#a81a0c">
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="fill:currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>{{ sec.primary.label }}
+              </a>
+            </sc-if>
+            <sc-if value="{{ sec.secondary.label }}">
+              <a data-hero-btn="" data-magnetic="" href="{{ sec.secondary.href }}" onClick="{{ sec.secondary.go }}" style="display:inline-flex;align-items:center;gap:14px;height:56px;padding:0 28px;background:transparent;border:1px solid #ffffff;color:#fff;font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:background .25s, color .25s" style-hover="background:#ffffff;color:#050505">{{ sec.secondary.label }}
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </sc-if>
+          </div>
+        </div>
+        <sc-if value="{{ sec.d.showSocial }}">
+          <div data-hero-social="" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px;margin-top:clamp(29px,3.6vw,58px);padding:24px 0 24px;border-top:1px solid #3c3c3c">
+            <ul aria-label="Social links" style="display:flex;flex-wrap:wrap;gap:8px 28px;list-style:none;margin:0;padding:0">
+              <sc-for list="{{ social }}" as="so" hint-placeholder-count="4">
+                <li><a href="{{ so.href }}" target="{{ so.target }}" rel="noopener" title="{{ so.title }}" style="display:inline-flex;padding:10px 0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e6e6e6">{{ so.label }}</a></li>
+              </sc-for>
+            </ul>
+          </div>
+        </sc-if>
+        <sc-if value="{{ sec.noSocial }}"><div style="height:48px"></div></sc-if>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ sec.isAbout }}">
+    <section id="{{ sec.anchor }}" data-screen-label="About" style="padding:clamp(88px,10vw,160px) 0 clamp(62px,7vw,112px);border-top:1px solid #262626;background:{{ sec.bgc }}">
+      <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(40px,6vw,112px);align-items:center">
+        <div data-anim="mask" style="position:relative;aspect-ratio:8/7;background:#1a1a1a;max-width:640px;width:100%;overflow:hidden">
+          <sc-if value="{{ sec.img }}"><img data-parallax="8" src="{{ sec.img }}" alt="{{ sec.d.imageAlt }}" loading="lazy" decoding="async" style="position:absolute;inset:-8% 0;width:100%;height:116%;object-fit:cover;display:block"></sc-if>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:28px;max-width:680px">
+          <p data-anim="label" style="display:flex;align-items:center;gap:14px;margin:0;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e6e6e6"><span style="color:#e22718">{{ sec.num }}</span><span data-line="" aria-hidden="true" style="width:32px;height:1px;background:#3c3c3c"></span><span>{{ sec.d.label }}</span></p>
+          <h2 data-anim="lines" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(48px,6.5vw,112px);line-height:0.92;letter-spacing:-0.5px;text-transform:uppercase;color:#fff">{{ sec.d.heading }}</h2>
+          <div data-anim="fade">{{ sec.bodyEl }}</div>
+          <div data-anim="fade" style="display:flex;flex-wrap:wrap;align-items:center;gap:20px 32px;padding-top:28px;border-top:1px solid #3c3c3c">
+            <p style="margin:0;flex:1 1 280px;font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:clamp(24px,2vw,32px);line-height:1.1;text-transform:uppercase;color:#fff">{{ sec.d.closing }}</p>
+            <sc-if value="{{ sec.btn.label }}">
+              <a data-magnetic="" href="{{ sec.btn.href }}" onClick="{{ sec.btn.go }}" style="display:inline-flex;align-items:center;gap:14px;height:52px;padding:0 26px;border:1px solid #fff;color:#fff;font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:background .25s,color .25s" style-hover="background:#ffffff;color:#050505">{{ sec.btn.label }}
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ sec.isWork }}">
+    <section id="{{ sec.anchor }}" data-screen-label="Work" style="padding:clamp(62px,7vw,112px) 0 clamp(88px,10vw,160px);background:{{ sec.bgc }};border-top:1px solid #262626">
+      <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:24px 64px;align-items:end;margin-bottom:clamp(40px,5vw,72px)">
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <p data-anim="label" style="display:flex;align-items:center;gap:14px;margin:0;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e6e6e6"><span style="color:#e22718">{{ sec.num }}</span><span data-line="" aria-hidden="true" style="width:32px;height:1px;background:#3c3c3c"></span><span>{{ sec.d.label }}</span></p>
+            <h2 data-anim="lines" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(48px,6.5vw,112px);line-height:0.92;letter-spacing:-0.5px;text-transform:uppercase;color:#fff">{{ sec.d.heading }}</h2>
+          </div>
+          <p data-anim="fade" style="margin:0;max-width:44ch;font-size:clamp(17px,1.35vw,20px);line-height:1.55;color:#e6e6e6">{{ sec.d.subheading }}</p>
+        </div>
+        <sc-if value="{{ reelHas }}">
+          <div data-showreel="" style="margin-bottom:24px">{{ reelStrip }}</div>
+        </sc-if>
+        <sc-if value="{{ showFilters }}">
+          <div role="tablist" aria-label="Filter work by platform" style="display:flex;flex-wrap:wrap;gap:4px 28px;margin:48px 0 0;border-bottom:1px solid #3c3c3c">
+            <sc-for list="{{ filters }}" as="fl" hint-placeholder-count="4">
+              <button type="button" role="tab" aria-selected="{{ fl.selected }}" onClick="{{ fl.pick }}" style="display:flex;flex-direction:column;gap:10px;padding:14px 0 0;background:none;border:0;cursor:pointer;color:{{ fl.color }};font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:color .3s" style-hover="color:#ffffff">
+                <span style="display:flex;gap:8px">{{ fl.label }}<span style="color:#7e7e7e;font-weight:500">{{ fl.count }}</span></span>
+                <span aria-hidden="true" style="height:2px;width:100%;background:#e22718;transform:{{ fl.bar }};transform-origin:left;transition:transform .45s cubic-bezier(.2,.7,.2,1);margin-bottom:-1px"></span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <ul data-cards="" style="list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:clamp(12px,1.4vw,24px)">
+          <sc-for list="{{ visibleVideos }}" as="v" hint-placeholder-count="9">
+            <li data-card-item="">
+              <button type="button" data-card="" onClick="{{ v.open }}" aria-label="{{ v.aria }}" style="position:relative;display:block;width:100%;aspect-ratio:16/9;padding:0;border:0;background:#1a1a1a;cursor:pointer;overflow:hidden;color:#fff;text-align:left" style-hover="box-shadow:inset 0 0 0 2px #e22718">
+                <sc-if value="{{ v.thumb }}"><img data-card-img="" src="{{ v.thumb }}" alt="" loading="lazy" decoding="async" onError="{{ v.onErr }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+                <sc-if value="{{ v.noThumb }}"><span aria-hidden="true" style="position:absolute;right:16px;top:12px;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(40px,4vw,64px);line-height:1;text-transform:uppercase;color:#2b2b2b">{{ v.platformLabel }}</span></sc-if>
+                <span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(5,5,5,0) 40%, rgba(5,5,5,0.9) 100%)"></span>
+                <span data-card-play="" aria-hidden="true" style="position:absolute;top:12px;left:12px;width:44px;height:44px;background:#c8200f;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" style="fill:#fff"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span>
+                <span style="position:absolute;left:16px;right:16px;bottom:14px;display:flex;flex-direction:column;gap:4px">
+                  <span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e22718">{{ v.platformLabel }}</span>
+                  <span style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:22px;line-height:1.05;text-transform:uppercase;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.title }}</span>
+                </span>
+              </button>
+            </li>
+          </sc-for>
+        </ul>
+        <sc-if value="{{ noVideos }}"><p style="margin:24px 0 0;color:#9a9a9a">No videos in this category yet.</p></sc-if>
+        <sc-if value="{{ hasMore }}">
+          <div style="display:flex;margin-top:32px">
+            <button type="button" data-magnetic="" onClick="{{ loadMore }}" style="display:inline-flex;align-items:center;gap:14px;height:52px;padding:0 26px;background:transparent;border:1px solid #fff;color:#fff;cursor:pointer;font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:background .25s,color .25s" style-hover="background:#ffffff;color:#050505">Load More
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+            </button>
+          </div>
+        </sc-if>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ sec.isServices }}">
+    <section id="{{ sec.anchor }}" data-screen-label="Services" style="padding:0 0 clamp(88px,10vw,160px);background:{{ sec.bgc }}">
+      <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">
+        <sc-if value="{{ sec.d.heading }}"><h2 data-anim="lines" style="margin:0 0 40px;padding-top:clamp(64px,8vw,120px);font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(40px,5vw,80px);line-height:0.92;text-transform:uppercase;color:#fff">{{ sec.d.heading }}</h2></sc-if>
+        <div data-anim="stagger" style="border-bottom:1px solid #3c3c3c">
+          <sc-for list="{{ sec.items }}" as="it" hint-placeholder-count="4">
+            <div style="border-top:1px solid #3c3c3c">
+              <h3 style="margin:0">
+                <button type="button" id="{{ it.btnId }}" aria-controls="{{ it.panelId }}" aria-expanded="{{ it.exp }}" onClick="{{ it.toggle }}" style="width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:clamp(16px,3vw,56px);align-items:start;padding:clamp(28px,3vw,44px) 0;background:none;border:0;color:#fff;text-align:left;cursor:pointer">
+                  <span style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:clamp(18px,1.6vw,24px);line-height:1.6;color:#e22718">{{ it.num }}</span>
+                  <span style="display:flex;flex-direction:column;gap:10px">
+                    <span style="font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(30px,4vw,64px);line-height:0.95;text-transform:uppercase;color:#fff">{{ it.title }}</span>
+                    <span style="font-size:clamp(15px,1.2vw,18px);line-height:1.5;font-weight:300;color:#bbbbbb">{{ it.tagline }}</span>
+                  </span>
+                  <span aria-hidden="true" style="width:48px;height:48px;border-radius:50%;border:1px solid {{ it.bc }};background:{{ it.bg }};display:flex;align-items:center;justify-content:center;transition:background .3s,border-color .3s">
+                    <svg width="20" height="20" viewBox="0 0 24 24" style="fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;transform:{{ it.rot }};transition:transform .5s cubic-bezier(.2,.7,.2,1)"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+                  </span>
+                </button>
+              </h3>
+              <div id="{{ it.panelId }}" role="region" aria-labelledby="{{ it.btnId }}" data-acc-panel="{{ it.panelId }}" style="display:grid;grid-template-rows:{{ it.rows }};visibility:{{ it.vis }};transition:grid-template-rows .6s cubic-bezier(.2,.7,.2,1), visibility .6s">
+                <div style="overflow:hidden;min-height:0">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:32px clamp(32px,4vw,64px);padding:0 0 clamp(36px,4vw,56px) clamp(0px,5vw,96px)">
+                    <p data-acc-item="" style="margin:0;font-size:clamp(16px,1.2vw,18px);line-height:1.65;color:#e6e6e6">{{ it.body }}</p>
+                    <div data-acc-item="">
+                      <h4 style="margin:0 0 16px;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">What's included</h4>
+                      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+                        <sc-for list="{{ it.included }}" as="inc" hint-placeholder-count="4">
+                          <li style="display:flex;gap:14px;padding:12px 0;border-top:1px solid #262626;font-size:16px;line-height:1.5;color:#bbbbbb"><span aria-hidden="true" style="width:6px;height:6px;margin-top:9px;background:#e22718;flex:none"></span>{{ inc.t }}</li>
+                        </sc-for>
+                      </ul>
+                    </div>
+                    <div data-acc-item="">
+                      <sc-if value="{{ it.hasSamples }}">
+                        <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:8px">
+                          <sc-for list="{{ it.samples }}" as="v" hint-placeholder-count="3">
+                            <li>
+                              <button type="button" onClick="{{ v.open }}" aria-label="{{ v.aria }}" style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;align-items:center;width:100%;padding:0;border:0;background:#1a1a1a;cursor:pointer;color:#fff;text-align:left;min-height:68px" style-hover="box-shadow:inset 0 0 0 2px #e22718">
+                                <span style="width:120px;aspect-ratio:16/9;background:#262626;display:block;overflow:hidden"><sc-if value="{{ v.thumb }}"><img src="{{ v.thumb }}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if></span>
+                                <span style="display:flex;justify-content:space-between;gap:12px;padding-right:16px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase"><span>{{ v.title }}</span><span style="color:#e22718">Play</span></span>
+                              </button>
+                            </li>
+                          </sc-for>
+                        </ul>
+                      </sc-if>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ sec.isWhy }}">
+    <section id="{{ sec.anchor }}" data-screen-label="Why Me" style="padding:clamp(88px,10vw,160px) 0;border-top:1px solid #262626;background:{{ sec.bgc }}">
+      <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">
+        <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:clamp(40px,5vw,72px)">
+          <p data-anim="label" style="display:flex;align-items:center;gap:14px;margin:0;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e6e6e6"><span style="color:#e22718">{{ sec.num }}</span><span data-line="" aria-hidden="true" style="width:32px;height:1px;background:#3c3c3c"></span><span>{{ sec.d.label }}</span></p>
+          <h2 data-anim="lines" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(48px,6.5vw,112px);line-height:0.92;letter-spacing:-0.5px;text-transform:uppercase;color:#fff">{{ sec.d.heading }}</h2>
+        </div>
+        <ul data-anim="stagger" data-why="" style="list-style:none;margin:0;padding:1px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1px;background:#3c3c3c">
+          <sc-for list="{{ sec.items }}" as="it" hint-placeholder-count="4">
+            <li data-tilt="" style="background:#050505;padding:clamp(28px,3vw,44px);display:flex;flex-direction:column;gap:20px;min-height:340px;transition:background .4s" style-hover="background:#0d0d0d">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;color:#e22718">
+                <span data-why-icon="" style="display:inline-flex">{{ it.iconEl }}</span>
+                <span style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:18px;color:#7e7e7e">{{ it.num }}</span>
+              </div>
+              <h3 style="margin:auto 0 0;font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:clamp(28px,2.4vw,38px);line-height:1;text-transform:uppercase;color:#fff">{{ it.title }}</h3>
+              <p style="margin:0;font-size:16px;line-height:1.6;color:#bbbbbb">{{ it.body }}</p>
+            </li>
+          </sc-for>
+        </ul>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ sec.isTestimonials }}">
+    <section id="{{ sec.anchor }}" data-screen-label="Testimonials" style="padding:clamp(26px,3vw,48px) 0 clamp(48px,6vw,80px);background:{{ sec.bgc }};border-top:1px solid #262626">
+      <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:24px 64px;align-items:end;margin-bottom:clamp(40px,5vw,72px)">
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <p data-anim="label" style="display:flex;align-items:center;gap:14px;margin:0;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e6e6e6"><span style="color:#e22718">{{ sec.num }}</span><span data-line="" aria-hidden="true" style="width:32px;height:1px;background:#3c3c3c"></span><span>{{ sec.d.label }}</span></p>
+            <h2 data-anim="lines" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(24px,3.25vw,56px);line-height:0.92;letter-spacing:-0.5px;text-transform:uppercase;color:#fff">{{ sec.d.heading }}</h2>
+          </div>
+          <p data-anim="fade" style="margin:0;max-width:44ch;font-size:clamp(17px,1.35vw,20px);line-height:1.55;color:#e6e6e6">{{ sec.d.subheading }}</p>
+        </div>
+        <div data-anim="fade" role="region" aria-roledescription="carousel" aria-label="Client testimonials" onMouseEnter="{{ pause }}" onMouseLeave="{{ resume }}" onFocus="{{ pause }}" onBlur="{{ resume }}" onTouchStart="{{ touchStart }}" onTouchEnd="{{ touchEnd }}" style="border-top:2px solid #e22718;padding-top:clamp(32px,4vw,56px)">
+          <div style="overflow:hidden">
+            <div style="display:flex;transform:{{ tX }};transition:transform .9s cubic-bezier(.65,0,.2,1)">
+              <sc-for list="{{ sec.items }}" as="it" hint-placeholder-count="1">
+                <figure aria-roledescription="slide" aria-label="{{ it.ariaLabel }}" aria-hidden="{{ it.hidden }}" data-slide="{{ it.idx }}" style="flex:0 0 {{ it.basis }};padding-right:{{ it.padR }};box-sizing:border-box;margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(16px,4vw,64px)">
+                  <span aria-hidden="true" style="font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(40px,5vw,80px);line-height:0.75;color:#e22718">“</span>
+                  <div style="display:flex;flex-direction:column;gap:32px">
+                    <blockquote data-quote="" style="margin:0;max-width:40ch;font-size:clamp(16px,1.45vw,23px);line-height:1.45;font-weight:300;color:#fff;text-wrap:pretty">{{ it.quote }}”</blockquote>
+                    <figcaption data-quote="" style="display:flex;flex-direction:column;gap:4px"><span style="font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">{{ it.name }}</span><span style="font-size:15px;color:#bbbbbb">{{ it.role }}</span></figcaption>
+                  </div>
+                </figure>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;margin-top:clamp(28px,2.8vw,45px)">
+            <div style="display:flex;align-items:center;gap:20px;flex:1 1 260px">
+              <span style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:22px;color:#fff;min-width:72px">{{ tNum }} <span style="color:#7e7e7e">/ {{ tTotal }}</span></span>
+              <div style="display:flex;gap:6px;flex:1;max-width:320px">
+                <sc-for list="{{ tDots }}" as="d" hint-placeholder-count="4">
+                  <button type="button" onClick="{{ d.go }}" aria-label="{{ d.label }}" aria-current="{{ d.current }}" style="flex:1;height:44px;padding:0;background:none;border:0;cursor:pointer;display:flex;align-items:center">
+                    <span style="display:block;width:100%;height:2px;background:#3c3c3c;position:relative;overflow:hidden"><span data-dot-fill="{{ d.i }}" style="position:absolute;inset:0;background:#e22718;transform:{{ d.fill }};transform-origin:left"></span></span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px">
+              <button type="button" data-magnetic="" onClick="{{ tPrev }}" aria-label="Previous testimonial" style="width:48px;height:48px;border-radius:50%;background:#1a1a1a;border:1px solid #3c3c3c;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background .25s,border-color .25s" style-hover="background:#c8200f;border-color:#c8200f">
+                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m15 18-6-6 6-6"></path></svg>
+              </button>
+              <button type="button" data-magnetic="" onClick="{{ tNext }}" aria-label="Next testimonial" style="width:48px;height:48px;border-radius:50%;background:#1a1a1a;border:1px solid #3c3c3c;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background .25s,border-color .25s" style-hover="background:#c8200f;border-color:#c8200f">
+                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg>
+              </button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ sec.isStats }}">
+    <section id="{{ sec.anchor }}" aria-label="Results" style="padding:clamp(12px,1.5vw,24px) 0 clamp(88px,10vw,160px);background:{{ sec.bgc }}">
+      <ul data-stats="" style="list-style:none;margin:0 auto;max-width:1600px;padding:0 clamp(20px,4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0 clamp(24px,3vw,48px)">
+        <sc-for list="{{ sec.items }}" as="it" hint-placeholder-count="3">
+          <li data-stat="" style="display:flex;flex-direction:column;gap:16px;padding:28px 0 8px;border-top:1px solid #3c3c3c;position:relative">
+            <span data-stat-rule="" aria-hidden="true" style="position:absolute;left:0;top:-1px;width:100%;height:2px;background:#e22718;transform-origin:left"></span>
+            <span aria-label="{{ it.aria }}" style="font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(88px,11vw,184px);line-height:0.85;letter-spacing:-1px;color:#fff;font-variant-numeric:tabular-nums"><span aria-hidden="true">{{ it.display }}</span><span aria-hidden="true" style="color:#e22718">{{ it.suffix }}</span></span>
+            <span style="max-width:30ch;font-size:16px;line-height:1.55;color:#bbbbbb">{{ it.label }}</span>
+          </li>
+        </sc-for>
+      </ul>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ sec.isFaq }}">
+    <section id="{{ sec.anchor }}" data-screen-label="FAQ" style="padding:clamp(88px,10vw,160px) 0;border-top:1px solid #262626;background:{{ sec.bgc }}">
+      <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px clamp(48px,7vw,128px);align-items:start">
+        <div style="display:flex;flex-direction:column;gap:24px;position:sticky;top:calc({{ headerH }} + 24px)">
+          <p data-anim="label" style="display:flex;align-items:center;gap:14px;margin:0;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e6e6e6"><span style="color:#e22718">{{ sec.num }}</span><span data-line="" aria-hidden="true" style="width:32px;height:1px;background:#3c3c3c"></span><span>{{ sec.d.label }}</span></p>
+          <h2 data-anim="lines" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(48px,6vw,104px);line-height:0.92;letter-spacing:-0.5px;text-transform:uppercase;color:#fff">{{ sec.d.heading }}</h2>
+          <p data-anim="fade" style="margin:0;max-width:40ch;font-size:clamp(17px,1.35vw,20px);line-height:1.55;color:#e6e6e6">{{ sec.d.subheading }}</p>
+        </div>
+        <div data-anim="stagger" style="border-bottom:1px solid #3c3c3c">
+          <sc-for list="{{ sec.items }}" as="q" hint-placeholder-count="6">
+            <div style="border-top:1px solid #3c3c3c">
+              <h3 style="margin:0">
+                <button type="button" id="{{ q.btnId }}" aria-controls="{{ q.panelId }}" aria-expanded="{{ q.exp }}" onClick="{{ q.toggle }}" style="width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;padding:28px 0;background:none;border:0;color:{{ q.color }};text-align:left;cursor:pointer;font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:clamp(22px,2vw,30px);line-height:1.15;text-transform:uppercase;transition:color .3s" style-hover="color:#ffffff">
+                  <span>{{ q.q }}</span>
+                  <span aria-hidden="true" style="width:44px;height:44px;border-radius:50%;border:1px solid {{ q.bc }};background:{{ q.bg }};display:flex;align-items:center;justify-content:center;transition:background .3s,border-color .3s">
+                    <svg width="18" height="18" viewBox="0 0 24 24" style="fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;transform:{{ q.rot }};transition:transform .5s cubic-bezier(.2,.7,.2,1)"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+                  </span>
+                </button>
+              </h3>
+              <div id="{{ q.panelId }}" role="region" aria-labelledby="{{ q.btnId }}" data-acc-panel="{{ q.panelId }}" style="display:grid;grid-template-rows:{{ q.rows }};visibility:{{ q.vis }};transition:grid-template-rows .55s cubic-bezier(.2,.7,.2,1), visibility .55s">
+                <div style="overflow:hidden;min-height:0">
+                  <p data-acc-item="" style="margin:0;padding:0 64px 32px 0;max-width:62ch;font-size:clamp(16px,1.2vw,18px);line-height:1.65;color:#bbbbbb">{{ q.a }}</p>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ sec.isContact }}">
+    <section id="{{ sec.anchor }}" data-screen-label="Contact" style="padding:clamp(35px,4vw,64px) 0 clamp(88px,10vw,160px);background:{{ sec.bgc }};border-top:1px solid #262626">
+      <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:56px clamp(48px,7vw,128px);align-items:start">
+        <div style="display:flex;flex-direction:column;gap:28px">
+          <p data-anim="label" style="display:flex;align-items:center;gap:14px;margin:0;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e6e6e6"><span style="color:#e22718">{{ sec.num }}</span><span data-line="" aria-hidden="true" style="width:32px;height:1px;background:#3c3c3c"></span><span>{{ sec.d.label }}</span></p>
+          <h2 data-anim="lines" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(48px,6.5vw,112px);line-height:0.92;letter-spacing:-0.5px;text-transform:uppercase;color:#fff;text-wrap:balance">{{ sec.d.heading }}</h2>
+          <p data-anim="fade" style="margin:0;max-width:48ch;font-size:clamp(17px,1.35vw,20px);line-height:1.6;color:#e6e6e6">{{ sec.d.body }}</p>
+          <ul data-anim="stagger" style="list-style:none;margin:16px 0 0;padding:0;border-bottom:1px solid #3c3c3c">
+            <li style="border-top:1px solid #3c3c3c">
+              <a href="{{ contact.mailto }}" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;align-items:center;padding:24px 0;color:#fff;transition:color .25s" style-hover="color:#e22718">
+                <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:#e22718;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                <span style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e">Email</span><span style="font-size:clamp(18px,1.6vw,24px);font-weight:400;overflow-wrap:anywhere">{{ contact.email }}</span></span>
+                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+              </a>
+            </li>
+            <li style="border-top:1px solid #3c3c3c">
+              <a href="{{ contact.wa }}" target="_blank" rel="noopener" aria-label="{{ contact.waAria }}" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;align-items:center;padding:24px 0;color:#fff;transition:color .25s" style-hover="color:#e22718">
+                <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:#e22718;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
+                <span style="display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e">WhatsApp</span><span style="font-size:clamp(18px,1.6vw,24px);font-weight:400">{{ contact.waDisplay }}</span></span>
+                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <form ref="{{ formRef }}" data-anim="fade" onSubmit="{{ submit }}" noValidate="{{ true }}" aria-label="Contact form" style="display:flex;flex-direction:column;gap:20px;background:#050505;border:1px solid #262626;padding:clamp(24px,3vw,48px)">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:20px">
+            <div data-field="name" style="display:flex;flex-direction:column;gap:8px">
+              <label for="cf-name" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e6e6e6">Name</label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" required="required" value="{{ f.name }}" onChange="{{ onName }}" aria-invalid="{{ inv.name }}" aria-describedby="cf-name-err" style="height:52px;padding:0 16px;background:#1a1a1a;border:1px solid {{ bc.name }};border-radius:0;color:#fff;font-size:16px;font-weight:400;outline:none;transition:border-color .25s" style-focus="border-color:#ffffff">
+              <span id="cf-name-err" style="font-size:13px;color:#ff6a55">{{ errs.name }}</span>
+            </div>
+            <div data-field="email" style="display:flex;flex-direction:column;gap:8px">
+              <label for="cf-email" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e6e6e6">Email</label>
+              <input id="cf-email" name="email" type="email" autocomplete="email" required="required" value="{{ f.email }}" onChange="{{ onEmail }}" aria-invalid="{{ inv.email }}" aria-describedby="cf-email-err" style="height:52px;padding:0 16px;background:#1a1a1a;border:1px solid {{ bc.email }};border-radius:0;color:#fff;font-size:16px;font-weight:400;outline:none;transition:border-color .25s" style-focus="border-color:#ffffff">
+              <span id="cf-email-err" style="font-size:13px;color:#ff6a55">{{ errs.email }}</span>
+            </div>
+          </div>
+          <div data-field="type" style="display:flex;flex-direction:column;gap:8px">
+            <label for="cf-type" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e6e6e6">Project type</label>
+            <div style="position:relative">
+              <select id="cf-type" name="projectType" required="required" value="{{ f.type }}" onChange="{{ onType }}" aria-invalid="{{ inv.type }}" aria-describedby="cf-type-err" style="width:100%;height:52px;padding:0 48px 0 16px;background:#1a1a1a;border:1px solid {{ bc.type }};border-radius:0;color:{{ typeColor }};font-size:16px;font-weight:400;appearance:none;-webkit-appearance:none;cursor:pointer;outline:none" style-focus="border-color:#ffffff">
+                <option value="" disabled="disabled">Select a project type</option>
+                <sc-for list="{{ projectTypes }}" as="o" hint-placeholder-count="5"><option value="{{ o.v }}">{{ o.v }}</option></sc-for>
+              </select>
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="position:absolute;right:16px;top:17px;pointer-events:none;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m6 9 6 6 6-6"></path></svg>
+            </div>
+            <span id="cf-type-err" style="font-size:13px;color:#ff6a55">{{ errs.type }}</span>
+          </div>
+          <div data-field="message" style="display:flex;flex-direction:column;gap:8px">
+            <label for="cf-msg" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e6e6e6">Message</label>
+            <textarea id="cf-msg" name="message" rows="6" required="required" value="{{ f.message }}" onChange="{{ onMessage }}" aria-invalid="{{ inv.message }}" aria-describedby="cf-msg-err" style="min-height:160px;padding:14px 16px;background:#1a1a1a;border:1px solid {{ bc.message }};border-radius:0;color:#fff;font-size:16px;font-weight:400;line-height:1.5;resize:vertical;outline:none;transition:border-color .25s" style-focus="border-color:#ffffff"></textarea>
+            <span id="cf-msg-err" style="font-size:13px;color:#ff6a55">{{ errs.message }}</span>
+          </div>
+          <button type="submit" data-submit="" disabled="{{ sending }}" style="display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 24px;background:#c8200f;border:0;color:#fff;cursor:pointer;font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:background .25s;opacity:{{ sendOp }}" style-hover="background:#e22718" style-active="background:#a81a0c">{{ submitLabel }}
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </button>
+          <p data-status="" role="status" aria-live="polite" style="margin:0;font-size:15px;line-height:1.5;color:{{ statusColor }}">{{ status }}</p>
+        </form>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ sec.isRich }}">
+    <section id="{{ sec.anchor }}" style="padding:clamp(88px,10vw,160px) 0;border-top:1px solid #262626;background:{{ sec.bgc }}">
+      <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px clamp(48px,7vw,128px)">
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <sc-if value="{{ sec.d.label }}"><p data-anim="label" style="display:flex;align-items:center;gap:14px;margin:0;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e6e6e6"><span style="color:#e22718">{{ sec.num }}</span><span data-line="" aria-hidden="true" style="width:32px;height:1px;background:#3c3c3c"></span><span>{{ sec.d.label }}</span></p></sc-if>
+          <h2 data-anim="lines" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(44px,5.5vw,96px);line-height:0.92;text-transform:uppercase;color:#fff">{{ sec.d.heading }}</h2>
+        </div>
+        <div data-anim="fade" style="max-width:760px">{{ sec.bodyEl }}</div>
+      </div>
+    </section>
+  </sc-if>
+</div>
+</sc-for>
+</sc-if>
+
+<sc-if value="{{ isPage }}" hint-placeholder-val="{{ false }}">
+  <article data-screen-label="Page" style="padding:calc({{ headerH }} + clamp(56px,7vw,112px)) 0 clamp(88px,10vw,160px)">
+    <header style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px) clamp(40px,5vw,72px)">
+      <nav aria-label="Breadcrumb" data-anim="fade" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e;display:flex;gap:10px;margin-bottom:24px"><a href="#/" onClick="{{ goHome }}" style="color:#bbbbbb">Home</a><span aria-hidden="true">/</span><span aria-current="page" style="color:#fff">{{ page.title }}</span></nav>
+      <h1 data-anim="lines" style="margin:0;max-width:16ch;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(36px,5.6vw,101px);line-height:0.9;text-transform:uppercase;color:#fff;text-wrap:balance">{{ page.title }}</h1>
+    </header>
+    <sc-if value="{{ page.img }}">
+      <div data-anim="mask" style="position:relative;width:100%;max-width:1600px;margin:0 auto clamp(48px,6vw,96px);aspect-ratio:21/9;overflow:hidden;background:#1a1a1a">
+        <img data-parallax="6" src="{{ page.img }}" alt="" style="position:absolute;inset:-6% 0;width:100%;height:112%;object-fit:cover">
+      </div>
+    </sc-if>
+    <div data-anim="prose" style="width:100%;max-width:880px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">{{ page.bodyEl }}</div>
+  </article>
+</sc-if>
+
+<sc-if value="{{ isBlog }}" hint-placeholder-val="{{ false }}">
+  <section data-screen-label="Blog" style="padding:calc({{ headerH }} + clamp(56px,7vw,112px)) 0 clamp(88px,10vw,160px)">
+    <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">
+      <h1 data-anim="lines" style="margin:0 0 clamp(32px,4vw,56px);font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(45px,7.7vw,140px);line-height:0.85;text-transform:uppercase;color:#fff">Blog</h1>
+      <sc-if value="{{ blogCats.length }}">
+        <div role="tablist" aria-label="Filter posts by category" style="display:flex;flex-wrap:wrap;gap:4px 28px;border-bottom:1px solid #3c3c3c;margin-bottom:32px">
+          <sc-for list="{{ blogCats }}" as="c" hint-placeholder-count="3">
+            <button type="button" role="tab" aria-selected="{{ c.selected }}" onClick="{{ c.pick }}" style="display:flex;flex-direction:column;gap:10px;padding:14px 0 0;background:none;border:0;cursor:pointer;color:{{ c.color }};font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">{{ c.name }}<span aria-hidden="true" style="height:2px;width:100%;background:#e22718;transform:{{ c.bar }};transform-origin:left;transition:transform .45s cubic-bezier(.2,.7,.2,1);margin-bottom:-1px"></span></button>
+          </sc-for>
+        </div>
+      </sc-if>
+      <ul data-cards="" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:{{ blogCols }};gap:clamp(24px,3vw,48px) clamp(16px,2vw,32px)">
+        <sc-for list="{{ posts }}" as="p" hint-placeholder-count="3">
+          <li data-card-item="">
+            <a href="{{ p.href }}" onClick="{{ p.go }}" data-card="" style="display:flex;flex-direction:column;gap:18px;color:#fff">
+              <span style="position:relative;display:block;aspect-ratio:16/10;background:#1a1a1a;overflow:hidden">
+                <sc-if value="{{ p.img }}"><img data-card-img="" src="{{ p.img }}" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></sc-if>
+                <sc-if value="{{ p.noImg }}"><span aria-hidden="true" style="position:absolute;left:20px;bottom:16px;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:56px;line-height:1;color:#262626;text-transform:uppercase">{{ p.cat }}</span></sc-if>
+              </span>
+              <span style="display:flex;gap:12px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase"><span style="color:#e22718">{{ p.cat }}</span><span style="color:#9a9a9a">{{ p.dateLabel }}</span></span>
+              <span style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:clamp(28px,2.4vw,40px);line-height:1;text-transform:uppercase">{{ p.title }}</span>
+              <span style="font-size:16px;line-height:1.6;color:#bbbbbb">{{ p.excerpt }}</span>
+            </a>
+          </li>
+        </sc-for>
+      </ul>
+      <sc-if value="{{ noPosts }}"><p style="margin:0;font-size:18px;color:#9a9a9a">No posts published yet.</p></sc-if>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isPost }}" hint-placeholder-val="{{ false }}">
+  <article data-screen-label="Post" style="padding:calc({{ headerH }} + clamp(48px,6vw,96px)) 0 clamp(88px,10vw,160px)">
+    <header style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,64px) clamp(32px,4vw,56px)">
+      <nav aria-label="Breadcrumb" data-anim="fade" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e;display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px"><a href="#/" onClick="{{ goHome }}" style="color:#bbbbbb">Home</a><span aria-hidden="true">/</span><a href="#/blog" onClick="{{ goBlog }}" style="color:#bbbbbb">Blog</a></nav>
+      <p data-anim="fade" style="display:flex;flex-wrap:wrap;gap:12px;margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase"><span style="color:#e22718">{{ post.cats }}</span><time datetime="{{ post.date }}" style="color:#9a9a9a">{{ post.dateLabel }}</time></p>
+      <h1 data-anim="lines" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(34px,4.9vw,84px);line-height:0.92;text-transform:uppercase;color:#fff;text-wrap:balance">{{ post.title }}</h1>
+      <sc-if value="{{ post.excerpt }}"><p data-anim="fade" style="margin:28px 0 0;max-width:56ch;font-size:clamp(18px,1.5vw,22px);line-height:1.55;color:#e6e6e6">{{ post.excerpt }}</p></sc-if>
+    </header>
+    <sc-if value="{{ post.img }}">
+      <div data-anim="mask" style="position:relative;width:100%;max-width:1400px;margin:0 auto clamp(48px,6vw,96px);aspect-ratio:16/8;overflow:hidden;background:#1a1a1a">
+        <img data-parallax="6" src="{{ post.img }}" alt="" style="position:absolute;inset:-6% 0;width:100%;height:112%;object-fit:cover">
+      </div>
+    </sc-if>
+    <div data-anim="prose" style="width:100%;max-width:820px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">{{ post.bodyEl }}</div>
+    <div style="width:100%;max-width:820px;margin:48px auto 0;padding:24px clamp(20px,4vw,64px) 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;border-top:1px solid #3c3c3c">
+      <ul aria-label="Tags" style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0">
+        <sc-for list="{{ post.tags }}" as="tg" hint-placeholder-count="2"><li style="font-size:12px;font-weight:500;letter-spacing:.5px;color:#e6e6e6;border:1px solid #3c3c3c;padding:6px 10px">{{ tg.t }}</li></sc-for>
+      </ul>
+      <a href="#/blog" onClick="{{ goBlog }}" style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 0">All posts</a>
+    </div>
+  </article>
+</sc-if>
+
+<sc-if value="{{ is404 }}" hint-placeholder-val="{{ false }}">
+  <section style="min-height:80vh;display:flex;align-items:center;padding:calc({{ headerH }} + 48px) 0 96px">
+    <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px);display:flex;flex-direction:column;gap:32px;align-items:flex-start">
+      <p style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(120px,22vw,360px);line-height:.8;color:#e22718">404</p>
+      <h1 data-anim="lines" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(28px,3.5vw,56px);line-height:.95;text-transform:uppercase;color:#fff">Page not found</h1>
+      <a href="#/" onClick="{{ goHome }}" data-magnetic="" style="display:inline-flex;align-items:center;height:52px;padding:0 26px;background:#c8200f;color:#fff;font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">Back to home</a>
+    </div>
+  </section>
+</sc-if>
+</main>
+
+<footer style="border-top:1px solid #3c3c3c;background:#050505">
+  <div style="width:100%;max-width:1600px;margin:0 auto;padding:clamp(64px,8vw,128px) clamp(20px,4vw,64px) clamp(48px,6vw,80px);display:flex;flex-direction:column;gap:28px">
+    <p data-anim="label" style="display:flex;align-items:center;gap:14px;margin:0;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e6e6e6"><span data-line="" aria-hidden="true" style="width:32px;height:2px;background:#e22718"></span><span>Contact</span></p>
+    <a data-footer-cta="" href="{{ contact.mailto }}" style="display:block;max-width:100%;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(36px,7.6vw,148px);line-height:.92;text-transform:uppercase;color:#fff;overflow-wrap:anywhere;transition:color .3s" style-hover="color:#e22718"><span data-anim="lines" style="display:block">{{ contact.email }}</span></a>
+    <span data-footer-rule="" aria-hidden="true" style="display:block;height:2px;background:#e22718;transform-origin:left"></span>
+    <a href="{{ contact.wa }}" target="_blank" rel="noopener" data-anim="fade" style="align-self:flex-start;display:inline-flex;align-items:center;gap:12px;padding:8px 0;font-size:clamp(16px,1.4vw,20px);font-weight:400;color:#e6e6e6">WhatsApp: {{ contact.waDisplay }}
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:#e22718;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+    </a>
+  </div>
+  <div style="width:100%;max-width:1600px;margin:0 auto;padding:0 clamp(20px,4vw,64px) 32px">
+    <div style="display:flex;justify-content:center;padding:48px 0;border-top:1px solid #262626;border-bottom:1px solid #262626">
+      <a href="#/" onClick="{{ goHome }}" aria-label="Ayesha Amin, home" style="display:block;width:{{ fLogoW }};height:{{ fLogoBoxH }};overflow:hidden;position:relative">
+        <img src="{{ logoSrc }}" alt="Ayesha" loading="lazy" style="position:{{ logoPos }};left:0;top:{{ fLogoTop }};width:{{ fLogoW }};height:{{ fLogoImgH }};display:block;filter:{{ logoFilter }};mix-blend-mode:{{ logoBlend }}">
+      </a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:40px;padding:48px 0">
+      <nav aria-label="Footer quick links" style="display:flex;flex-direction:column;gap:8px">
+        <span style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e">Quick links</span>
+        <sc-for list="{{ quickLinks }}" as="ql" hint-placeholder-count="4"><a href="{{ ql.href }}" target="{{ ql.target }}" onClick="{{ ql.go }}" style="padding:6px 0;font-size:16px;color:#e6e6e6">{{ ql.label }}</a></sc-for>
+      </nav>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e">Social</span>
+        <sc-for list="{{ social }}" as="so" hint-placeholder-count="4"><a href="{{ so.href }}" target="{{ so.target }}" rel="noopener" title="{{ so.title }}" style="padding:6px 0;font-size:16px;color:#e6e6e6">{{ so.label }}</a></sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e">Contact</span>
+        <a href="{{ contact.mailto }}" style="padding:6px 0;font-size:16px;color:#e6e6e6;overflow-wrap:anywhere">{{ contact.email }}</a>
+        <a href="{{ contact.wa }}" target="_blank" rel="noopener" style="padding:6px 0;font-size:16px;color:#e6e6e6">WhatsApp: {{ contact.waDisplay }}</a>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;padding-top:24px;border-top:1px solid #3c3c3c">
+      <p style="margin:0;font-size:14px;color:#9a9a9a"><sc-for list="{{ copyParts }}" as="cp" hint-placeholder-count="1"><span style="color:{{ cp.color }};border-bottom:{{ cp.border }}">{{ cp.t }}</span></sc-for></p>
+      <a href="#top" onClick="{{ toTop }}" style="display:inline-flex;align-items:center;gap:10px;padding:10px 0;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e6e6e6">Back to top
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m5 12 7-7 7 7"></path><path d="M12 19V5"></path></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
+  <div ref="{{ lbRef }}" role="dialog" aria-modal="true" aria-label="{{ lbLabel }}" onClick="{{ closeLb }}" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.94);display:flex;align-items:center;justify-content:center;padding:clamp(16px,4vw,64px)">
+    <div data-lb-panel="" onClick="{{ stop }}" style="width:{{ lbW }};max-width:1280px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+        <span style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ lbLabel }}</span>
+        <div style="display:flex;gap:12px;align-items:center;flex:none">
+          <a href="{{ lbHref }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e6e6e6;padding:12px 0">Open original</a>
+          <button type="button" ref="{{ lbCloseRef }}" onClick="{{ closeLb }}" aria-label="Close video" style="width:48px;height:48px;border-radius:50%;background:#1a1a1a;border:1px solid #3c3c3c;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0">
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+          </button>
+        </div>
+      </div>
+      <div style="position:relative;width:100%;aspect-ratio:{{ lbAspect }};background:#000;max-height:82vh">
+        <iframe src="{{ lbSrc }}" title="{{ lbLabel }}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen="{{ true }}" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+      </div>
+    </div>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const GSAP_SRC = ['https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js', 'https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js', 'https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js'];
+const loadScript = src => new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+const pad = n => String(n).padStart(2, '0');
+const ICONS = {
+  timer: [['line', { x1: 10, x2: 14, y1: 2, y2: 2 }], ['line', { x1: 12, x2: 15, y1: 14, y2: 11 }], ['circle', { cx: 12, cy: 14, r: 8 }]],
+  devices: [['path', { d: 'M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8' }], ['path', { d: 'M10 19v-3.96 3.15' }], ['path', { d: 'M7 19h5' }], ['rect', { width: 6, height: 10, x: 16, y: 12, rx: 2 }]],
+  aperture: [['circle', { cx: 12, cy: 12, r: 10 }], ['path', { d: 'm14.31 8 5.74 9.94' }], ['path', { d: 'M9.69 8h11.48' }], ['path', { d: 'm7.38 12 5.74-9.94' }], ['path', { d: 'M9.69 16 3.95 6.06' }], ['path', { d: 'M14.31 16H2.83' }], ['path', { d: 'm16.62 12-5.74 9.94' }]],
+  users: [['path', { d: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' }], ['circle', { cx: 9, cy: 7, r: 4 }], ['path', { d: 'M22 21v-2a4 4 0 0 0-3-3.87' }], ['path', { d: 'M16 3.13a4 4 0 0 1 0 7.75' }]],
+  zap: [['path', { d: 'M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z' }]],
+  film: [['rect', { width: 18, height: 18, x: 3, y: 3, rx: 2 }], ['path', { d: 'M7 3v18' }], ['path', { d: 'M3 7.5h4' }], ['path', { d: 'M3 12h18' }], ['path', { d: 'M3 16.5h4' }], ['path', { d: 'M17 3v18' }], ['path', { d: 'M17 7.5h4' }], ['path', { d: 'M17 16.5h4' }]],
+  sparkles: [['path', { d: 'M9.94 14.06 4 20' }], ['path', { d: 'm14.06 9.94 6-6' }], ['path', { d: 'M12 2v4' }], ['path', { d: 'M12 18v4' }], ['path', { d: 'M2 12h4' }], ['path', { d: 'M18 12h4' }]]
+};
+const icon = name => React.createElement('svg', { width: 40, height: 40, viewBox: '0 0 24 24', 'aria-hidden': true, style: { fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round' } }, (ICONS[name] || ICONS.film).map(([t, a], i) => React.createElement(t, { key: i, ...a })));
+const GRAIN = "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
+const EASE = { out: 'expo.out', inOut: 'expo.inOut', soft: 'power3.out' };
+
+const reelSrc = (u, C) => {
+  u = String(u || '').trim(); if (!u) return null;
+  if (/^vfile:/.test(u)) { const got = C.videoFileUrlSync(u); if (!got) { C.videoFileUrl(u).then(x => { if (x && window.__heroRerender) window.__heroRerender(); }); return null; } return { kind: 'video', src: got, label: 'Video' }; }
+  if (/\.(mp4|webm|mov)(\?|#|$)/i.test(u)) return { kind: 'video', src: u, label: 'Video' };
+  let m = u.match(/linkedin\.com\/.*?(?:urn:li:(activity|ugcPost|share):|[-_]activity-)(\d{10,})/);
+  if (m) return { kind: 'frame', src: 'https://www.linkedin.com/embed/feed/update/urn:li:' + (m[1] || 'activity') + ':' + m[2], label: 'LinkedIn', href: u };
+  const p = C.parseVideo(u); if (!p) return null;
+  const lb = { ...p };
+  if (p.platform === 'youtube') return { kind: 'frame', src: 'https://www.youtube-nocookie.com/embed/' + p.id + '?autoplay=1&mute=1&loop=1&playlist=' + p.id + '&controls=0&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1', label: p.vertical ? 'Shorts' : 'YouTube', lb, cover: true };
+  if (p.platform === 'tiktok') return { kind: 'frame', src: 'https://www.tiktok.com/player/v1/' + p.id + '?autoplay=1&loop=1&muted=1&controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=0', label: 'TikTok', lb };
+  if (p.platform === 'reels') return { kind: 'frame', src: p.embed, label: 'Reels', lb };
+  return { kind: 'frame', src: p.embed, label: C.PLATFORM_LABEL[p.platform] || 'Video', lb };
+};
+function ReelStrip({ items, onOpen }) {
+  const [paused, setPaused] = React.useState(false);
+  const h = React.createElement;
+  const tileW = 'clamp(180px,17vw,260px)';
+  const tile = (it, i) => h('div', { key: i, style: { position: 'relative', flex: '0 0 ' + tileW, width: tileW, aspectRatio: '9/16', background: '#1a1a1a', overflow: 'hidden', containerType: 'size' } },
+    it.kind === 'video'
+      ? h('video', { src: it.src, autoPlay: true, muted: true, loop: true, playsInline: true, preload: 'metadata', 'aria-hidden': 'true', ref: el => { if (el && !el.__r) { el.__r = 1; el.muted = true; el.setAttribute('muted', ''); const pr = el.play && el.play(); pr && pr.catch && pr.catch(() => {}); } }, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } })
+      : h('iframe', { src: it.src, loading: 'lazy', allow: 'autoplay; encrypted-media; picture-in-picture', title: it.label + ' reel', tabIndex: -1, style: it.cover ? { position: 'absolute', top: '50%', left: '50%', width: 'max(100cqw, 56.25cqh)', height: 'max(100cqh, 177.78cqw)', transform: 'translate(-50%,-50%) scale(1.02)', border: 0, pointerEvents: 'none' } : { position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0, pointerEvents: 'none' } }),
+    h('span', { 'aria-hidden': 'true', style: { position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(5,5,5,0) 70%,rgba(5,5,5,.75) 100%)', pointerEvents: 'none' } }),
+    h('span', { style: { position: 'absolute', left: 12, bottom: 12, fontSize: 11, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#fff', background: '#c8200f', padding: '5px 8px', pointerEvents: 'none' } }, it.label),
+    (it.lb || it.href) ? h('button', { type: 'button', 'aria-label': 'Play ' + it.label + ' reel with sound', onClick: it.lb ? onOpen({ ...it.lb, title: it.label }) : () => window.open(it.href, '_blank', 'noopener'), style: { position: 'absolute', inset: 0, background: 'transparent', border: 0, padding: 0, cursor: 'pointer' } }) : null);
+  const loop = items.length >= 3;
+  const track = loop ? items.concat(items) : items;
+  return h('div', { onMouseEnter: () => setPaused(true), onMouseLeave: () => setPaused(false), onFocus: () => setPaused(true), onBlur: () => setPaused(false), style: { overflow: 'hidden', width: '100%', maskImage: 'linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)', WebkitMaskImage: 'linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)' } },
+    h('div', { style: { display: 'flex', gap: 12, width: 'max-content', animation: loop ? 'reelmarquee ' + Math.max(30, items.length * 7) + 's linear infinite' : 'none', animationPlayState: paused ? 'paused' : 'running' } }, track.map(tile)));
+}
+const heroVideo = (u, poster) => {
+  if (!u) return null;
+  if (/^vfile:/.test(u)) { const C = window.AyeshaCMS; const got = C.videoFileUrlSync(u); if (!got) { C.videoFileUrl(u).then(x => { if (x && window.__heroRerender) window.__heroRerender(); }); return null; } u = got; }
+  const cover = { position: 'absolute', top: '50%', left: '50%', width: 'max(100cqw, 177.78cqh)', height: 'max(100cqh, 56.25cqw)', transform: 'translate(-50%,-50%) scale(1.02)', border: 0, pointerEvents: 'none' };
+  let m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/))([\w-]{11})/);
+  if (m) return React.createElement('iframe', { key: 'yt' + m[1], src: 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&mute=1&loop=1&playlist=' + m[1] + '&controls=0&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3&disablekb=1', allow: 'autoplay; encrypted-media', title: 'Background video', tabIndex: -1, 'aria-hidden': 'true', style: cover });
+  m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (m) return React.createElement('iframe', { key: 'vm' + m[1], src: 'https://player.vimeo.com/video/' + m[1] + '?background=1&autoplay=1&muted=1&loop=1', allow: 'autoplay; fullscreen', title: 'Background video', tabIndex: -1, 'aria-hidden': 'true', style: cover });
+  m = u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?.*id=)([\w-]+)/);
+  const src = m ? 'https://drive.google.com/uc?export=download&id=' + m[1] : u;
+  return React.createElement('video', { key: 'v' + src, src, poster: poster || undefined, autoPlay: true, muted: true, loop: true, playsInline: true, 'webkit-playsinline': 'true', disablePictureInPicture: true, controls: false, preload: 'auto', 'aria-hidden': 'true',
+    onEnded: e => { e.target.currentTime = 0; e.target.play().catch(() => {}); }, onPause: e => { if (!document.hidden) e.target.play().catch(() => {}); },
+    ref: el => { if (el && !el.__hv) { el.__hv = 1; el.muted = true; el.defaultMuted = true; el.setAttribute('muted', ''); el.setAttribute('playsinline', ''); const go = () => { const pr = el.play && el.play(); if (pr && pr.catch) pr.catch(() => {}); }; go(); el.addEventListener('canplay', go, { once: true }); document.addEventListener('visibilitychange', () => { if (!document.hidden) go(); }); ['pointerdown', 'touchstart', 'scroll'].forEach(ev => window.addEventListener(ev, go, { once: true, passive: true })); } },
+    style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' } });
+};
+class Component extends DCLogic {
+  state = {
+    ready: false, ver: 0, path: '/', preview: false, w: typeof window !== 'undefined' ? window.innerWidth : 1280,
+    active: '', menu: false, filter: 'all', shown: 9, svc: 0, faq: 0, t: 0, paused: false, lb: null, statsP: 1,
+    heroVis: 0, blogCat: 'all',
+    f: { name: '', email: '', type: '', message: '' }, errs: {}, status: '', statusOk: true, sending: false
+  };
+  rootRef = React.createRef(); headerRef = React.createRef(); menuRef = React.createRef(); lbRef = React.createRef(); lbCloseRef = React.createRef(); formRef = React.createRef(); curtainRef = React.createRef();
+  cleanups = [];
+
+  componentDidMount() {
+    this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._ps = { ...this.state };
+    this.heroFailsafe = setTimeout(() => this.state.heroVis !== 1 && this.setState({ heroVis: 1 }), this.reduce ? 0 : 1600);
+    const wait = () => (window.AyeshaCMS ? this.boot() : setTimeout(wait, 30));
+    wait();
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    this.onScroll = () => this.scrollUpdate();
+    this.onHash = () => this.handleHash();
+    this.onKey = e => { if (e.key === 'Escape') { if (this.state.lb) this.closeLb(); else if (this.state.menu) this.closeMenu(); } };
+    this.onMsg = e => { if (e.data && e.data.type === 'ayesha-scroll-to' && e.data.anchor) this.scrollToId(e.data.anchor); };
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('hashchange', this.onHash);
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('message', this.onMsg);
+    this.timer = setInterval(() => {
+      const home = this.data && this.data.home, ts = home && home.sections.find(s => s.type === 'testimonials' && !s.hidden);
+      if (ts && ts.data.autoplay && !this.state.paused && !this.reduce && !document.hidden && this.state.path === '/') this.goT(this.state.t + 1);
+    }, 7000);
+  }
+  async boot() {
+    const C = window.AyeshaCMS;
+    await C.ready;
+    const wantPreview = window.name === 'ayesha-preview' || /[?&]preview=1/.test(location.search + location.hash);
+    const authed = wantPreview ? await C.checkSession() : false;
+    this.unsub = C.subscribe(() => { this.revertMotion(); this.setState(s => ({ ver: s.ver + 1 })); });
+    const path = this.pathFromHash();
+    const r = C.resolve(path, authed);
+    const finalPath = r.redirect || path;
+    if (r.redirect) history.replaceState(null, '', location.pathname + location.search + '#' + r.redirect);
+    this.setState({ ready: true, preview: authed, path: finalPath }, () => {
+      this.applyHead();
+      const h = location.hash;
+      if (h && !h.startsWith('#/') && h.length > 1) setTimeout(() => this.scrollToId(h.slice(1), true), 60);
+      this.scrollUpdate();
+      this.loadMotion();
+    });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize); window.removeEventListener('scroll', this.onScroll); window.removeEventListener('hashchange', this.onHash); window.removeEventListener('keydown', this.onKey); window.removeEventListener('message', this.onMsg);
+    clearInterval(this.timer); clearTimeout(this.heroFailsafe); clearTimeout(this.rebuildT); this.unsub && this.unsub();
+    this.revertMotion(); this.ro && this.ro.disconnect(); document.body.style.overflow = '';
+  }
+  componentDidUpdate() {
+    const s = this.state, prevState = this._ps || s; this._ps = { ...s };
+    if (prevState.ver !== s.ver) { this.applyHead(); this.scheduleMotion(); }
+    if (prevState.t !== s.t) this.animateQuote();
+    if (prevState.filter !== s.filter || prevState.shown !== s.shown) this.animateCards(prevState.filter !== s.filter ? 0 : prevState.shown);
+    if (prevState.svc !== s.svc || prevState.faq !== s.faq) this.animateAccordion();
+    if (!prevState.menu && s.menu) this.animateMenuIn();
+    if (!prevState.lb && s.lb) this.animateLb();
+    if (prevState.blogCat !== s.blogCat) this.animateCards(0);
+  }
+
+  // ---------- data / routing ----------
+  get C() { return window.AyeshaCMS; }
+  pathFromHash() { const h = location.hash; return h.startsWith('#/') ? (h.slice(1).split('?')[0] || '/') : '/'; }
+  applyHead() { if (!this.state.ready) return; const r = this.route(); this.C.applyHead(this.C.headFor(r, this.state.preview)); }
+  route() { const r = this.C.resolve(this.state.path, this.state.preview); return r.redirect ? { kind: '404' } : r; }
+  handleHash() {
+    const h = location.hash;
+    if (h && !h.startsWith('#/') && h.length > 1) {
+      if (this.state.path !== '/') { this.pendingAnchor = h.slice(1); this.transitionTo('/'); } else this.scrollToId(h.slice(1));
+      return;
+    }
+    const path = this.pathFromHash();
+    if (path !== this.state.path) this.transitionTo(path);
+  }
+  navigate(path) { const target = '#' + path; if (location.hash === target) this.handleHash(); else location.hash = target; }
+  transitionTo(path) {
+    const r = this.C.resolve(path, this.state.preview);
+    if (r.redirect) { history.replaceState(null, '', location.pathname + location.search + '#' + r.redirect); path = r.redirect; }
+    const swap = () => new Promise(res => {
+      this.revertMotion();
+      document.body.style.overflow = '';
+      this.setState({ path, menu: false, lb: null, filter: 'all', shown: this.perPage(), svc: 0, faq: 0, t: 0, blogCat: 'all' }, () => {
+        const a = this.pendingAnchor; this.pendingAnchor = null;
+        if (a) this.scrollToId(a, true); else window.scrollTo(0, 0);
+        this.applyHead();
+        const main = document.getElementById('main'); main && main.focus({ preventScroll: true });
+        res();
+      });
+    });
+    const g = window.gsap, cur = this.curtainRef.current;
+    if (!g || this.reduce || !cur) { swap().then(() => this.buildMotion()); return; }
+    if (this.curtainTl) this.curtainTl.kill();
+    const [red, ink] = cur.children;
+    const tl = g.timeline();
+    this.curtainTl = tl;
+    tl.set(cur, { visibility: 'visible' })
+      .fromTo(red, { yPercent: 100 }, { yPercent: 0, duration: 0.5, ease: 'power3.in' })
+      .fromTo(ink, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'power3.inOut' }, 0.1)
+      .add(() => { tl.pause(); swap().then(() => { this.buildMotion(true); tl.resume(); }); })
+      .to([ink, red], { yPercent: -100, duration: 0.7, ease: 'expo.inOut', stagger: 0.08 }, '+=0.05')
+      .set(cur, { visibility: 'hidden' });
+  }
+  perPage() { const w = this.data && this.data.home.sections.find(s => s.type === 'work'); return (w && +w.data.perPage) || 9; }
+  headerHeight() { return (this.data && +this.data.site.header.height) || 96; }
+  scrollToId(id, instant) {
+    const el = document.getElementById(id); if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - (id === 'hero' || id === 'top' ? 0 : this.headerHeight() - 24);
+    window.scrollTo({ top: Math.max(0, top), behavior: instant || this.reduce ? 'auto' : 'smooth' });
+  }
+  scrollUpdate() {
+    const hd = this.headerRef.current, y = window.scrollY;
+    if (hd) { const on = y > 40 || this.state.path !== '/'; hd.style.background = on ? 'rgba(5,5,5,0.9)' : 'rgba(5,5,5,0)'; hd.style.borderBottomColor = on ? '#262626' : 'rgba(0,0,0,0)'; }
+    if (this.state.path !== '/' || !this.data) { if (this.state.active) this.setState({ active: '' }); return; }
+    const th = window.innerHeight * 0.4; let active = '';
+    this.data.home.sections.forEach(s => { if (s.hidden || !s.data.anchor) return; const el = document.getElementById(s.data.anchor); if (el && el.getBoundingClientRect().top <= th) active = s.data.anchor; });
+    if (active !== this.state.active) this.setState({ active });
+  }
+  link(target) {
+    target = String(target || '').trim();
+    if (!target) return { href: '#', go: e => e.preventDefault(), target: undefined };
+    if (/^(https?:|mailto:|tel:)/.test(target)) return { href: target, target: /^https?:/.test(target) ? '_blank' : undefined, go: undefined };
+    if (target.startsWith('#')) return { href: target, go: e => { e.preventDefault(); this.setMenuClosed(); if (this.state.path !== '/') { this.pendingAnchor = target.slice(1); this.navigate('/'); } else this.scrollToId(target.slice(1)); } };
+    const path = target.startsWith('/') ? target : '/' + target;
+    return { href: '#' + path, go: e => { e.preventDefault(); this.setMenuClosed(); this.navigate(path); } };
+  }
+  setMenuClosed() { if (this.state.menu) { document.body.style.overflow = ''; this.setState({ menu: false }); } }
+  goT(i) { const n = this.tCount || 1; this.setState({ t: ((i % n) + n) % n }); }
+
+  // ---------- GSAP motion ----------
+  async loadMotion() {
+    if (this.reduce) { this.setState({ heroVis: 1 }); }
+    try {
+      if (!window.gsap) for (const src of GSAP_SRC) await loadScript(src);
+      else { if (!window.ScrollTrigger) await loadScript(GSAP_SRC[1]); if (!window.SplitText) await loadScript(GSAP_SRC[2]); }
+      window.gsap.registerPlugin(window.ScrollTrigger, window.SplitText);
+      window.ScrollTrigger.config({ ignoreMobileResize: true });
+      await (document.fonts ? document.fonts.ready : Promise.resolve());
+      this.ro = new ResizeObserver(() => { clearTimeout(this.roT); this.roT = setTimeout(() => window.ScrollTrigger && window.ScrollTrigger.refresh(), 200); });
+      this.rootRef.current && this.ro.observe(this.rootRef.current);
+      this.buildMotion();
+    } catch (e) { this.setState({ heroVis: 1 }); }
+  }
+  scheduleMotion() { clearTimeout(this.rebuildT); this.rebuildT = setTimeout(() => this.buildMotion(), 160); }
+  revertMotion() { this.cleanups.forEach(f => f()); this.cleanups = []; if (this.ctx) { this.ctx.revert(); this.ctx = null; } }
+  buildMotion(fromTransition) {
+    const g = window.gsap, ST = window.ScrollTrigger, Split = window.SplitText, root = this.rootRef.current;
+    if (!g || !root) return;
+    this.revertMotion();
+    const on = (el, ev, fn) => { el.addEventListener(ev, fn); this.cleanups.push(() => el.removeEventListener(ev, fn)); };
+    this.ctx = g.context(() => {
+      const mm = g.matchMedia();
+      this.mm = mm;
+      mm.add({ full: '(prefers-reduced-motion: no-preference)', reduce: '(prefers-reduced-motion: reduce)', fine: '(hover: hover) and (pointer: fine)', small: '(max-width: 767px)' }, c => {
+        const { full, fine, small } = c.conditions;
+        const q = s => [...root.querySelectorAll(s)];
+        if (!full) {
+          q('[data-anim]').forEach(el => g.from(el, { opacity: 0, duration: 0.4, scrollTrigger: { trigger: el, start: 'top 95%', once: true } }));
+          this.setState({ heroVis: 1 }); return;
+        }
+        const st = (el, extra) => ({ trigger: el, start: 'top 88%', once: true, ...extra });
+        // Hero intro
+        const hero = root.querySelector('[data-hero]');
+        if (hero) {
+          const title = hero.querySelector('[data-hero-title]');
+          const tl = g.timeline({ defaults: { ease: EASE.out }, delay: fromTransition ? 0.15 : 0.1 });
+          this.setState({ heroVis: 1 });
+          const bg = hero.querySelector('[data-hero-bg]');
+          if (bg) tl.from(bg, { scale: 1.18, duration: 2.6, ease: 'power2.out' }, 0);
+          tl.from(hero.querySelector('[data-hero-line]'), { scaleX: 0, transformOrigin: 'left center', duration: 0.9 }, 0.1)
+            .from(hero.querySelector('[data-hero-eyebrow]'), { opacity: 0, x: -16, duration: 0.8 }, 0.25);
+          if (title && Split) {
+            const sp = Split.create(title, { type: 'lines', mask: 'lines', linesClass: 'hl' });
+            tl.from(sp.lines, { yPercent: 110, duration: 1.3, stagger: 0.09 }, 0.3);
+          }
+          tl.from(hero.querySelector('[data-hero-sub]'), { opacity: 0, y: 28, duration: 1 }, 0.75)
+            .from(q('[data-hero-btn]'), { opacity: 0, y: 28, duration: 0.9, stagger: 0.08 }, 0.85);
+          const soc = hero.querySelector('[data-hero-social]');
+          if (soc) tl.from(soc, { opacity: 0, y: 20, duration: 0.9 }, 1.05);
+          if (bg) g.to(bg, { yPercent: 10, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
+          g.to(hero.querySelector('[data-hero-content]'), { y: small ? -30 : -80, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
+        } else this.setState({ heroVis: 1 });
+        // Line reveals
+        if (Split) q('[data-anim="lines"]').forEach(el => {
+          Split.create(el, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: self => g.from(self.lines, { yPercent: 108, duration: 1.15, ease: EASE.out, stagger: 0.08, scrollTrigger: st(el) }) });
+        });
+        q('[data-anim="label"]').forEach(el => {
+          const tl = g.timeline({ scrollTrigger: st(el) });
+          const line = el.querySelector('[data-line]');
+          if (line) tl.from(line, { scaleX: 0, transformOrigin: 'left center', duration: 0.8, ease: EASE.inOut });
+          tl.from([...el.children].filter(c => c !== line), { opacity: 0, y: 10, duration: 0.6, stagger: 0.06, ease: EASE.soft }, 0.15);
+        });
+        q('[data-anim="fade"]').forEach(el => g.from(el, { opacity: 0, y: 36, duration: 1, ease: EASE.soft, scrollTrigger: st(el) }));
+        q('[data-anim="stagger"]').forEach(el => g.from(el.children, { opacity: 0, y: 40, duration: 0.9, ease: EASE.soft, stagger: 0.08, scrollTrigger: st(el) }));
+        q('[data-anim="prose"]').forEach(el => {
+          const kids = [...(el.firstElementChild ? el.firstElementChild.children : [])];
+          kids.forEach(k => g.from(k, { opacity: 0, y: 24, duration: 0.8, ease: EASE.soft, scrollTrigger: { trigger: k, start: 'top 92%', once: true } }));
+        });
+        q('[data-anim="mask"]').forEach(el => {
+          const tl = g.timeline({ scrollTrigger: st(el, { start: 'top 85%' }) });
+          tl.fromTo(el, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.4, ease: EASE.inOut });
+          const img = el.querySelector('img'); if (img) tl.from(img, { scale: 1.3, duration: 1.8, ease: EASE.out }, 0);
+        });
+        q('[data-parallax]').forEach(img => {
+          const v = +img.getAttribute('data-parallax') || 6;
+          g.fromTo(img, { yPercent: -v }, { yPercent: v, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
+        });
+        const reel = root.querySelector('[data-showreel]');
+        if (reel) g.fromTo(reel, { scale: small ? 0.96 : 0.9, opacity: 0.4 }, { scale: 1, opacity: 1, ease: 'none', scrollTrigger: { trigger: reel, start: 'top bottom', end: 'top 45%', scrub: 0.6 } });
+        // Cards
+        q('[data-cards]').forEach(list => {
+          const items = [...list.children];
+          if (!items.length) return;
+          g.set(items, { opacity: 0, y: 60 });
+          ST.batch(items, { start: 'top 94%', once: true, onEnter: b => g.to(b, { opacity: 1, y: 0, duration: 0.9, ease: EASE.soft, stagger: 0.08, overwrite: true }) });
+        });
+        // Why icons
+        q('[data-why-icon]').forEach(el => g.from(el, { scale: 0.4, rotate: -25, opacity: 0, duration: 1, ease: 'back.out(2)', scrollTrigger: st(el) }));
+        // Stats
+        const stats = root.querySelector('[data-stats]');
+        if (stats) {
+          this.setState({ statsP: 0 });
+          const o = { p: 0 };
+          const tl = g.timeline({ scrollTrigger: st(stats, { start: 'top 80%' }) });
+          tl.from(q('[data-stat-rule]'), { scaleX: 0, duration: 1.1, ease: EASE.inOut, stagger: 0.12 })
+            .to(o, { p: 1, duration: 2.2, ease: 'power3.out', onUpdate: () => this.setState({ statsP: o.p }) }, 0.1);
+        }
+        // Footer CTA
+        const rule = root.querySelector('[data-footer-rule]');
+        if (rule) g.from(rule, { scaleX: 0, transformOrigin: 'left center', ease: 'none', scrollTrigger: { trigger: rule, start: 'top 98%', end: 'top 60%', scrub: 0.5 } });
+        // Pointer micro-interactions
+        if (fine) {
+          q('[data-magnetic]').forEach(el => {
+            const xTo = g.quickTo(el, 'x', { duration: 0.5, ease: 'power3.out' }), yTo = g.quickTo(el, 'y', { duration: 0.5, ease: 'power3.out' });
+            on(el, 'pointermove', e => { const r = el.getBoundingClientRect(); xTo((e.clientX - r.left - r.width / 2) * 0.25); yTo((e.clientY - r.top - r.height / 2) * 0.35); });
+            on(el, 'pointerleave', () => { xTo(0); yTo(0); });
+            on(el, 'pointerdown', () => g.to(el, { scale: 0.96, duration: 0.15 }));
+            on(el, 'pointerup', () => g.to(el, { scale: 1, duration: 0.4, ease: 'back.out(3)' }));
+          });
+          this.bindCardHovers(on);
+          q('[data-tilt]').forEach(el => {
+            const rx = g.quickTo(el, 'rotationX', { duration: 0.6 }), ry = g.quickTo(el, 'rotationY', { duration: 0.6 });
+            g.set(el, { transformPerspective: 900 });
+            on(el, 'pointermove', e => { const r = el.getBoundingClientRect(); ry(((e.clientX - r.left) / r.width - 0.5) * 6); rx(-((e.clientY - r.top) / r.height - 0.5) * 6); });
+            on(el, 'pointerleave', () => { rx(0); ry(0); });
+          });
+        }
+      });
+    }, root);
+    ST && ST.refresh();
+  }
+  bindCardHovers(on) {
+    const g = window.gsap, root = this.rootRef.current;
+    root.querySelectorAll('[data-card]:not([data-hb])').forEach(card => {
+      card.setAttribute('data-hb', '');
+      const img = card.querySelector('[data-card-img]'), play = card.querySelector('[data-card-play]');
+      on(card, 'pointerenter', () => { img && g.to(img, { scale: 1.07, duration: 0.9, ease: EASE.out }); play && g.to(play, { scale: 1.15, rotate: 90, duration: 0.6, ease: 'back.out(2)' }); });
+      on(card, 'pointerleave', () => { img && g.to(img, { scale: 1, duration: 0.9, ease: EASE.out }); play && g.to(play, { scale: 1, rotate: 0, duration: 0.5, ease: EASE.soft }); });
+      this.cleanups.push(() => card.removeAttribute('data-hb'));
+    });
+  }
+  canAnimate() { return window.gsap && !this.reduce; }
+  animateCards(from) {
+    if (!this.canAnimate()) return;
+    requestAnimationFrame(() => {
+      const g = window.gsap, root = this.rootRef.current; if (!root) return;
+      root.querySelectorAll('[data-cards]').forEach(list => {
+        const items = [...list.children].slice(from || 0);
+        g.fromTo(items, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: EASE.soft, stagger: 0.05, overwrite: true });
+      });
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) this.bindCardHovers((el, ev, fn) => { el.addEventListener(ev, fn); this.cleanups.push(() => el.removeEventListener(ev, fn)); });
+      window.ScrollTrigger && window.ScrollTrigger.refresh();
+    });
+  }
+  animateQuote() {
+    if (!this.canAnimate()) return;
+    const slide = this.rootRef.current && this.rootRef.current.querySelector(`[data-slide="${this.state.t}"]`);
+    if (slide) window.gsap.fromTo(slide.querySelectorAll('[data-quote]'), { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.9, ease: EASE.soft, stagger: 0.12, delay: 0.25, overwrite: true });
+    const fill = this.rootRef.current && this.rootRef.current.querySelector(`[data-dot-fill="${this.state.t}"]`);
+    if (fill) window.gsap.fromTo(fill, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: EASE.inOut });
+  }
+  animateAccordion() {
+    if (!this.canAnimate()) return;
+    requestAnimationFrame(() => {
+      const root = this.rootRef.current; if (!root) return;
+      root.querySelectorAll('[data-acc-panel]').forEach(p => { if (p.style.visibility === 'visible') window.gsap.fromTo(p.querySelectorAll('[data-acc-item]'), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: EASE.soft, stagger: 0.07, delay: 0.1, overwrite: true }); });
+      setTimeout(() => window.ScrollTrigger && window.ScrollTrigger.refresh(), 650);
+    });
+  }
+  animateMenuIn() {
+    const m = this.menuRef.current; if (!m) return;
+    const first = m.querySelector('button'); first && first.focus();
+    if (!this.canAnimate()) return;
+    const g = window.gsap;
+    g.fromTo(m, { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.7, ease: EASE.inOut });
+    g.fromTo(m.querySelectorAll('[data-menu-item] > a'), { yPercent: 110 }, { yPercent: 0, duration: 0.9, ease: EASE.out, stagger: 0.05, delay: 0.25 });
+  }
+  closeMenu = () => {
+    const m = this.menuRef.current;
+    const done = () => { document.body.style.overflow = ''; this.setState({ menu: false }); };
+    if (!m || !this.canAnimate()) return done();
+    window.gsap.to(m, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.55, ease: EASE.inOut, onComplete: done });
+  };
+  animateLb() {
+    const el = this.lbRef.current; if (!el) return;
+    this.lbReturn = document.activeElement;
+    this.lbCloseRef.current && this.lbCloseRef.current.focus();
+    if (!this.canAnimate()) return;
+    window.gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.35 });
+    window.gsap.fromTo(el.querySelector('[data-lb-panel]'), { y: 40, scale: 0.96, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.7, ease: EASE.out });
+  }
+  closeLb = () => {
+    const el = this.lbRef.current;
+    const done = () => { document.body.style.overflow = ''; this.setState({ lb: null }); this.lbReturn && this.lbReturn.focus && this.lbReturn.focus(); };
+    if (!el || !this.canAnimate()) return done();
+    window.gsap.to(el, { opacity: 0, duration: 0.3, onComplete: done });
+  };
+  openLb = v => () => { document.body.style.overflow = 'hidden'; this.setState({ lb: v }); };
+  shake(keys) {
+    if (!this.canAnimate()) return;
+    const f = this.formRef.current; if (!f) return;
+    keys.forEach(k => { const el = f.querySelector(`[data-field="${k}"]`); el && window.gsap.fromTo(el, { x: 0 }, { keyframes: { x: [-10, 9, -6, 4, 0] }, duration: 0.45, ease: 'power2.out' }); });
+  }
+  submitted() {
+    if (!this.canAnimate()) return;
+    const f = this.formRef.current; if (!f) return;
+    const g = window.gsap;
+    g.fromTo(f.querySelector('[data-status]'), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, ease: EASE.soft });
+    g.fromTo(f.querySelector('[data-submit]'), { scale: 0.97 }, { scale: 1, duration: 0.6, ease: 'back.out(3)' });
+  }
+
+  // ---------- form ----------
+  field = k => e => { const val = e.target.value; this.setState(s => ({ f: { ...s.f, [k]: val }, errs: { ...s.errs, [k]: '' }, status: '' })); };
+  submit = async e => {
+    e.preventDefault();
+    const f = this.state.f, errs = {};
+    if (!f.name.trim()) errs.name = 'Please enter your name.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim())) errs.email = 'Please enter a valid email address.';
+    if (!f.type) errs.type = 'Please choose a project type.';
+    if (!f.message.trim()) errs.message = 'Please add a short message.';
+    const keys = Object.keys(errs);
+    if (keys.length) {
+      this.setState({ errs, status: '' }, () => this.shake(keys));
+      const el = document.getElementById({ name: 'cf-name', email: 'cf-email', type: 'cf-type', message: 'cf-msg' }[keys[0]]); el && el.focus();
+      return;
+    }
+    const endpoint = (this.data.site.contact.formEndpoint || '').trim();
+    if (!endpoint) { this.setState({ errs: {}, statusOk: true, status: `Thanks, ${f.name.trim()}. Your message is ready, but the form destination isn't connected yet. Please email or WhatsApp directly for now.` }, () => this.submitted()); return; }
+    this.setState({ sending: true, status: 'Sending…', statusOk: true });
+    try {
+      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ name: f.name.trim(), email: f.email.trim(), projectType: f.type, message: f.message.trim() }) });
+      if (!res.ok) throw new Error(res.status);
+      this.setState({ sending: false, statusOk: true, status: `Thanks, ${f.name.trim()}. Your message has been sent.`, f: { name: '', email: '', type: '', message: '' } }, () => this.submitted());
+    } catch (err) { this.setState({ sending: false, statusOk: false, status: 'Something went wrong sending your message. Please email or WhatsApp instead.' }, () => this.submitted()); }
+  };
+
+  // ---------- render ----------
+  vidObj(item, i, extra) {
+    const p = this.C.parseVideo(item.url); if (!p) return null;
+    const label = this.C.PLATFORM_LABEL[p.platform];
+    return { ...p, title: item.title || label, platformLabel: label, thumb: p.thumb, noThumb: !p.thumb, aria: `Play video: ${item.title || label}`, open: this.openLb({ ...p, title: item.title || label }), onErr: e => { e.currentTarget.style.opacity = '0'; }, ...(extra || {}) };
+  }
+  renderVals() {
+    window.__heroRerender = () => this.forceUpdate();
+    const s = this.state;
+    const blank = { isHome: false, isPage: false, isBlog: false, isPost: false, is404: false, sections: [], navItems: [], social: [], quickLinks: [], copyParts: [], filters: [], visibleVideos: [], posts: [], blogCats: [], projectTypes: [], tDots: [], hire: {}, contact: {}, reel: {}, page: {}, post: { tags: [] }, f: s.f, grainEl: null, proseStyle: null, curtainEl: null, contact: { email: '', waDisplay: '' }, errs: {}, inv: {}, bc: {}, heroVis: 1, headerH: '96px' };
+    if (!s.ready || !window.AyeshaCMS) return blank;
+    const C = this.C, pv = s.preview;
+    const site = C.read('site', pv) || C.defaults.site(), home = C.read('home', pv) || C.defaults.home();
+    const videos = (C.read('videos', pv) || { items: [] }).items;
+    this.data = { site, home };
+    const route = this.route();
+    const isHome = route.kind === 'home';
+    const mobile = s.w < 1100, tiny = s.w < 480;
+    const H = site.header, hh = Math.max(56, Math.min(200, +H.height || 96));
+    const lw = Math.max(60, Math.min(320, +H.logoWidth || 150)), flw = Math.max(60, Math.min(400, +site.footer.logoWidth || 150));
+    const defLogo = !H.logo || H.logo === 'assets/ayesha-logo.jpg';
+    const logoSrc = defLogo ? 'assets/ayesha-logo.jpg' : C.mediaSrc(H.logo);
+    const crop = w => defLogo ? { box: Math.round(w * 0.507) + 'px', top: -Math.round(w * 0.093) + 'px', img: w + 'px' } : { box: 'auto', top: '0', img: 'auto' };
+    const lc = crop(lw), fc = crop(flw);
+    const link = t => this.link(t);
+    const errs = s.errs;
+    const bcol = k => (errs[k] ? '#ff6a55' : '#3c3c3c');
+    const acc = (open, toggle) => ({ exp: open ? 'true' : 'false', rows: open ? '1fr' : '0fr', vis: open ? 'visible' : 'hidden', rot: open ? 'rotate(45deg)' : 'none', bg: open ? '#c8200f' : 'transparent', bc: open ? '#c8200f' : '#3c3c3c', toggle });
+    const prose = html => React.createElement('div', { 'data-site-prose': '', dangerouslySetInnerHTML: { __html: C.sanitize(html || '') } });
+    // video list
+    const all = videos.map((v, i) => this.vidObj(v, i)).filter(Boolean);
+    const plats = ['youtube', 'reels', 'tiktok', 'drive'].filter(p => all.some(v => v.platform === p));
+    const list = s.filter === 'all' ? all : all.filter(v => v.platform === s.filter);
+    // sections
+    let n = 0, alt = 0;
+    const visible = home.sections.filter(x => !x.hidden);
+    const sections = visible.map(sec => {
+      const d = sec.data, base = { id: sec.id, d, anchor: d.anchor || (sec.type === 'hero' ? 'hero' : sec.id), ['is' + { hero: 'Hero', about: 'About', work: 'Work', services: 'Services', why: 'Why', testimonials: 'Testimonials', stats: 'Stats', faq: 'Faq', contact: 'Contact', richtext: 'Rich' }[sec.type]]: true };
+      if (!['hero', 'services', 'stats'].includes(sec.type)) { n++; alt++; }
+      base.num = pad(n); base.bgc = alt % 2 === 0 ? '#0d0d0d' : '#050505';
+      if (sec.type === 'services') base.bgc = visible[visible.indexOf(sec) - 1] && visible[visible.indexOf(sec) - 1].type === 'work' ? (alt % 2 === 0 ? '#0d0d0d' : '#050505') : '#050505';
+      if (sec.type === 'stats') base.bgc = alt % 2 === 0 ? '#0d0d0d' : '#050505';
+      if (sec.type === 'hero') { const bg = C.mediaSrc(d.bgImage); const vEl = heroVideo((d.bgVideo || '').trim(), bg); Object.assign(base, { bg: vEl ? '' : bg, vEl, hasVideo: !!vEl, noBg: !bg && !vEl, overlay: Math.max(0, Math.min(95, +d.overlay || 0)) / 100, primary: { label: d.primaryLabel, ...link(d.primaryTarget) }, secondary: { label: d.secondaryLabel, ...link(d.secondaryTarget) }, noSocial: !d.showSocial }); }
+      if (sec.type === 'about' || sec.type === 'richtext') { const img = C.mediaSrc(d.image); Object.assign(base, { img, noImg: !img, bodyEl: prose(sec.type === 'about' ? d.body : d.html), btn: { label: d.buttonLabel, ...link(d.buttonTarget) } }); }
+      if (sec.type === 'services') base.items = (d.items || []).map((it, i) => {
+        const samples = String(it.samples || '').split('\n').map(u => u.trim()).filter(Boolean).map((u, j) => this.vidObj({ url: u, title: (videos.find(v => C.parseVideo(v.url) && C.parseVideo(u) && C.parseVideo(v.url).id === C.parseVideo(u).id) || {}).title }, j)).filter(Boolean);
+        return { ...it, num: pad(i + 1), btnId: `svc-${sec.id}-${i}`, panelId: `svcp-${sec.id}-${i}`, included: String(it.included || '').split('\n').filter(x => x.trim()).map(t => ({ t })), samples, hasSamples: samples.length > 0, noSamples: !samples.length, ...acc(s.svc === i, () => this.setState({ svc: s.svc === i ? -1 : i })) };
+      });
+      if (sec.type === 'why') base.items = (d.items || []).map((it, i) => ({ ...it, num: pad(i + 1), iconEl: icon(it.icon) }));
+      if (sec.type === 'testimonials') { const items = d.items || []; const per = s.w < 900 ? 1 : 2; const pages = Math.max(1, Math.ceil(items.length / per)); this.tCount = pages; const tt = Math.min(s.t, pages - 1); base.items = items.map((it, i) => ({ ...it, idx: String(i), ariaLabel: `${i + 1} of ${items.length}`, hidden: Math.floor(i / per) !== tt ? 'true' : 'false', basis: (100 / per) + '%', padR: per > 1 ? 'clamp(24px,3vw,48px)' : '0px' })); }
+      if (sec.type === 'stats') base.items = (d.items || []).map(it => ({ ...it, display: String(Math.round((+it.value || 0) * s.statsP)), aria: `${it.value}${it.suffix || ''}` }));
+      if (sec.type === 'faq') base.items = (d.items || []).map((q, i) => ({ ...q, btnId: `faq-${sec.id}-${i}`, panelId: `faqp-${sec.id}-${i}`, color: s.faq === i ? '#ffffff' : '#e6e6e6', ...acc(s.faq === i, () => this.setState({ faq: s.faq === i ? -1 : i })) }));
+      if (sec.type === 'contact') { this.contactSec = d; }
+      return base;
+    });
+    const workSec = visible.find(x => x.type === 'work');
+    const reelP = workSec && workSec.data.showreelUrl ? C.parseVideo(workSec.data.showreelUrl) : null;
+    const reelLinks = [].concat(workSec && workSec.data.showreelUrl ? [workSec.data.showreelUrl] : [], String((workSec && workSec.data.showreels) || '').split(/\n+/)).map(x => x.trim()).filter(Boolean).filter((x, i, a) => a.indexOf(x) === i);
+    let reelItems = reelLinks.map(u => reelSrc(u, C)).filter(Boolean);
+    if (!reelItems.length) { const vert = all.filter(v => v.vertical); reelItems = (vert.length >= 3 ? vert : all).slice(0, 10).map(v => reelSrc(v.href, C)).filter(Boolean); }
+    const reelStrip = reelItems.length ? React.createElement(ReelStrip, { items: reelItems, onOpen: this.openLb }) : null;
+    const contactSec = visible.find(x => x.type === 'contact');
+    const ct = site.contact;
+    const waNum = String(ct.whatsappIntl || '').replace(/\D/g, '');
+    // pages / posts
+    let page = {}, post = { tags: [] };
+    if (route.kind === 'page') { const d = C.read(route.id, pv); page = { title: d.title, img: C.mediaSrc(d.featuredImage), bodyEl: prose(d.html) }; }
+    const cats = C.state.taxonomy.categories;
+    const catName = ids => (ids || []).map(id => (cats.find(c => c.id === id) || {}).name).filter(Boolean);
+    const fmtDate = d => { try { return new Date(d + 'T00:00:00').toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }); } catch (e) { return d; } };
+    if (route.kind === 'post') { const d = C.read(route.id, pv); post = { title: d.title, excerpt: d.excerpt, img: C.mediaSrc(d.featuredImage), bodyEl: prose(d.html), date: d.date, dateLabel: fmtDate(d.date), cats: catName(d.categories).join(' · '), tags: (d.tags || []).map(t => ({ t })) }; }
+    const allPosts = route.kind === 'blog' ? C.posts(pv) : [];
+    const usedCats = cats.filter(c => allPosts.some(p => (p.categories || []).includes(c.id)));
+    const posts = allPosts.filter(p => s.blogCat === 'all' || (p.categories || []).includes(s.blogCat)).slice().sort((a, b) => String(b.date || '').localeCompare(String(a.date || ''))).slice(0, 6).map(p => ({ title: p.title, excerpt: p.excerpt, img: C.mediaSrc(p.featuredImage), noImg: !C.mediaSrc(p.featuredImage), cat: catName(p.categories)[0] || 'Blog', dateLabel: fmtDate(p.date), ...link('/blog/' + p.slug) }));
+    const navActive = t => (t.startsWith('#') ? isHome && s.active === t.slice(1) : (t === '/blog' && (route.kind === 'blog' || route.kind === 'post')) || ('/' + (C.read(route.id, pv) || {}).slug === t && route.kind === 'page'));
+    const total = (this.tCount || 0);
+    return {
+      rootRef: this.rootRef, headerRef: this.headerRef, menuRef: this.menuRef, lbRef: this.lbRef, lbCloseRef: this.lbCloseRef, formRef: this.formRef,
+      grainEl: React.createElement('div', { 'aria-hidden': true, style: { position: 'fixed', top: '-50%', left: '-50%', width: '200%', height: '200%', pointerEvents: 'none', zIndex: 300, opacity: 0.06, backgroundImage: GRAIN, animation: 'grain 0.9s steps(6) infinite' } }),
+      proseStyle: React.createElement('style', null, C.proseCSS('data-site-prose')),
+      curtainEl: React.createElement('div', { ref: this.curtainRef, 'aria-hidden': true, style: { position: 'fixed', inset: 0, zIndex: 400, pointerEvents: 'none', visibility: 'hidden', overflow: 'hidden' } },
+        React.createElement('div', { style: { position: 'absolute', inset: 0, background: '#c8200f', transform: 'translateY(100%)' } }),
+        React.createElement('div', { style: { position: 'absolute', inset: 0, background: '#0d0d0d', transform: 'translateY(100%)' } })),
+      skipToMain: e => { e.preventDefault(); const m = document.getElementById('main'); m && m.focus(); },
+      isPreview: pv, isHome, isPage: route.kind === 'page', isBlog: route.kind === 'blog', isPost: route.kind === 'post', is404: route.kind === '404',
+      headerPos: H.sticky === false ? 'absolute' : 'fixed', headerH: hh + 'px',
+      logoSrc, logoW: lw + 'px', logoBoxH: lc.box, logoTop: lc.top, logoImgH: lc.img, logoPos: defLogo ? 'absolute' : 'static',
+      fLogoW: flw + 'px', fLogoBoxH: fc.box, fLogoTop: fc.top, fLogoImgH: fc.img,
+      logoFilter: defLogo ? 'invert(1) hue-rotate(180deg) saturate(1.3)' : 'none', logoBlend: defLogo ? 'screen' : 'normal',
+      navLinksDisplay: mobile ? 'none' : 'flex', burgerDisplay: mobile ? 'inline-flex' : 'none', hireDisplay: tiny ? 'none' : 'inline-flex',
+      navItems: (site.nav || []).map((it, i) => { const a = navActive(it.target || ''); return { label: it.label, num: pad(i + 1), ...link(it.target), color: a ? '#ffffff' : '#bbbbbb', bar: a ? 'scaleX(1)' : 'scaleX(0)', current: a ? 'true' : undefined }; }),
+      hire: { show: H.showHire !== false && !!H.hireLabel, label: H.hireLabel, ...link(H.hireTarget) },
+      menuOpen: s.menu, menuExpanded: s.menu ? 'true' : 'false',
+      openMenu: () => { document.body.style.overflow = 'hidden'; this.setState({ menu: true }); }, closeMenu: this.closeMenu,
+      goHome: link('/').go, goBlog: link('/blog').go, toTop: e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: this.reduce ? 'auto' : 'smooth' }); },
+      heroVis: s.heroVis,
+      sections,
+      social: (site.social || []).map(x => ({ label: x.label, href: x.url || '#', target: x.url ? '_blank' : undefined, title: x.label })),
+      socialMissing: (site.social || []).some(x => !x.url),
+      reelHas: !!reelStrip, reelStrip, reel: { ok: false, missing: false, thumb: reelP && reelP.thumb, open: reelP ? this.openLb({ ...reelP, title: 'Showreel' }) : null },
+      showFilters: !!(workSec && workSec.data.showFilters) && plats.length > 1,
+      filters: [['all', 'All', all.length]].concat(plats.map(p => [p, C.PLATFORM_LABEL[p], all.filter(v => v.platform === p).length])).map(([key, label, c]) => ({ label, count: pad(c), selected: s.filter === key ? 'true' : 'false', color: s.filter === key ? '#ffffff' : '#bbbbbb', bar: s.filter === key ? 'scaleX(1)' : 'scaleX(0)', pick: () => this.setState({ filter: key, shown: this.perPage() }) })),
+      visibleVideos: list.slice(0, s.shown), noVideos: !list.length, hasMore: s.shown < list.length,
+      loadMore: () => this.setState({ shown: s.shown + this.perPage() }),
+      tX: `translateX(-${Math.min(s.t, Math.max(0, total - 1)) * 100}%)`, tNum: pad(Math.min(s.t, Math.max(0, total - 1)) + 1), tTotal: pad(total),
+      tDots: Array.from({ length: total }, (_, i) => ({ i: String(i), go: () => this.goT(i), label: `Show testimonial ${i + 1}`, current: s.t === i ? 'true' : undefined, fill: s.t === i ? 'scaleX(1)' : 'scaleX(0)' })),
+      tPrev: () => this.goT(s.t - 1), tNext: () => this.goT(s.t + 1),
+      pause: () => this.setState({ paused: true }), resume: () => this.setState({ paused: false }),
+      touchStart: e => { this.tx = e.touches[0].clientX; }, touchEnd: e => { const dx = e.changedTouches[0].clientX - (this.tx ?? 0); if (Math.abs(dx) > 50) this.goT(s.t + (dx < 0 ? 1 : -1)); },
+      contact: { email: ct.email, mailto: 'mailto:' + ct.email, waDisplay: ct.whatsappDisplay, wa: 'https://wa.me/' + waNum, waAria: `Chat on WhatsApp: ${ct.whatsappIntl}` },
+      projectTypes: String((contactSec && contactSec.data.projectTypes) || '').split('\n').map(v => v.trim()).filter(Boolean).map(v => ({ v })),
+      submitLabel: (contactSec && contactSec.data.submitLabel) || 'Send Message',
+      f: s.f, errs: { name: errs.name || '', email: errs.email || '', type: errs.type || '', message: errs.message || '' },
+      inv: { name: errs.name ? 'true' : 'false', email: errs.email ? 'true' : 'false', type: errs.type ? 'true' : 'false', message: errs.message ? 'true' : 'false' },
+      bc: { name: bcol('name'), email: bcol('email'), type: bcol('type'), message: bcol('message') },
+      typeColor: s.f.type ? '#ffffff' : '#9a9a9a',
+      onName: this.field('name'), onEmail: this.field('email'), onType: this.field('type'), onMessage: this.field('message'),
+      submit: this.submit, status: s.status, statusColor: s.statusOk ? '#e6e6e6' : '#ff6a55', sending: s.sending, sendOp: s.sending ? 0.6 : 1,
+      noEndpoint: !(ct.formEndpoint || '').trim(),
+      page, post, posts, blogCols: `repeat(${s.w >= 1000 ? 3 : s.w >= 640 ? 2 : 1},minmax(0,1fr))`, noPosts: route.kind === 'blog' && !posts.length,
+      blogCats: usedCats.length ? [{ id: 'all', name: 'All' }].concat(usedCats).map(c => ({ name: c.name, selected: s.blogCat === c.id ? 'true' : 'false', color: s.blogCat === c.id ? '#fff' : '#bbbbbb', bar: s.blogCat === c.id ? 'scaleX(1)' : 'scaleX(0)', pick: () => this.setState({ blogCat: c.id }) })) : [],
+      quickLinks: (site.footer.quickLinks || []).map(x => ({ label: x.label, ...link(x.target) })),
+      copyParts: String(site.footer.copyright || '').replace(/\s*\[Placeholder:[^\]]*\]\s*/g, ' ').trim().split(/(\[Placeholder:[^\]]*\])/).filter(Boolean).map(t => { const ph = /^\[Placeholder/.test(t); return { t, color: ph ? '#f4b400' : '#9a9a9a', border: ph ? '1px dashed #f4b400' : '0' }; }),
+      lbOpen: !!s.lb, lbSrc: s.lb ? s.lb.embed : '', lbHref: s.lb ? s.lb.href : '#', lbLabel: s.lb ? s.lb.title : '',
+      lbAspect: s.lb && s.lb.vertical ? '9/16' : '16/9', lbW: s.lb && s.lb.vertical ? 'min(100%, calc(82vh * 9 / 16))' : '100%',
+      closeLb: this.closeLb, stop: e => e.stopPropagation()
+    };
+  }
+}
+</script>
+</body>
+</html>

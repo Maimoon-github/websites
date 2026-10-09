@@ -1,0 +1,13 @@
+/* Borders, blur and glow. ShilFit has NO drop shadows —
+   depth comes from 1px gold hairlines over a 5.6px backdrop blur. */
+:root{
+--blur-glass:blur(5.6px); /* @kind other */
+--hairline-card:inset 0 0 0 1px var(--shil-gold-50);
+--hairline-pill:inset 0 0 0 1px var(--shil-gold-30);
+--hairline-badge:inset 0 0 0 1px var(--shil-gold-32);
+--glass-card:var(--shil-scrim-05); /* @kind color */
+--glass-card-quiet:var(--shil-scrim-02); /* @kind color */
+--glass-pill:var(--shil-tan-12); /* @kind color */
+--glow-gold:radial-gradient(closest-side,rgba(255,197,103,0.55),rgba(255,197,103,0)); /* @kind other */
+--hero-scrim:linear-gradient(180deg,rgba(13,12,10,0) 0%,rgba(13,12,10,0.85) 62%,rgb(13,12,10) 100%); /* @kind other */
+}
