@@ -65,29 +65,38 @@ export const Navbar: React.FC = () => {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#050505]/90 border-b border-[#262626] backdrop-blur-md shadow-2xl py-3'
-            : 'bg-transparent border-b border-transparent py-4.5 sm:py-5'
+            ? 'bg-[#050505]/95 border-b border-[#262626] backdrop-blur-md shadow-2xl py-2.5'
+            : 'bg-gradient-to-b from-[#050505]/90 via-[#050505]/40 to-transparent border-b border-transparent py-4'
         }`}
       >
-        <div className="max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 flex items-center justify-between gap-6">
-          {/* Zone 1: Single element brand wordmark */}
-          <a
-            href="#hero"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="group flex items-center gap-2.5 text-white text-base tracking-wider font-extrabold uppercase font-display focus:outline-none"
-            aria-label="Ayesha Amin, home"
-          >
-            <span className="w-2 h-2 bg-[#e22718] transition-transform duration-300 group-hover:scale-125" />
-            <span className="text-lg sm:text-xl text-white font-extrabold tracking-tight group-hover:text-[#e22718] transition-colors">
-              {data.site.logoText}
-            </span>
-          </a>
+        <div className="max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 grid grid-cols-2 lg:grid-cols-12 items-center gap-4">
+          {/* Zone 1: Brand wordmark & emblem logo on Left/Center */}
+          <div className="lg:col-span-3 flex items-center">
+            <a
+              href="#hero"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="group flex items-center gap-3 text-white focus:outline-none"
+              aria-label="Ayesha Amin, home"
+            >
+              <div className="w-[120px] sm:w-[136px] h-[38px] sm:h-[42px] relative overflow-hidden bg-black flex items-center justify-center border border-[#262626] group-hover:border-[#e22718] transition-colors">
+                <img
+                  src="/assets/ayesha-logo.jpg"
+                  alt="Ayesha Amin"
+                  className="w-[136px] h-[136px] object-cover scale-[1.08] transition-transform duration-500 group-hover:scale-115"
+                  style={{
+                    filter: 'invert(1) hue-rotate(180deg) saturate(1.3) contrast(1.1)',
+                    mixBlendMode: 'screen',
+                  }}
+                />
+              </div>
+            </a>
+          </div>
 
-          {/* Zone 2: Navigation links */}
-          <nav aria-label="Primary" className="hidden xl:flex items-center gap-7 text-[14px] font-normal">
+          {/* Zone 2: Navigation links in center */}
+          <nav aria-label="Primary" className="hidden lg:flex lg:col-span-6 items-center justify-center gap-5 xl:gap-7 text-[13px] font-medium tracking-[0.5px]">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               return (
@@ -98,8 +107,8 @@ export const Navbar: React.FC = () => {
                     e.preventDefault();
                     handleNavClick(link.href);
                   }}
-                  className={`relative py-1 text-[14px] font-normal tracking-[0.5px] transition-colors duration-200 group ${
-                    isActive ? 'text-white' : 'text-[#bbbbbb] hover:text-white'
+                  className={`relative py-1 transition-colors duration-200 group ${
+                    isActive ? 'text-white font-bold' : 'text-[#bbbbbb] hover:text-white'
                   }`}
                 >
                   <span>{link.label}</span>
@@ -113,34 +122,34 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Zone 3: Primary Actions (Admin CMS toggle + Hire CTA + Mobile Hamburger) */}
-          <div className="flex items-center gap-3 sm:gap-4">
-            {/* Admin CMS Mode Toggle */}
+          {/* Zone 3: Actions on Right (Hire CTA + Admin Toggle + Mobile Hamburger) */}
+          <div className="lg:col-span-3 flex items-center justify-end gap-2.5 sm:gap-3.5">
+            {/* Admin CMS Toggle */}
             <button
               type="button"
               onClick={() => setIsAdminOpen(!isAdminOpen)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider border rounded-none transition-colors ${
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider border transition-colors cursor-pointer ${
                 isAdminOpen
                   ? 'bg-[#1a1a1a] text-[#f4b400] border-[#f4b400]'
-                  : 'bg-transparent text-[#9a9a9a] border-[#3c3c3c] hover:border-white hover:text-white'
+                  : 'bg-transparent text-[#7e7e7e] border-[#3c3c3c] hover:border-white hover:text-white'
               }`}
-              title="Toggle CMS Dashboard"
+              title="Admin CMS Dashboard"
             >
               <Settings className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">{isAdminOpen ? 'Close CMS' : 'Admin CMS'}</span>
+              <span className="hidden sm:inline">{isAdminOpen ? 'Close CMS' : 'Admin'}</span>
             </button>
 
-            {/* Hire Me Crimson CTA Button */}
+            {/* Hire Me Crimson Button */}
             <a
               href="#contact"
               onClick={(e) => {
                 e.preventDefault();
                 handleNavClick('#contact');
               }}
-              className="inline-flex items-center justify-center gap-2 h-[42px] px-[20px] bg-[#c8200f] hover:bg-[#e22718] active:bg-[#a81a0c] text-white text-[13px] font-bold tracking-[1.5px] uppercase transition-all duration-300 ease-spring active:scale-[0.97] hover:-translate-y-[1px] shadow-lg shadow-[#c8200f]/20 hover:shadow-[#e22718]/40 will-change-transform"
+              className="inline-flex items-center justify-center gap-1.5 h-[40px] px-5 bg-[#c8200f] hover:bg-[#e22718] active:bg-[#a81a0c] text-white text-[12px] sm:text-[13px] font-bold tracking-[1.5px] uppercase transition-all duration-300 ease-spring active:scale-[0.97] hover:-translate-y-[1px] shadow-md shadow-[#c8200f]/20 hover:shadow-[#e22718]/40 will-change-transform"
             >
               <span>Hire Me</span>
-              <ArrowUpRight className="w-4 h-4 hidden sm:inline transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
 
             {/* Mobile Hamburger Button */}
@@ -149,7 +158,7 @@ export const Navbar: React.FC = () => {
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open mobile navigation menu"
               aria-expanded={mobileMenuOpen}
-              className="xl:hidden flex items-center justify-center w-10 h-10 border border-[#3c3c3c] text-white hover:border-white transition-colors bg-[#0a0a0a]"
+              className="lg:hidden flex items-center justify-center w-10 h-10 border border-[#3c3c3c] text-white hover:border-white transition-colors bg-[#0a0a0a] cursor-pointer"
             >
               <Menu className="w-5 h-5" />
             </button>

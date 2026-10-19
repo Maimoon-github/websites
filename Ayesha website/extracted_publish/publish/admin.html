@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Admin · Ayesha Amin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;700&amp;family=Saira+Condensed:wght@600;700;800&amp;display=swap">
+<script src="./cms/cms-core.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:#050505;color:#e6e6e6;font-family:'Archivo',system-ui,sans-serif;font-weight:400;-webkit-font-smoothing:antialiased}
+a{color:#ffffff;text-decoration:none}
+a:hover{color:#e22718}
+::selection{background:#e22718;color:#fff}
+:focus-visible{outline:2px solid #e22718;outline-offset:2px}
+button,input,select,textarea{font:inherit}
+input[type=range]{accent-color:#e22718}
+@keyframes adm-spin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+{{ proseStyle }}
+<datalist id="dl-targets"><sc-for list="{{ targets }}" as="t" hint-placeholder-count="0"><option value="{{ t.v }}">{{ t.l }}</option></sc-for></datalist>
+
+<sc-if value="{{ booting }}" hint-placeholder-val="{{ true }}">
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;color:#9a9a9a;font-size:14px;gap:12px"><span style="width:16px;height:16px;border:2px solid #3c3c3c;border-top-color:#e22718;border-radius:50%;display:inline-block;animation:adm-spin .8s linear infinite"></span>Loading dashboard…</div>
+</sc-if>
+
+<sc-if value="{{ showLogin }}" hint-placeholder-val="{{ false }}">
+  <div style="min-height:100vh;display:grid;place-items:center;padding:24px;background:#050505">
+    <div style="width:100%;max-width:420px;display:flex;flex-direction:column;gap:28px">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="height:4px;width:56px;background:#e22718"></span>
+        <h1 style="margin:12px 0 0;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:56px;line-height:.9;text-transform:uppercase;color:#fff">Dashboard</h1>
+        <p style="margin:0;color:#9a9a9a;font-size:14px">Ayesha Amin · content management</p>
+      </div>
+      <sc-if value="{{ loginMode }}">
+        <form onSubmit="{{ doLogin }}" style="display:flex;flex-direction:column;gap:16px">
+          <label for="adm-pw" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e6e6e6">Password</label>
+          <input id="adm-pw" type="password" autocomplete="current-password" value="{{ loginPw }}" onChange="{{ onLoginPw }}" autoFocus="{{ true }}" style="height:52px;padding:0 16px;background:#1a1a1a;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:16px;outline:none" style-focus="border-color:#ffffff">
+          <p role="alert" style="margin:0;min-height:20px;color:#ff6a55;font-size:14px">{{ authErr }}</p>
+          <button type="submit" style="height:52px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;background:#c8200f;border:0;color:#fff;font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer" style-hover="background:#e22718">Sign in <span aria-hidden="true">→</span></button>
+          <button type="button" onClick="{{ toReset }}" style="align-self:flex-start;background:none;border:0;padding:8px 0;color:#bbbbbb;font-size:13px;text-decoration:underline;cursor:pointer">Forgot password?</button>
+        </form>
+      </sc-if>
+      <sc-if value="{{ resetMode }}">
+        <form onSubmit="{{ doReset }}" style="display:flex;flex-direction:column;gap:14px">
+          <p style="margin:0;color:#bbbbbb;font-size:14px;line-height:1.5">Enter your recovery code and choose a new password.</p>
+          <label for="adm-rc" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">Recovery code</label>
+          <input id="adm-rc" type="text" autocomplete="off" value="{{ resetCode }}" onChange="{{ onResetCode }}" placeholder="AYESHA-XXXX-XXXX" style="height:48px;padding:0 14px;background:#1a1a1a;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:15px;outline:none;text-transform:uppercase" style-focus="border-color:#ffffff">
+          <label for="adm-np" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">New password</label>
+          <input id="adm-np" type="password" autocomplete="new-password" value="{{ resetPw }}" onChange="{{ onResetPw }}" style="height:48px;padding:0 14px;background:#1a1a1a;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:15px;outline:none" style-focus="border-color:#ffffff">
+          <label for="adm-np2" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">Repeat new password</label>
+          <input id="adm-np2" type="password" autocomplete="new-password" value="{{ resetPw2 }}" onChange="{{ onResetPw2 }}" style="height:48px;padding:0 14px;background:#1a1a1a;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:15px;outline:none" style-focus="border-color:#ffffff">
+          <p role="alert" style="margin:0;min-height:20px;color:{{ authMsgColor }};font-size:14px">{{ authErr }}</p>
+          <button type="submit" style="height:50px;padding:0 20px;background:#c8200f;border:0;color:#fff;font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-align:left" style-hover="background:#e22718">Reset password</button>
+          <button type="button" onClick="{{ toLogin }}" style="align-self:flex-start;background:none;border:0;padding:8px 0;color:#bbbbbb;font-size:13px;text-decoration:underline;cursor:pointer">Back to sign in</button>
+        </form>
+      </sc-if>
+      <p style="margin:0;padding-top:20px;border-top:1px solid #262626;font-size:12px;line-height:1.6;color:#7e7e7e">This dashboard stores content in this browser only. See Account › Setup for what's needed to go live.</p>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ showApp }}" hint-placeholder-val="{{ false }}">
+<div style="height:100vh;display:grid;grid-template-columns:{{ appCols }};grid-template-rows:{{ appRows }};background:#050505;overflow:hidden">
+  <aside aria-label="Dashboard navigation" style="grid-row:{{ asideRow }};background:#0a0a0a;border-right:1px solid #262626;border-bottom:1px solid #262626;display:flex;flex-direction:{{ asideDir }};min-height:0;min-width:0;overflow-x:{{ asideOx }};overflow-y:{{ asideOy }}">
+    <div style="display:{{ brandDisplay }};flex-direction:column;gap:4px;padding:20px 20px 16px;border-bottom:1px solid #262626">
+      <span style="height:3px;width:32px;background:#e22718"></span>
+      <span style="margin-top:10px;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:24px;line-height:1;text-transform:uppercase;color:#fff">Ayesha Amin</span>
+      <span style="font-size:12px;color:#7e7e7e">Dashboard</span>
+    </div>
+    <nav style="display:flex;flex-direction:{{ asideDir }};padding:{{ navPad }};gap:2px;flex:1">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="9">
+        <button type="button" onClick="{{ n.go }}" aria-current="{{ n.current }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:40px;padding:0 12px;background:{{ n.bg }};border:0;border-left:2px solid {{ n.bar }};color:{{ n.color }};font-size:14px;text-align:left;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s" style-hover="background:#1a1a1a;color:#ffffff">
+          <span>{{ n.label }}</span>
+          <sc-if value="{{ n.dot }}"><span title="Unpublished changes" style="width:7px;height:7px;background:#f4b400;flex:none"></span></sc-if>
+        </button>
+      </sc-for>
+    </nav>
+    <div style="display:{{ brandDisplay }};flex-direction:column;gap:6px;padding:16px 20px;border-top:1px solid #262626;font-size:13px">
+      <a href="index.html" target="_blank" rel="noopener" style="color:#bbbbbb;padding:4px 0">View live site ↗</a>
+      <button type="button" onClick="{{ logout }}" style="background:none;border:0;padding:4px 0;color:#bbbbbb;text-align:left;cursor:pointer;font-size:13px" style-hover="color:#ffffff">Sign out</button>
+    </div>
+  </aside>
+
+  <main style="grid-row:{{ mainRow }};min-width:0;min-height:0;display:flex;flex-direction:column;background:#050505">
+    <header style="flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:14px clamp(16px,2vw,28px);border-bottom:1px solid #262626;background:#0a0a0a">
+      <div style="display:flex;flex-direction:column;gap:4px;min-width:0;flex:1 1 220px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <sc-if value="{{ bar.back }}"><button type="button" onClick="{{ bar.back }}" aria-label="Back to list" style="height:30px;padding:0 10px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">← Back</button></sc-if>
+          <h1 style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:28px;line-height:1;text-transform:uppercase;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ bar.title }}</h1>
+          <sc-if value="{{ bar.status }}"><span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border:1px solid {{ bar.statusColor }};color:{{ bar.statusColor }};font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase">{{ bar.status }}</span></sc-if>
+        </div>
+        <span aria-live="polite" style="font-size:12px;color:{{ saveColor }}">{{ saveText }}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <sc-if value="{{ bar.entity }}">
+          <button type="button" onClick="{{ bar.openRevisions }}" style="height:38px;padding:0 14px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px;transition:border-color .2s" style-hover="border-color:#ffffff">Revisions <span style="color:#7e7e7e">{{ bar.revCount }}</span></button>
+          <button type="button" onClick="{{ bar.saveRev }}" style="height:38px;padding:0 14px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px" style-hover="border-color:#ffffff">Save revision</button>
+          <button type="button" onClick="{{ bar.previewTab }}" style="height:38px;padding:0 14px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px" style-hover="border-color:#ffffff">Preview ↗</button>
+          <sc-if value="{{ bar.canDiscard }}"><button type="button" onClick="{{ bar.discard }}" style="height:38px;padding:0 14px;background:transparent;border:1px solid #3c3c3c;color:#bbbbbb;cursor:pointer;font-size:13px" style-hover="border-color:#ffffff;color:#ffffff">Discard changes</button></sc-if>
+          <sc-if value="{{ bar.canUnpublish }}"><button type="button" onClick="{{ bar.unpublish }}" style="height:38px;padding:0 14px;background:transparent;border:1px solid #c8200f;color:#ff8a7a;cursor:pointer;font-size:13px" style-hover="background:#2a0d09">Unpublish</button></sc-if>
+          <button type="button" onClick="{{ bar.publish }}" disabled="{{ bar.publishDisabled }}" style="height:38px;padding:0 18px;background:#c8200f;border:0;color:#fff;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:{{ bar.publishOp }};transition:background .2s,transform .15s" style-hover="background:#e22718" style-active="transform:scale(.97)">{{ bar.publishLabel }}</button>
+        </sc-if>
+        <button type="button" onClick="{{ togglePreview }}" aria-pressed="{{ previewOn }}" style="height:38px;padding:0 12px;background:{{ previewBtnBg }};border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px">{{ previewBtnLabel }}</button>
+      </div>
+    </header>
+
+    <div ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow:auto;padding:clamp(16px,2vw,28px)">
+      <div style="max-width:1100px;display:flex;flex-direction:column;gap:20px">
+
+        <sc-if value="{{ v.overview }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:1px;background:#262626;border:1px solid #262626">
+            <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+              <button type="button" onClick="{{ st.go }}" style="display:flex;flex-direction:column;gap:8px;padding:20px;background:#0a0a0a;border:0;text-align:left;cursor:pointer;color:#fff" style-hover="background:#141414">
+                <span style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9a9a9a">{{ st.label }}</span>
+                <span style="font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:48px;line-height:1">{{ st.value }}</span>
+                <span style="font-size:12px;color:#7e7e7e">{{ st.sub }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <section style="border:1px solid #262626;background:#0a0a0a">
+            <h2 style="margin:0;padding:16px 20px;border-bottom:1px solid #262626;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Unpublished changes</h2>
+            <sc-for list="{{ pending }}" as="p" hint-placeholder-count="0">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #1a1a1a">
+                <span style="display:flex;flex-direction:column;gap:2px"><span style="color:#fff">{{ p.title }}</span><span style="font-size:12px;color:#7e7e7e">{{ p.kind }} · edited {{ p.when }}</span></span>
+                <span style="display:flex;gap:8px"><button type="button" onClick="{{ p.open }}" style="height:32px;padding:0 12px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">Review</button><button type="button" onClick="{{ p.publish }}" style="height:32px;padding:0 12px;background:#c8200f;border:0;color:#fff;cursor:pointer;font-size:12px;font-weight:700">Publish</button></span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noPending }}"><p style="margin:0;padding:16px 20px;color:#9a9a9a;font-size:14px">Everything is published.</p></sc-if>
+          </section>
+          <section style="border:1px solid #262626;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.6;color:#bbbbbb">
+            <h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">How publishing works</h2>
+            <p style="margin:0">Edits save automatically as drafts. Visitors keep seeing the published version until you press Publish. Use Preview to see drafts in the real site layout.</p>
+            <p style="margin:0;color:#f4b400">Content is stored in this browser only. Other visitors and devices won't see changes until the site is connected to a server. See Account › Setup.</p>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ v.list }}">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+            <input type="search" value="{{ list.q }}" onChange="{{ list.onQ }}" placeholder="Search by title" aria-label="Search" style="flex:1 1 220px;height:40px;padding:0 12px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;outline:none" style-focus="border-color:#ffffff">
+            <select aria-label="Filter by status" value="{{ list.status }}" onChange="{{ list.onStatus }}" style="height:40px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px">
+              <option value="all">All statuses</option><option value="published">Published</option><option value="changed">Unpublished changes</option><option value="draft">Draft</option><option value="unpublished">Unpublished</option>
+            </select>
+            <sc-if value="{{ list.isBlog }}">
+              <select aria-label="Filter by category" value="{{ list.cat }}" onChange="{{ list.onCat }}" style="height:40px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px">
+                <option value="all">All categories</option>
+                <sc-for list="{{ cats }}" as="c" hint-placeholder-count="2"><option value="{{ c.id }}">{{ c.name }}</option></sc-for>
+              </select>
+            </sc-if>
+            <button type="button" onClick="{{ list.create }}" style="height:40px;padding:0 16px;background:#c8200f;border:0;color:#fff;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase" style-hover="background:#e22718">{{ list.createLabel }}</button>
+          </div>
+          <div role="table" aria-label="{{ list.label }}" style="border:1px solid #262626;background:#0a0a0a">
+            <div role="row" style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.4fr) 150px 120px 150px;gap:12px;padding:10px 16px;border-bottom:1px solid #262626;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e">
+              <span role="columnheader">Title</span><span role="columnheader">URL</span><span role="columnheader">Status</span><span role="columnheader">Updated</span><span role="columnheader" style="text-align:right">Actions</span>
+            </div>
+            <sc-for list="{{ list.rows }}" as="r" hint-placeholder-count="2">
+              <div role="row" style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.4fr) 150px 120px 150px;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid #1a1a1a;font-size:14px;transition:background .2s" style-hover="background:#111">
+                <button type="button" role="cell" onClick="{{ r.edit }}" style="background:none;border:0;padding:0;text-align:left;color:#fff;cursor:pointer;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.title }}</button>
+                <span role="cell" style="color:#9a9a9a;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.path }}</span>
+                <span role="cell"><span style="display:inline-flex;height:22px;align-items:center;padding:0 8px;border:1px solid {{ r.color }};color:{{ r.color }};font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase">{{ r.status }}</span></span>
+                <span role="cell" style="color:#9a9a9a;font-size:13px">{{ r.when }}</span>
+                <span role="cell" style="display:flex;gap:6px;justify-content:flex-end">
+                  <button type="button" onClick="{{ r.edit }}" style="height:30px;padding:0 10px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">Edit</button>
+                  <button type="button" onClick="{{ r.remove }}" aria-label="{{ r.removeLabel }}" style="height:30px;padding:0 10px;background:transparent;border:1px solid #3c3c3c;color:#ff8a7a;cursor:pointer;font-size:12px">Delete</button>
+                </span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ list.empty }}"><p style="margin:0;padding:20px 16px;color:#9a9a9a;font-size:14px">{{ list.emptyText }}</p></sc-if>
+          </div>
+          <sc-if value="{{ list.isBlog }}">
+            <section style="border:1px solid #262626;background:#0a0a0a;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+              <h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Categories</h2>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ cats }}" as="c" hint-placeholder-count="2">
+                  <span style="display:inline-flex;align-items:center;gap:4px;border:1px solid #3c3c3c;padding:4px 4px 4px 10px">
+                    <input type="text" value="{{ c.name }}" onChange="{{ c.rename }}" aria-label="Category name" style="width:{{ c.w }};min-width:60px;height:28px;padding:0 4px;background:transparent;border:0;color:#fff;font-size:13px;outline:none">
+                    <button type="button" onClick="{{ c.remove }}" aria-label="{{ c.removeLabel }}" style="width:28px;height:28px;background:transparent;border:0;color:#9a9a9a;cursor:pointer" style-hover="color:#ff8a7a">×</button>
+                  </span>
+                </sc-for>
+              </div>
+              <form onSubmit="{{ addCat }}" style="display:flex;gap:8px;flex-wrap:wrap">
+                <input type="text" value="{{ newCat }}" onChange="{{ onNewCat }}" placeholder="New category" aria-label="New category name" style="flex:0 1 240px;height:36px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;outline:none" style-focus="border-color:#ffffff">
+                <button type="submit" style="height:36px;padding:0 14px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px">Add category</button>
+              </form>
+            </section>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ v.videos }}">
+          <section style="border:1px solid #262626;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <label for="vid-add" style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Add videos</label>
+            <p style="margin:0;font-size:13px;color:#9a9a9a">Paste YouTube, Instagram Reel, TikTok or Google Drive links, one per line. Drive files must be shared publicly.</p>
+            <textarea id="vid-add" rows="3" value="{{ vidInput }}" onChange="{{ onVidInput }}" placeholder="https://www.tiktok.com/@you/video/123…" style="padding:10px 12px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;line-height:1.5;resize:vertical;outline:none" style-focus="border-color:#ffffff"></textarea>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <button type="button" onClick="{{ addVideos }}" style="height:38px;padding:0 16px;background:#c8200f;border:0;color:#fff;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase" style-hover="background:#e22718">Add to list</button>
+              <span style="font-size:13px;color:#9a9a9a">{{ vidCount }}</span>
+            </div>
+            <sc-for list="{{ vidErrors }}" as="e" hint-placeholder-count="0"><p role="alert" style="margin:0;font-size:13px;color:#ff8a7a">{{ e.t }}</p></sc-for>
+          </section>
+          <p style="margin:0;font-size:13px;color:#9a9a9a">Drag rows to reorder. The first videos appear first on the site.</p>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px">
+            <sc-for list="{{ vids }}" as="vd" hint-placeholder-count="5">
+              <li draggable="true" onDragStart="{{ vd.dragStart }}" onDragOver="{{ vd.dragOver }}" onDrop="{{ vd.drop }}" onDragEnd="{{ vd.dragEnd }}" style="display:grid;grid-template-columns:20px 112px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px;background:#0a0a0a;border:1px solid {{ vd.border }};transition:border-color .15s, opacity .15s;opacity:{{ vd.op }}">
+                <span aria-hidden="true" style="cursor:grab;color:#7e7e7e;font-size:16px;text-align:center">⋮⋮</span>
+                <span style="position:relative;width:112px;aspect-ratio:16/9;background:#1a1a1a;overflow:hidden;display:block">
+                  <sc-if value="{{ vd.thumb }}"><img src="{{ vd.thumb }}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+                  <span style="position:absolute;left:4px;bottom:4px;background:#050505;color:#e22718;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 5px">{{ vd.platform }}</span>
+                </span>
+                <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                  <input type="text" value="{{ vd.title }}" onChange="{{ vd.onTitle }}" aria-label="{{ vd.titleLabel }}" placeholder="Title" style="height:34px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;outline:none" style-focus="border-color:#ffffff">
+                  <a href="{{ vd.href }}" target="_blank" rel="noopener" style="font-size:12px;color:#7e7e7e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ vd.url }}</a>
+                </span>
+                <span style="display:flex;gap:4px">
+                  <button type="button" onClick="{{ vd.up }}" aria-label="Move up" style="width:32px;height:32px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer">↑</button>
+                  <button type="button" onClick="{{ vd.down }}" aria-label="Move down" style="width:32px;height:32px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer">↓</button>
+                  <button type="button" onClick="{{ vd.remove }}" aria-label="Remove video" style="width:32px;height:32px;background:transparent;border:1px solid #3c3c3c;color:#ff8a7a;cursor:pointer">×</button>
+                </span>
+              </li>
+            </sc-for>
+          </ul>
+        </sc-if>
+
+        <sc-if value="{{ v.media }}">
+          <div onDragOver="{{ dzOver }}" onDragLeave="{{ dzLeave }}" onDrop="{{ dzDrop }}" style="border:1px dashed {{ dzBorder }};background:{{ dzBg }};padding:28px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;transition:background .2s,border-color .2s">
+            <span style="font-size:14px;color:#bbbbbb">Drop images here, or</span>
+            <label style="height:40px;padding:0 16px;display:inline-flex;align-items:center;background:#c8200f;color:#fff;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase">Upload images<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple="multiple" onChange="{{ onFiles }}" style="position:absolute;width:1px;height:1px;opacity:0"></label>
+            <span style="flex-basis:100%;font-size:12px;color:#7e7e7e">JPG, PNG, WebP or GIF up to 10 MB. Large images are resized to 2400px.</span>
+          </div>
+          <sc-for list="{{ uploadErrors }}" as="e" hint-placeholder-count="0"><p role="alert" style="margin:0;font-size:13px;color:#ff8a7a">{{ e.t }}</p></sc-for>
+          <div style="display:grid;grid-template-columns:{{ mediaCols }};gap:20px;align-items:start">
+            <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">
+              <sc-for list="{{ media }}" as="m" hint-placeholder-count="0">
+                <li><button type="button" onClick="{{ m.select }}" aria-pressed="{{ m.on }}" aria-label="{{ m.name }}" style="position:relative;display:block;width:100%;aspect-ratio:1;padding:0;background:#1a1a1a;border:2px solid {{ m.border }};cursor:pointer;overflow:hidden"><img src="{{ m.src }}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"><sc-if value="{{ m.noAlt }}"><span style="position:absolute;right:4px;top:4px;background:#f4b400;color:#050505;font-size:10px;font-weight:700;padding:2px 5px">NO ALT</span></sc-if></button></li>
+              </sc-for>
+            </ul>
+            <sc-if value="{{ mSel.on }}">
+              <div style="position:sticky;top:0;border:1px solid #262626;background:#0a0a0a;padding:16px;display:flex;flex-direction:column;gap:12px">
+                <img src="{{ mSel.src }}" alt="" style="width:100%;max-height:220px;object-fit:contain;background:#141414">
+                <span style="font-size:12px;color:#9a9a9a">{{ mSel.meta }}</span>
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase">Name<input type="text" value="{{ mSel.name }}" onChange="{{ mSel.onName }}" style="height:36px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;outline:none"></label>
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase">Alt text<textarea rows="3" value="{{ mSel.alt }}" onChange="{{ mSel.onAlt }}" placeholder="Describe the image for screen readers" style="padding:8px 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;resize:vertical;outline:none"></textarea><span style="font-weight:500;letter-spacing:0;text-transform:none;color:{{ mSel.altColor }}">{{ mSel.altLen }}</span></label>
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase">Title<input type="text" value="{{ mSel.title }}" onChange="{{ mSel.onTitle }}" placeholder="Shown as a tooltip on hover" style="height:36px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;outline:none"></label>
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase">Caption<input type="text" value="{{ mSel.caption }}" onChange="{{ mSel.onCaption }}" placeholder="Shown under the image" style="height:36px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;outline:none"></label>
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase">Description<textarea rows="2" value="{{ mSel.desc }}" onChange="{{ mSel.onDesc }}" placeholder="Notes for yourself (not shown on the site)" style="padding:8px 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;resize:vertical;outline:none"></textarea></label>
+                <span style="font-size:12px;color:#7e7e7e">These settings are used each time you insert this image. Images already placed keep their own alt text and caption.</span>
+                <span style="font-size:12px;color:#bbbbbb">{{ mSel.usage }}</span>
+                <button type="button" onClick="{{ mSel.remove }}" style="align-self:flex-start;height:34px;padding:0 12px;background:transparent;border:1px solid #c8200f;color:#ff8a7a;cursor:pointer;font-size:12px">Delete image</button>
+              </div>
+            </sc-if>
+          </div>
+          <sc-if value="{{ noMedia }}"><p style="margin:0;color:#9a9a9a;font-size:14px">No images yet.</p></sc-if>
+        </sc-if>
+
+        <sc-if value="{{ v.seoSite }}">
+          <section style="border:1px solid #262626;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">XML sitemap · {{ sitemapCount }} URLs</h2><button type="button" onClick="{{ dlSitemap }}" style="height:34px;padding:0 12px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">Download sitemap.xml</button></div>
+            <p style="margin:0;font-size:13px;color:#9a9a9a">Built automatically from published, indexable content. Drafts, noindex pages, previews and the dashboard are excluded.</p>
+            <pre style="margin:0;max-height:260px;overflow:auto;padding:12px;background:#050505;border:1px solid #1a1a1a;font-size:12px;line-height:1.5;color:#bbbbbb;white-space:pre-wrap">{{ sitemapXml }}</pre>
+          </section>
+          <section style="border:1px solid #262626;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">robots.txt</h2><button type="button" onClick="{{ dlRobots }}" style="height:34px;padding:0 12px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">Download robots.txt</button></div>
+            <pre style="margin:0;padding:12px;background:#050505;border:1px solid #1a1a1a;font-size:12px;line-height:1.5;color:#bbbbbb;white-space:pre-wrap">{{ robotsTxt }}</pre>
+          </section>
+          <section style="border:1px solid #262626;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Redirects</h2>
+            <p style="margin:0;font-size:13px;color:#9a9a9a">Added automatically when a published URL changes. Add your own for old links.</p>
+            <sc-for list="{{ redirects }}" as="r" hint-placeholder-count="0">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid #1a1a1a;font-size:13px">
+                <code style="color:#fff;overflow-wrap:anywhere">{{ r.from }}</code><span aria-hidden="true" style="color:#7e7e7e">→</span><code style="color:#fff;overflow-wrap:anywhere">{{ r.to }}</code>
+                <span style="font-size:11px;color:#7e7e7e;text-transform:uppercase;letter-spacing:1px">{{ r.kind }}</span>
+                <button type="button" onClick="{{ r.remove }}" aria-label="Remove redirect" style="width:30px;height:30px;background:transparent;border:1px solid #3c3c3c;color:#ff8a7a;cursor:pointer">×</button>
+              </div>
+            </sc-for>
+            <form onSubmit="{{ addRedirect }}" style="display:flex;flex-wrap:wrap;gap:8px">
+              <input type="text" value="{{ rdFrom }}" onChange="{{ onRdFrom }}" placeholder="/old-path" aria-label="Redirect from" style="flex:1 1 160px;height:36px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;outline:none">
+              <input type="text" value="{{ rdTo }}" onChange="{{ onRdTo }}" placeholder="/new-path" aria-label="Redirect to" style="flex:1 1 160px;height:36px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;outline:none">
+              <button type="submit" style="height:36px;padding:0 14px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px">Add redirect</button>
+            </form>
+            <p role="alert" style="margin:0;font-size:13px;color:#ff8a7a">{{ rdErr }}</p>
+          </section>
+          <section style="border:1px solid #262626;background:#0a0a0a">
+            <h2 style="margin:0;padding:16px 20px;border-bottom:1px solid #262626;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Indexing overview</h2>
+            <sc-for list="{{ indexRows }}" as="r" hint-placeholder-count="2">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 140px;gap:12px;padding:10px 20px;border-bottom:1px solid #1a1a1a;font-size:13px"><span style="color:#fff">{{ r.title }}</span><span style="color:#9a9a9a">{{ r.path }}</span><span style="color:{{ r.color }}">{{ r.state }}</span></div>
+            </sc-for>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ v.account }}">
+          <section style="border:1px solid #262626;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:12px;max-width:560px">
+            <h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Change password</h2>
+            <form onSubmit="{{ changePw }}" style="display:flex;flex-direction:column;gap:10px">
+              <input type="password" autocomplete="current-password" value="{{ pwOld }}" onChange="{{ onPwOld }}" placeholder="Current password" aria-label="Current password" style="height:40px;padding:0 12px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;outline:none">
+              <input type="password" autocomplete="new-password" value="{{ pwNew }}" onChange="{{ onPwNew }}" placeholder="New password (8+ characters)" aria-label="New password" style="height:40px;padding:0 12px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;outline:none">
+              <button type="submit" style="align-self:flex-start;height:38px;padding:0 16px;background:#c8200f;border:0;color:#fff;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase">Update password</button>
+              <p role="status" style="margin:0;font-size:13px;color:{{ pwMsgColor }}">{{ pwMsg }}</p>
+            </form>
+          </section>
+          <section style="border:1px solid #262626;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:12px;max-width:560px">
+            <h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Recovery code</h2>
+            <p style="margin:0;font-size:13px;color:#9a9a9a;line-height:1.5">Used to reset your password from the sign-in screen. Generating a new code replaces the old one.</p>
+            <sc-if value="{{ newCode }}"><code style="padding:12px;background:#050505;border:1px solid #f4b400;color:#f4b400;font-size:18px;letter-spacing:2px">{{ newCode }}</code><span style="font-size:12px;color:#f4b400">Save this code now. It won't be shown again.</span></sc-if>
+            <button type="button" onClick="{{ genCode }}" style="align-self:flex-start;height:36px;padding:0 14px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px">Generate new recovery code</button>
+          </section>
+          <section style="border:1px solid #262626;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:12px;max-width:560px">
+            <h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Backup</h2>
+            <p style="margin:0;font-size:13px;color:#9a9a9a;line-height:1.5">Download everything (content, media, revisions) as one file, or restore from a backup. Restoring replaces current content.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" onClick="{{ exportBackup }}" style="height:36px;padding:0 14px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px">Download backup</button>
+              <label style="height:36px;padding:0 14px;display:inline-flex;align-items:center;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px;position:relative">Restore from file<input type="file" accept="application/json,.json" onChange="{{ importBackup }}" style="position:absolute;width:1px;height:1px;opacity:0"></label>
+            </div>
+          </section>
+          <section style="border:1px solid #f4b400;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.6;color:#bbbbbb">
+            <h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#f4b400">Setup: what this version can and can't do</h2>
+            <p style="margin:0">This dashboard runs entirely in your browser. Content, media and revisions are saved in this browser's storage (IndexedDB). Publishing updates the site in this browser only.</p>
+            <p style="margin:0">To go live for all visitors you need a backend: a database for content, file storage for images, server-side login, and a host that serves sitemap.xml, robots.txt, 301 redirects and real 404s. Supabase plus Netlify/Vercel, or WordPress with Rank Math, both fit. Use Download backup to move your content across.</p>
+            <p style="margin:0">The sign-in here is a convenience lock, not real security: anyone with access to this browser's developer tools could bypass it.</p>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ v.seoPanel }}">
+          <section style="border:1px solid #262626;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:14px">
+            <h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Search result preview</h2>
+            <div style="background:#ffffff;padding:16px 18px;max-width:640px;font-family:Arial,sans-serif">
+              <div style="font-size:12px;color:#4d5156;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ seo.url }}</div>
+              <div style="font-size:20px;line-height:1.3;color:#1a0dab;margin:4px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ seo.titleCut }}</div>
+              <div style="font-size:14px;line-height:1.55;color:#4d5156">{{ seo.descCut }}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+              <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#bbbbbb"><span>Title: {{ seo.titleLen }} / 60</span><span style="height:4px;background:#262626;position:relative"><span style="position:absolute;inset:0 auto 0 0;width:{{ seo.titleBar }};background:{{ seo.titleColor }};transition:width .3s,background .3s"></span></span></div>
+              <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#bbbbbb"><span>Description: {{ seo.descLen }} / 160</span><span style="height:4px;background:#262626;position:relative"><span style="position:absolute;inset:0 auto 0 0;width:{{ seo.descBar }};background:{{ seo.descColor }};transition:width .3s,background .3s"></span></span></div>
+            </div>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px">
+              <span style="color:#3ec46d">{{ seo.pass }} passed</span><span style="color:#f4b400">{{ seo.improve }} need improvement</span><span style="color:#9a9a9a">{{ seo.na }} not applicable</span>
+            </div>
+            <p style="margin:0;font-size:12px;color:#7e7e7e">Guidance only. These checks help pages describe themselves clearly; they don't guarantee rankings.</p>
+          </section>
+          <sc-for list="{{ seo.groups }}" as="g" hint-placeholder-count="0">
+            <section style="border:1px solid #262626;background:#0a0a0a">
+              <h3 style="margin:0;padding:12px 20px;border-bottom:1px solid #262626;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">{{ g.name }}</h3>
+              <sc-for list="{{ g.checks }}" as="c" hint-placeholder-count="0">
+                <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;padding:10px 20px;border-bottom:1px solid #141414;font-size:13px;line-height:1.5">
+                  <span style="display:flex;align-items:flex-start;gap:8px;color:{{ c.color }};font-weight:700;font-size:11px;letter-spacing:.5px;text-transform:uppercase;padding-top:2px"><span aria-hidden="true" style="width:8px;height:8px;margin-top:3px;background:{{ c.color }};flex:none"></span>{{ c.statusLabel }}</span>
+                  <span><span style="color:#fff">{{ c.label }}</span><span style="color:#9a9a9a"> · {{ c.detail }}</span></span>
+                </div>
+              </sc-for>
+            </section>
+          </sc-for>
+          <section style="border:1px solid #262626;background:#0a0a0a;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Social share preview</h2>
+            <div style="max-width:520px;border:1px solid #3c3c3c;background:#141414">
+              <div style="aspect-ratio:1.91/1;background:#1a1a1a;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7e7e7e;font-size:12px"><sc-if value="{{ seo.ogImg }}"><img src="{{ seo.ogImg }}" alt="" style="width:100%;height:100%;object-fit:cover"></sc-if><sc-if value="{{ seo.noOgImg }}"><span>No share image</span></sc-if></div>
+              <div style="padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:11px;color:#9a9a9a;text-transform:uppercase">{{ seo.domain }}</span><span style="font-size:15px;font-weight:700;color:#fff">{{ seo.ogTitle }}</span><span style="font-size:13px;color:#bbbbbb;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ seo.ogDesc }}</span></div>
+            </div>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ v.tabs }}">
+          <div role="tablist" style="display:flex;gap:24px;border-bottom:1px solid #262626">
+            <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="2">
+              <button type="button" role="tab" aria-selected="{{ tb.on }}" onClick="{{ tb.go }}" style="padding:10px 0;background:none;border:0;border-bottom:2px solid {{ tb.bar }};margin-bottom:-1px;color:{{ tb.color }};font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">{{ tb.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <div style="display:grid;grid-template-columns:{{ homeCols }};gap:20px;align-items:start">
+          <sc-if value="{{ v.home }}">
+            <div style="position:sticky;top:0;display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e">Sections · drag to reorder</span>
+              <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px">
+                <sc-for list="{{ secList }}" as="s" hint-placeholder-count="9">
+                  <li draggable="true" onDragStart="{{ s.dragStart }}" onDragOver="{{ s.dragOver }}" onDrop="{{ s.drop }}" onDragEnd="{{ s.dragEnd }}" style="display:flex;align-items:center;gap:4px;background:{{ s.bg }};border:1px solid {{ s.border }};opacity:{{ s.op }};transition:border-color .15s,background .15s">
+                    <span aria-hidden="true" style="cursor:grab;color:#7e7e7e;padding:0 4px 0 8px">⋮⋮</span>
+                    <button type="button" onClick="{{ s.select }}" aria-current="{{ s.current }}" style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:9px 4px;background:none;border:0;color:{{ s.color }};cursor:pointer;text-align:left">
+                      <span style="font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%">{{ s.label }}</span>
+                      <span style="font-size:11px;color:#7e7e7e">{{ s.sub }}</span>
+                    </button>
+                    <button type="button" onClick="{{ s.toggleHide }}" aria-label="{{ s.hideLabel }}" title="{{ s.hideLabel }}" style="width:30px;height:30px;background:none;border:0;color:{{ s.eyeColor }};cursor:pointer;font-size:12px">{{ s.eye }}</button>
+                  </li>
+                </sc-for>
+              </ul>
+              <label style="display:flex;flex-direction:column;gap:6px;margin-top:6px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e">Add section
+                <select value="" onChange="{{ addSection }}" style="height:36px;padding:0 8px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:13px;font-weight:400;letter-spacing:0;text-transform:none">
+                  <option value="">Choose type…</option>
+                  <sc-for list="{{ addTypes }}" as="t" hint-placeholder-count="1"><option value="{{ t.v }}">{{ t.l }}</option></sc-for>
+                </select>
+              </label>
+              <button type="button" onClick="{{ selectHomeSeo }}" style="margin-top:6px;min-height:40px;padding:0 12px;background:{{ homeSeoBg }};border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px;text-align:left">Homepage SEO</button>
+            </div>
+          </sc-if>
+
+          <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+            <sc-if value="{{ secActions.on }}">
+              <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between">
+                <span style="font-size:12px;color:#9a9a9a">{{ secActions.note }}</span>
+                <span style="display:flex;gap:8px">
+                  <button type="button" onClick="{{ secActions.up }}" style="height:32px;padding:0 10px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">Move up</button>
+                  <button type="button" onClick="{{ secActions.down }}" style="height:32px;padding:0 10px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">Move down</button>
+                  <button type="button" onClick="{{ secActions.remove }}" style="height:32px;padding:0 10px;background:transparent;border:1px solid #3c3c3c;color:#ff8a7a;cursor:pointer;font-size:12px">Delete section</button>
+                </span>
+              </div>
+            </sc-if>
+
+            <sc-for list="{{ panels }}" as="pn" hint-placeholder-count="0">
+              <section style="border:1px solid #262626;background:#0a0a0a">
+                <sc-if value="{{ pn.title }}"><h2 style="margin:0;padding:14px 20px;border-bottom:1px solid #262626;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">{{ pn.title }}</h2></sc-if>
+                <div style="padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:18px 20px">
+                  <sc-for list="{{ pn.fields }}" as="fd" hint-placeholder-count="0">
+                    <div style="grid-column:{{ fd.span }};display:flex;flex-direction:column;gap:7px;min-width:0">
+                      <sc-if value="{{ fd.showLabel }}"><label for="{{ fd.id }}" style="display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#e6e6e6"><span>{{ fd.label }}</span><span style="font-weight:500;letter-spacing:0;text-transform:none;color:{{ fd.metaColor }}">{{ fd.meta }}</span></label></sc-if>
+                      <sc-if value="{{ fd.isText }}"><input id="{{ fd.id }}" type="{{ fd.inputType }}" list="{{ fd.list }}" value="{{ fd.value }}" onChange="{{ fd.onChange }}" placeholder="{{ fd.placeholder }}" style="height:40px;padding:0 12px;background:#0d0d0d;border:1px solid {{ fd.border }};border-radius:0;color:#fff;font-size:14px;outline:none;width:100%;transition:border-color .2s" style-focus="border-color:#ffffff"></sc-if>
+                      <sc-if value="{{ fd.isTextarea }}"><textarea id="{{ fd.id }}" rows="{{ fd.rows }}" value="{{ fd.value }}" onChange="{{ fd.onChange }}" placeholder="{{ fd.placeholder }}" style="padding:10px 12px;background:#0d0d0d;border:1px solid {{ fd.border }};border-radius:0;color:#fff;font-size:14px;line-height:1.5;resize:vertical;outline:none;width:100%;transition:border-color .2s" style-focus="border-color:#ffffff"></textarea></sc-if>
+                      <sc-if value="{{ fd.isRange }}"><div style="display:flex;align-items:center;gap:12px"><input id="{{ fd.id }}" type="range" min="{{ fd.min }}" max="{{ fd.max }}" step="{{ fd.step }}" value="{{ fd.value }}" onChange="{{ fd.onChange }}" style="flex:1"><input type="number" min="{{ fd.min }}" max="{{ fd.max }}" value="{{ fd.value }}" onChange="{{ fd.onChange }}" aria-label="{{ fd.label }}" style="width:76px;height:34px;padding:0 8px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px"><span style="font-size:12px;color:#9a9a9a;width:20px">{{ fd.unit }}</span></div></sc-if>
+                      <sc-if value="{{ fd.isToggle }}"><label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#e6e6e6;min-height:40px"><input id="{{ fd.id }}" type="checkbox" checked="{{ fd.checked }}" onChange="{{ fd.onChange }}" style="width:18px;height:18px;accent-color:#e22718">{{ fd.label }}</label></sc-if>
+                      <sc-if value="{{ fd.isSelect }}"><select id="{{ fd.id }}" value="{{ fd.value }}" onChange="{{ fd.onChange }}" style="height:40px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px"><sc-for list="{{ fd.options }}" as="o" hint-placeholder-count="0"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select></sc-if>
+                      <sc-if value="{{ fd.isChecks }}"><div style="display:flex;flex-wrap:wrap;gap:6px 16px"><sc-for list="{{ fd.options }}" as="o" hint-placeholder-count="0"><label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;min-height:32px"><input type="checkbox" checked="{{ o.on }}" onChange="{{ o.toggle }}" style="width:16px;height:16px;accent-color:#e22718">{{ o.l }}</label></sc-for></div></sc-if>
+                      <sc-if value="{{ fd.isVideo }}">
+                        <div style="display:flex;flex-direction:column;gap:10px">
+                          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                            <label style="position:relative;height:36px;padding:0 14px;display:inline-flex;align-items:center;background:#c8200f;color:#fff;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase" style-hover="background:#e22718">{{ fd.upLabel }}<input type="file" accept="video/mp4,video/webm,video/quicktime" onChange="{{ fd.onFile }}" style="position:absolute;width:1px;height:1px;opacity:0"></label>
+                            <sc-if value="{{ fd.isFile }}"><span style="font-size:13px;color:#e6e6e6">{{ fd.fileName }}</span></sc-if>
+                            <sc-if value="{{ fd.hasValue }}"><button type="button" onClick="{{ fd.clear }}" style="height:36px;padding:0 8px;background:transparent;border:0;color:#bbbbbb;cursor:pointer;font-size:13px;text-decoration:underline">Remove</button></sc-if>
+                          </div>
+                          <input id="{{ fd.id }}" type="url" value="{{ fd.linkValue }}" onChange="{{ fd.onLink }}" placeholder="…or paste a video link" style="height:40px;padding:0 12px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;outline:none;width:100%" style-focus="border-color:#ffffff">
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ fd.isImage }}">
+                        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+                          <span style="width:120px;aspect-ratio:16/10;background:#1a1a1a;border:1px solid #262626;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7e7e7e;font-size:11px"><sc-if value="{{ fd.src }}"><img src="{{ fd.src }}" alt="" style="width:100%;height:100%;object-fit:cover"></sc-if><sc-if value="{{ fd.noSrc }}"><span>None</span></sc-if></span>
+                          <button type="button" onClick="{{ fd.pick }}" style="height:36px;padding:0 12px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px">{{ fd.pickLabel }}</button>
+                          <sc-if value="{{ fd.src }}"><button type="button" onClick="{{ fd.clear }}" style="height:36px;padding:0 12px;background:transparent;border:0;color:#bbbbbb;cursor:pointer;font-size:13px;text-decoration:underline">Remove</button></sc-if>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ fd.isRich }}">
+                        <div style="border:1px solid #3c3c3c;background:#0d0d0d">
+                          <div role="toolbar" aria-label="Formatting" onMouseDown="{{ rte.keep }}" style="position:sticky;top:-28px;z-index:3;display:flex;flex-wrap:wrap;align-items:center;gap:2px;padding:6px;background:#141414;border-bottom:1px solid #3c3c3c">
+                            <select aria-label="Text style" value="{{ rte.blockVal }}" onChange="{{ rte.block }}" style="height:34px;padding:0 8px;margin-right:4px;background:#1a1a1a;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:13px">
+                              <option value="p">Paragraph</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option><option value="h4">Heading 4</option><option value="blockquote">Quote</option>
+                            </select>
+                            <sc-for list="{{ rte.btns }}" as="b" hint-placeholder-count="11">
+                              <button type="button" title="{{ b.title }}" aria-label="{{ b.title }}" onClick="{{ b.run }}" style="height:34px;min-width:34px;padding:0 10px;background:transparent;border:0;color:#fff;cursor:pointer;font-size:13px;font-weight:{{ b.weight }};font-style:{{ b.fstyle }};text-decoration:{{ b.deco }};transition:background .15s" style-hover="background:#262626" style-active="background:#3c3c3c">{{ b.label }}</button>
+                            </sc-for>
+                          </div>
+                          <sc-if value="{{ rte.linkOpen }}">
+                            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px;background:#1a1a1a;border-bottom:1px solid #e22718;font-size:13px">
+                              <input type="url" value="{{ rte.linkUrl }}" onChange="{{ rte.onLinkUrl }}" onKeyDown="{{ rte.linkKey }}" autoFocus="{{ true }}" placeholder="https://… or /blog" aria-label="Link URL" style="flex:1 1 240px;height:34px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;outline:none">
+                              <label style="display:flex;align-items:center;gap:6px;color:#e6e6e6;cursor:pointer"><input type="checkbox" checked="{{ rte.linkBlank }}" onChange="{{ rte.onLinkBlank }}" style="accent-color:#e22718">Open in new tab</label>
+                              <button type="button" onClick="{{ rte.applyLink }}" style="height:34px;padding:0 14px;background:#c8200f;border:0;color:#fff;cursor:pointer;font-size:12px;font-weight:700">Apply</button>
+                              <button type="button" onClick="{{ rte.unlink }}" style="height:34px;padding:0 12px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">Remove link</button>
+                              <button type="button" onClick="{{ rte.closeLink }}" style="height:34px;padding:0 10px;background:transparent;border:0;color:#bbbbbb;cursor:pointer;font-size:12px">Cancel</button>
+                            </div>
+                          </sc-if>
+                          <sc-if value="{{ rte.imgOpen }}">
+                            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px;background:#1a1a1a;border-bottom:1px solid #e22718;font-size:12px;color:#e6e6e6">
+                              <span style="font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff">Image</span>
+                              <div role="group" aria-label="Alignment" style="display:flex">
+                                <sc-for list="{{ rte.aligns }}" as="a" hint-placeholder-count="4"><button type="button" onClick="{{ a.pick }}" aria-pressed="{{ a.on }}" style="height:32px;padding:0 10px;margin-left:-1px;background:{{ a.bg }};border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">{{ a.label }}</button></sc-for>
+                              </div>
+                              <label style="display:flex;align-items:center;gap:6px">Width <input type="number" min="10" max="100" value="{{ rte.imgW }}" onChange="{{ rte.onImgW }}" style="width:64px;height:32px;padding:0 8px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff">%</label>
+                              <label style="display:flex;align-items:center;gap:6px;flex:1 1 220px">Alt text <input type="text" value="{{ rte.imgAlt }}" onChange="{{ rte.onImgAlt }}" placeholder="Describe the image" style="flex:1;min-width:120px;height:32px;padding:0 8px;background:#0d0d0d;border:1px solid {{ rte.altBorder }};border-radius:0;color:#fff"></label>
+                              <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" checked="{{ rte.imgCap }}" onChange="{{ rte.onImgCap }}" style="accent-color:#e22718">Caption</label>
+                              <button type="button" onClick="{{ rte.replaceImg }}" style="height:32px;padding:0 10px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">Replace</button>
+                              <button type="button" onClick="{{ rte.removeImg }}" style="height:32px;padding:0 10px;background:transparent;border:1px solid #c8200f;color:#ff8a7a;cursor:pointer;font-size:12px">Remove</button>
+                              <button type="button" onClick="{{ rte.doneImg }}" style="height:32px;padding:0 10px;background:transparent;border:0;color:#bbbbbb;cursor:pointer;font-size:12px">Done</button>
+                            </div>
+                          </sc-if>
+                          <div style="background:#050505;padding:clamp(16px,2.5vw,32px)">
+                            <div style="position:relative;max-width:820px">
+                            <div ref="{{ fd.edRef }}" data-adm-prose="" role="textbox" aria-multiline="true" aria-label="{{ fd.label }}" onInput="{{ rte.onInput }}" onFocus="{{ rte.onFocus }}" onBlur="{{ rte.onBlur }}" onClick="{{ rte.onClick }}" onKeyDown="{{ rte.onKey }}" onPaste="{{ rte.onPaste }}" style="min-height:{{ fd.minH }};outline:none;caret-color:#e22718"></div>
+                            <div aria-hidden="true" style="display:{{ fd.ov.display }};position:absolute;top:{{ fd.ov.top }};left:{{ fd.ov.left }};width:{{ fd.ov.w }};height:{{ fd.ov.h }};outline:2px solid #e22718;pointer-events:none;z-index:2">
+                              <span onPointerDown="{{ fd.ov.nw }}" style="position:absolute;left:-8px;top:-8px;width:16px;height:16px;background:#e22718;border:2px solid #fff;cursor:nwse-resize;pointer-events:auto;touch-action:none"></span>
+                              <span onPointerDown="{{ fd.ov.ne }}" style="position:absolute;right:-8px;top:-8px;width:16px;height:16px;background:#e22718;border:2px solid #fff;cursor:nesw-resize;pointer-events:auto;touch-action:none"></span>
+                              <span onPointerDown="{{ fd.ov.sw }}" style="position:absolute;left:-8px;bottom:-8px;width:16px;height:16px;background:#e22718;border:2px solid #fff;cursor:nesw-resize;pointer-events:auto;touch-action:none"></span>
+                              <span onPointerDown="{{ fd.ov.se }}" style="position:absolute;right:-8px;bottom:-8px;width:16px;height:16px;background:#e22718;border:2px solid #fff;cursor:nwse-resize;pointer-events:auto;touch-action:none"></span>
+                              <span style="position:absolute;left:0;top:-30px;background:#e22718;color:#fff;font-size:11px;font-weight:700;padding:4px 8px;white-space:nowrap">{{ fd.ov.label }}</span>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                        <span style="font-size:12px;line-height:1.5;color:#7e7e7e">Click where you want an image, then press Image. Click an image to align, resize or add alt text.</span>
+                      </sc-if>
+                      <sc-if value="{{ fd.isList }}">
+                        <div style="display:flex;flex-direction:column;gap:8px">
+                          <sc-for list="{{ fd.items }}" as="it" hint-placeholder-count="0">
+                            <div style="border:1px solid #262626;background:#050505">
+                              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-bottom:1px solid #1a1a1a">
+                                <button type="button" onClick="{{ it.toggle }}" aria-expanded="{{ it.exp }}" style="flex:1;min-width:0;display:flex;gap:10px;align-items:center;background:none;border:0;padding:4px 0;color:#fff;cursor:pointer;text-align:left;font-size:13px"><span style="color:#e22718;font-weight:700">{{ it.num }}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.title }}</span><span aria-hidden="true" style="margin-left:auto;color:#7e7e7e;transform:{{ it.rot }};transition:transform .2s">▾</span></button>
+                                <span style="display:flex;gap:4px"><button type="button" onClick="{{ it.up }}" aria-label="Move up" style="width:28px;height:28px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer">↑</button><button type="button" onClick="{{ it.down }}" aria-label="Move down" style="width:28px;height:28px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer">↓</button><button type="button" onClick="{{ it.remove }}" aria-label="Remove item" style="width:28px;height:28px;background:transparent;border:1px solid #3c3c3c;color:#ff8a7a;cursor:pointer">×</button></span>
+                              </div>
+                              <sc-if value="{{ it.open }}">
+                                <div style="padding:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px">
+                                  <sc-for list="{{ it.fields }}" as="sf" hint-placeholder-count="0">
+                                    <label style="grid-column:{{ sf.span }};display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#bbbbbb">{{ sf.label }}
+                                      <sc-if value="{{ sf.isText }}"><input type="{{ sf.inputType }}" list="{{ sf.list }}" value="{{ sf.value }}" onChange="{{ sf.onChange }}" placeholder="{{ sf.placeholder }}" style="height:36px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;outline:none" style-focus="border-color:#ffffff"></sc-if>
+                                      <sc-if value="{{ sf.isTextarea }}"><textarea rows="{{ sf.rows }}" value="{{ sf.value }}" onChange="{{ sf.onChange }}" placeholder="{{ sf.placeholder }}" style="padding:8px 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;line-height:1.5;resize:vertical;outline:none" style-focus="border-color:#ffffff"></textarea></sc-if>
+                                      <sc-if value="{{ sf.isSelect }}"><select value="{{ sf.value }}" onChange="{{ sf.onChange }}" style="height:36px;padding:0 8px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none"><sc-for list="{{ sf.options }}" as="o" hint-placeholder-count="0"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select></sc-if>
+                                      <sc-if value="{{ sf.help }}"><span style="font-weight:400;letter-spacing:0;text-transform:none;color:#7e7e7e">{{ sf.help }}</span></sc-if>
+                                    </label>
+                                  </sc-for>
+                                </div>
+                              </sc-if>
+                            </div>
+                          </sc-for>
+                          <button type="button" onClick="{{ fd.add }}" style="align-self:flex-start;height:34px;padding:0 12px;background:transparent;border:1px dashed #3c3c3c;color:#fff;cursor:pointer;font-size:13px" style-hover="border-color:#ffffff">+ {{ fd.addLabel }}</button>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ fd.help }}"><span style="font-size:12px;line-height:1.5;color:{{ fd.helpColor }}">{{ fd.help }}</span></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </section>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <sc-if value="{{ previewOn }}">
+    <aside aria-label="Live preview" style="grid-row:{{ previewRow }};min-width:0;min-height:0;display:flex;flex-direction:column;border-left:1px solid #262626;background:#0a0a0a;position:{{ previewPos }};inset:{{ previewInset }};z-index:40">
+      <div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid #262626">
+        <span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9a9a9a">Live preview · draft</span>
+        <div role="group" aria-label="Preview device" style="display:flex">
+          <sc-for list="{{ devices }}" as="dv" hint-placeholder-count="3"><button type="button" onClick="{{ dv.pick }}" aria-pressed="{{ dv.on }}" style="height:30px;padding:0 10px;background:{{ dv.bg }};border:1px solid #3c3c3c;margin-left:-1px;color:#fff;cursor:pointer;font-size:12px">{{ dv.label }}</button></sc-for>
+          <button type="button" onClick="{{ reloadPreview }}" aria-label="Reload preview" style="height:30px;width:32px;margin-left:6px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer">↻</button>
+        </div>
+      </div>
+      <div ref="{{ paneRef }}" style="flex:1;min-height:0;position:relative;overflow:hidden;background:#141414">
+        <iframe ref="{{ frameRef }}" name="ayesha-preview" title="Site preview" src="{{ frameSrc }}" style="position:absolute;top:0;left:{{ frameLeft }};width:{{ frameW }};height:{{ frameH }};border:0;transform:scale({{ frameScale }});transform-origin:0 0;background:#050505"></iframe>
+      </div>
+    </aside>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ picker }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-modal="true" aria-label="Choose an image" onClick="{{ closePicker }}" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;padding:24px">
+    <div onClick="{{ stop }}" style="width:100%;max-width:860px;max-height:86vh;display:flex;flex-direction:column;background:#0a0a0a;border:1px solid #3c3c3c">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid #262626">
+        <h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Media library</h2>
+        <div style="display:flex;gap:8px;align-items:center">
+          <label style="height:34px;padding:0 12px;display:inline-flex;align-items:center;background:#c8200f;color:#fff;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;position:relative">Upload<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple="multiple" onChange="{{ onPickerFiles }}" style="position:absolute;width:1px;height:1px;opacity:0"></label>
+          <button type="button" onClick="{{ closePicker }}" aria-label="Close" style="width:34px;height:34px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer">×</button>
+        </div>
+      </div>
+      <sc-for list="{{ uploadErrors }}" as="e" hint-placeholder-count="0"><p role="alert" style="margin:0;padding:8px 18px;font-size:13px;color:#ff8a7a">{{ e.t }}</p></sc-for>
+      <ul style="list-style:none;margin:0;padding:18px;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px">
+        <sc-for list="{{ media }}" as="m" hint-placeholder-count="0">
+          <li><button type="button" onClick="{{ m.choose }}" aria-label="{{ m.chooseLabel }}" style="display:block;width:100%;aspect-ratio:1;padding:0;background:#1a1a1a;border:2px solid #262626;cursor:pointer;overflow:hidden;transition:border-color .15s" style-hover="border-color:#e22718"><img src="{{ m.src }}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></button></li>
+        </sc-for>
+      </ul>
+      <sc-if value="{{ noMedia }}"><p style="margin:0;padding:0 18px 18px;color:#9a9a9a;font-size:14px">No images yet. Upload one to insert it.</p></sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<input type="file" ref="{{ rteFileRef }}" accept="image/jpeg,image/png,image/webp,image/gif" onChange="{{ rteFileChosen }}" aria-hidden="true" tabindex="-1" style="display:none">
+
+<sc-if value="{{ seoUp }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-modal="true" aria-labelledby="su-t" style="position:fixed;inset:0;z-index:330;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;padding:24px">
+    <form onSubmit="{{ confirmSu }}" style="width:100%;max-width:820px;max-height:90vh;overflow:auto;background:#0a0a0a;border:1px solid #3c3c3c;border-top:3px solid #e22718;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))">
+      <div style="background:#141414;display:flex;flex-direction:column;gap:10px;padding:18px">
+        <img src="{{ su.url }}" alt="" style="width:100%;max-height:300px;object-fit:contain;background:#050505;display:block">
+        <span style="font-size:12px;color:#9a9a9a;overflow-wrap:anywhere">{{ su.fileInfo }}</span>
+        <span style="font-size:12px;line-height:1.5;color:#7e7e7e">Saved to your media library so you can reuse it anywhere.</span>
+      </div>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:14px">
+        <h2 id="su-t" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:26px;line-height:1;text-transform:uppercase;color:#fff">Image SEO</h2>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#e6e6e6">File name
+          <input type="text" value="{{ su.name }}" onChange="{{ onSuName }}" style="height:38px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;outline:none" style-focus="border-color:#ffffff">
+          <span style="font-weight:400;letter-spacing:0;text-transform:none;color:#7e7e7e">Saved as {{ su.slugPreview }}. Use descriptive words, e.g. travel-reel-hunza-color-grade.</span>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#e6e6e6"><span style="display:flex;justify-content:space-between"><span>Alt text (required)</span><span style="font-weight:500;letter-spacing:0;color:{{ su.altColor }}">{{ su.altLen }}</span></span>
+          <textarea rows="3" value="{{ su.alt }}" onChange="{{ onSuAlt }}" autoFocus="{{ true }}" placeholder="Describe what the image shows" style="padding:8px 10px;background:#0d0d0d;border:1px solid {{ su.altBorder }};border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;resize:vertical;outline:none" style-focus="border-color:#ffffff"></textarea>
+          <span style="font-weight:400;letter-spacing:0;text-transform:none;color:#7e7e7e">Read by search engines and screen readers. Keep it under 125 characters.</span>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#e6e6e6">Title
+          <input type="text" value="{{ su.title }}" onChange="{{ onSuTitle }}" placeholder="Optional · shown as a tooltip" style="height:38px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;outline:none" style-focus="border-color:#ffffff">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#e6e6e6">Caption
+          <input type="text" value="{{ su.caption }}" onChange="{{ onSuCaption }}" placeholder="Optional · shown under the image" style="height:38px;padding:0 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;outline:none" style-focus="border-color:#ffffff">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#e6e6e6">Description
+          <textarea rows="2" value="{{ su.desc }}" onChange="{{ onSuDesc }}" placeholder="Optional · private notes" style="padding:8px 10px;background:#0d0d0d;border:1px solid #3c3c3c;border-radius:0;color:#fff;font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;resize:vertical;outline:none"></textarea>
+        </label>
+        <p role="alert" style="margin:0;min-height:18px;font-size:13px;color:#ff6a55">{{ su.err }}</p>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button type="button" onClick="{{ cancelSu }}" style="height:40px;padding:0 16px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px" style-hover="border-color:#ffffff">Cancel</button>
+          <button type="submit" disabled="{{ su.busy }}" style="height:40px;padding:0 18px;background:#c8200f;border:0;color:#fff;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase" style-hover="background:#e22718" style-active="background:#a81a0c">{{ su.okLabel }}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</sc-if>
+
+<sc-if value="{{ revOpen }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-modal="true" aria-label="Revision history" onClick="{{ closeRev }}" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;padding:24px">
+    <div onClick="{{ stop }}" style="width:100%;max-width:620px;max-height:80vh;display:flex;flex-direction:column;background:#0a0a0a;border:1px solid #3c3c3c">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #262626"><h2 style="margin:0;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff">Revision history</h2><button type="button" onClick="{{ closeRev }}" aria-label="Close" style="width:34px;height:34px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer">×</button></div>
+      <div style="overflow:auto">
+        <sc-for list="{{ revs }}" as="r" hint-placeholder-count="0">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid #1a1a1a">
+            <span style="display:flex;flex-direction:column;gap:2px"><span style="color:#fff;font-size:14px">{{ r.label }}</span><span style="color:#7e7e7e;font-size:12px">{{ r.when }}</span></span>
+            <button type="button" onClick="{{ r.restore }}" style="height:32px;padding:0 12px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:12px">Restore to draft</button>
+          </div>
+        </sc-for>
+        <sc-if value="{{ noRevs }}"><p style="margin:0;padding:18px;color:#9a9a9a;font-size:14px">No revisions yet. One is saved each time you publish, or when you press Save revision.</p></sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ confirm }}" hint-placeholder-val="{{ false }}">
+  <div role="alertdialog" aria-modal="true" aria-labelledby="cfm-t" style="position:fixed;inset:0;z-index:320;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;padding:24px">
+    <div style="width:100%;max-width:440px;background:#0a0a0a;border:1px solid #3c3c3c;border-top:3px solid {{ cfm.accent }};padding:22px;display:flex;flex-direction:column;gap:14px">
+      <h2 id="cfm-t" style="margin:0;font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:26px;line-height:1.05;text-transform:uppercase;color:#fff">{{ cfm.title }}</h2>
+      <p style="margin:0;font-size:14px;line-height:1.55;color:#bbbbbb">{{ cfm.body }}</p>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+        <button type="button" ref="{{ cfmCancelRef }}" onClick="{{ cfm.cancel }}" style="height:38px;padding:0 16px;background:transparent;border:1px solid #3c3c3c;color:#fff;cursor:pointer;font-size:13px">Cancel</button>
+        <button type="button" onClick="{{ cfm.ok }}" style="height:38px;padding:0 16px;background:{{ cfm.okBg }};border:0;color:#fff;cursor:pointer;font-size:13px;font-weight:700">{{ cfm.okLabel }}</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<div role="status" aria-live="polite" style="position:fixed;right:20px;bottom:20px;z-index:340;max-width:360px;padding:12px 16px;background:#141414;border:1px solid #3c3c3c;border-left:3px solid {{ toastColor }};color:#fff;font-size:14px;transform:{{ toastT }};opacity:{{ toastOp }};transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .35s;pointer-events:none">{{ toastText }}</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const C = () => window.AyeshaCMS;
+const getIn = (o, p) => p.reduce((a, k) => (a == null ? a : a[k]), o);
+const setIn = (o, p, v) => { let a = o; for (let i = 0; i < p.length - 1; i++) { if (a[p[i]] == null) a[p[i]] = typeof p[i + 1] === 'number' ? [] : {}; a = a[p[i]]; } a[p[p.length - 1]] = v; };
+const pad = n => String(n).padStart(2, '0');
+const ago = iso => { if (!iso) return ''; const s = (Date.now() - new Date(iso)) / 1000; if (s < 60) return 'just now'; if (s < 3600) return Math.floor(s / 60) + ' min ago'; if (s < 86400) return Math.floor(s / 3600) + ' h ago'; return new Date(iso).toLocaleDateString(); };
+const STATUS = { published: ['Published', '#3ec46d'], changed: ['Unpublished changes', '#f4b400'], draft: ['Draft', '#9a9a9a'], unpublished: ['Unpublished', '#9a9a9a'] };
+const F = (key, label, o) => ({ key, label, type: 'text', ...(o || {}) });
+const ANCHOR = F('anchor', 'Anchor ID', { help: 'Used for menu links, e.g. #about. Lowercase, no spaces.' });
+const ICON_OPTS = ['timer', 'devices', 'aperture', 'users', 'zap', 'film', 'sparkles'].map(v => ({ v, l: v }));
+const SCHEMAS = {
+  hero: [F('eyebrow', 'Eyebrow'), F('heading', 'Heading', { type: 'textarea', rows: 2, span: true }), F('subheading', 'Subheading', { type: 'textarea', rows: 3, span: true }), F('primaryLabel', 'Primary button label'), F('primaryTarget', 'Primary button link', { type: 'link' }), F('secondaryLabel', 'Secondary button label'), F('secondaryTarget', 'Secondary button link', { type: 'link' }), F('bgImage', 'Background image', { type: 'image' }), F('bgVideo', 'Background video', { type: 'video', span: true, help: 'Plays muted on loop behind the hero text. Upload an MP4/WebM file, or paste a YouTube, Vimeo, Google Drive or direct .mp4 link. The background image shows while it loads.' }), F('overlay', 'Dark overlay', { type: 'range', min: 0, max: 95, step: 1, unit: '%' }), F('showSocial', 'Show social links', { type: 'toggle' })],
+  about: [F('label', 'Section label'), ANCHOR, F('heading', 'Heading', { span: true }), F('body', 'Body', { type: 'rich', span: true, minH: 220 }), F('closing', 'Closing line', { type: 'textarea', rows: 2 }), F('buttonLabel', 'Button label'), F('buttonTarget', 'Button link', { type: 'link' }), F('image', 'Portrait image', { type: 'image' }), F('imageAlt', 'Portrait alt text')],
+  work: [F('label', 'Section label'), ANCHOR, F('heading', 'Heading'), F('subheading', 'Subheading', { type: 'textarea', rows: 2 }), F('showreels', 'Showreel reels', { type: 'textarea', rows: 6, span: true, help: 'One link per line, 5 or more. YouTube Shorts, TikTok, Instagram Reels, LinkedIn, Drive, direct .mp4 links. They play muted and scroll in a loop; visitors click one to watch with sound. Leave empty to use the vertical videos from your Videos list.' }), F('perPage', 'Videos shown before “Load more”', { type: 'number' }), F('showFilters', 'Show platform filter tabs', { type: 'toggle' })],
+  services: [F('heading', 'Heading (optional)'), ANCHOR, F('items', 'Services', { type: 'list', span: true, itemLabel: 'Service', titleKey: 'title', fields: [F('title', 'Title'), F('tagline', 'Tagline'), F('body', 'Body', { type: 'textarea', rows: 4, span: true }), F('included', "What's included", { type: 'textarea', rows: 4, help: 'One item per line' }), F('samples', 'Sample videos', { type: 'textarea', rows: 4, help: 'Video links, one per line' })], blank: { title: 'New service', tagline: '', body: '', included: '', samples: '' } })],
+  why: [F('label', 'Section label'), ANCHOR, F('heading', 'Heading', { span: true }), F('items', 'Cards', { type: 'list', span: true, itemLabel: 'Card', titleKey: 'title', fields: [F('icon', 'Icon', { type: 'select', options: ICON_OPTS }), F('title', 'Title'), F('body', 'Text', { type: 'textarea', rows: 3, span: true })], blank: { icon: 'film', title: 'New card', body: '' } })],
+  testimonials: [F('label', 'Section label'), ANCHOR, F('heading', 'Heading'), F('subheading', 'Subheading', { type: 'textarea', rows: 2 }), F('autoplay', 'Auto-advance every 7 seconds', { type: 'toggle' }), F('items', 'Testimonials', { type: 'list', span: true, itemLabel: 'Testimonial', titleKey: 'name', fields: [F('quote', 'Quote', { type: 'textarea', rows: 4, span: true }), F('name', 'Name'), F('role', 'Role, company')], blank: { quote: '', name: 'New client', role: '' } })],
+  stats: [ANCHOR, F('items', 'Stats', { type: 'list', span: true, itemLabel: 'Stat', titleKey: 'label', fields: [F('value', 'Number', { type: 'number' }), F('suffix', 'Suffix', { placeholder: '+ or %' }), F('label', 'Label', { type: 'textarea', rows: 2, span: true })], blank: { value: 0, suffix: '', label: 'New stat' } })],
+  faq: [F('label', 'Section label'), ANCHOR, F('heading', 'Heading'), F('subheading', 'Subheading', { type: 'textarea', rows: 2 }), F('items', 'Questions', { type: 'list', span: true, itemLabel: 'Question', titleKey: 'q', fields: [F('q', 'Question', { span: true }), F('a', 'Answer', { type: 'textarea', rows: 4, span: true })], blank: { q: 'New question', a: '' } })],
+  contact: [F('label', 'Section label'), ANCHOR, F('heading', 'Heading', { span: true }), F('body', 'Body', { type: 'textarea', rows: 3, span: true }), F('projectTypes', 'Project types (dropdown)', { type: 'textarea', rows: 5, help: 'One option per line' }), F('submitLabel', 'Button label'), F('_info', '', { type: 'info', help: 'Email, WhatsApp and the form destination are set under Site settings › Contact.', span: true })],
+  richtext: [F('label', 'Section label'), ANCHOR, F('heading', 'Heading', { span: true }), F('html', 'Content', { type: 'rich', span: true })]
+};
+const SEC_NAMES = { hero: 'Hero', about: 'About', work: 'Work / Showreel', services: 'Services accordion', why: 'Why Choose Me', testimonials: 'Testimonials', stats: 'Stats counters', faq: 'FAQ', contact: 'Contact', richtext: 'Text section' };
+const SEO_FIELDS = [F('title', 'SEO title', { seo: 'title', span: true }), F('desc', 'Meta description', { type: 'textarea', rows: 3, seo: 'desc', span: true }), F('focusKw', 'Focus keyword', { help: 'The main phrase someone would search to find this page.' }), F('canonical', 'Canonical URL', { placeholder: 'Leave empty to use this page’s URL' }), F('noindex', 'Hide from search engines (noindex)', { type: 'toggle', span: true })];
+const SOCIAL_FIELDS = [F('ogTitle', 'Share title', { placeholder: 'Defaults to SEO title' }), F('ogDesc', 'Share description', { type: 'textarea', rows: 2, placeholder: 'Defaults to meta description' }), F('ogImage', 'Share image (1200×630)', { type: 'image' })];
+const SITE_PANELS = [
+  ['Header', ['header'], [F('height', 'Header height', { type: 'range', min: 56, max: 200, step: 1, unit: 'px' }), F('logoWidth', 'Logo width', { type: 'range', min: 60, max: 320, step: 1, unit: 'px' }), F('logo', 'Logo image', { type: 'image', help: 'Leave empty to use the default Ayesha logo. Use a transparent PNG for best results.' }), F('sticky', 'Sticky header (stays on screen while scrolling)', { type: 'toggle' }), F('showHire', 'Show header button', { type: 'toggle' }), F('hireLabel', 'Header button label'), F('hireTarget', 'Header button link', { type: 'link' })]],
+  ['Navigation', [], [F('nav', 'Menu links', { type: 'list', span: true, itemLabel: 'Link', titleKey: 'label', fields: [F('label', 'Label'), F('target', 'Link', { type: 'link', help: '#section, /page, /blog or a full URL' })], blank: { label: 'New link', target: '#' } })]],
+  ['Footer', ['footer'], [F('logoWidth', 'Footer logo width', { type: 'range', min: 60, max: 400, step: 1, unit: 'px' }), F('copyright', 'Copyright line', { span: true }), F('quickLinks', 'Quick links', { type: 'list', span: true, itemLabel: 'Link', titleKey: 'label', fields: [F('label', 'Label'), F('target', 'Link', { type: 'link' })], blank: { label: 'New link', target: '#' } })]],
+  ['Social profiles', [], [F('social', 'Profiles', { type: 'list', span: true, itemLabel: 'Profile', titleKey: 'label', fields: [F('label', 'Name'), F('url', 'Profile URL', { inputType: 'url', placeholder: 'https://' })], blank: { label: 'New profile', url: '' } })]],
+  ['Contact', ['contact'], [F('email', 'Email', { inputType: 'email' }), F('whatsappDisplay', 'WhatsApp (as shown)'), F('whatsappIntl', 'WhatsApp (international, for the chat link)', { placeholder: '+92 370 1421101' }), F('formEndpoint', 'Form destination URL', { inputType: 'url', span: true, help: 'A form service endpoint (e.g. Formspree) that accepts JSON POST. Leave empty to show the placeholder.' })]]
+];
+const SEO_SITE = [F('siteName', 'Site name'), F('baseUrl', 'Site URL', { inputType: 'url', placeholder: 'https://ayeshaamin.com', help: 'Used for canonical URLs, the sitemap and share links.' }), F('titleTemplate', 'Title template', { help: '%title% is replaced with the page title.' }), F('xHandle', 'X (Twitter) handle', { placeholder: '@handle' }), F('defaultOgImage', 'Default share image', { type: 'image' }), F('robots', 'robots.txt rules', { type: 'textarea', rows: 7, span: true, help: '%baseUrl% is replaced with your site URL.' })];
+
+class Component extends DCLogic {
+  state = {
+    booting: true, authed: false, mode: 'login', loginPw: '', resetCode: '', resetPw: '', resetPw2: '', authErr: '', authOk: false,
+    nav: 'overview', editId: null, homeSec: null, tab: 'content', w: typeof window !== 'undefined' ? window.innerWidth : 1400,
+    preview: null, device: 'desktop', frameKey: 0, pane: { w: 600, h: 800 },
+    q: '', statusF: 'all', catF: 'all', newCat: '', vidInput: '', vidErrors: [], uploadErrors: [], mediaSel: null, dz: false,
+    rdFrom: '', rdTo: '', rdErr: '', pwOld: '', pwNew: '', pwMsg: '', pwOk: true, newCode: '',
+    picker: null, revOpen: false, confirm: null, toast: null, drag: null, over: null, openItems: {}, tick: 0
+  };
+  rteFileRef = React.createRef();
+  scrollRef = React.createRef(); paneRef = React.createRef(); frameRef = React.createRef(); cfmCancelRef = React.createRef();
+
+  componentDidMount() {
+    this._ps = { ...this.state };
+    const wait = () => (window.AyeshaCMS ? this.boot() : setTimeout(wait, 30));
+    wait();
+    document.addEventListener('selectionchange', this.rteTrack);
+    this.onResize = () => this.setState({ w: window.innerWidth }, () => this.measure());
+    window.addEventListener('resize', this.onResize);
+    this.sessT = setInterval(async () => { if (this.state.authed && !(await C().checkSession())) this.setState({ authed: false, mode: 'login', authErr: 'Your session expired. Please sign in again.' }); this.setState(s => ({ tick: s.tick + 1 })); }, 30000);
+  }
+  async boot() {
+    const cms = C(); await cms.ready;
+    const authed = await cms.checkSession();
+    this.unsub = cms.subscribe(() => this.forceUpdate());
+    this.setState({ booting: false, authed }, () => this.measure());
+  }
+  componentWillUnmount() { document.removeEventListener('selectionchange', this.rteTrack); clearTimeout(this.rteT); this.unsub && this.unsub(); window.removeEventListener('resize', this.onResize); clearInterval(this.sessT); clearTimeout(this.toastT); this.ro && this.ro.disconnect(); }
+  componentDidUpdate() {
+    const ps = this._ps || {}; this._ps = { ...this.state };
+    if (this.paneRef.current && this.paneRef.current !== this.observed) { this.ro && this.ro.disconnect(); this.ro = new ResizeObserver(() => this.measure()); this.ro.observe(this.paneRef.current); this.observed = this.paneRef.current; this.measure(); }
+    if (!ps.confirm && this.state.confirm) this.cfmCancelRef.current && this.cfmCancelRef.current.focus();
+    if (ps.homeSec !== this.state.homeSec || ps.nav !== this.state.nav || ps.editId !== this.state.editId) this.syncPreview();
+  }
+  // ---------- rich text editor (inline in page/post/about content fields) ----------
+  rteDecorate(el) {
+    el.querySelectorAll('figure').forEach(f => { f.setAttribute('contenteditable', 'false'); const c = f.querySelector('figcaption'); c && c.setAttribute('contenteditable', f.hasAttribute('data-ph') ? 'false' : 'true'); });
+    if (!el.lastElementChild || el.lastElementChild.tagName !== 'P') { const p = document.createElement('p'); p.innerHTML = '<br>'; el.appendChild(p); }
+  }
+  rteTrack = () => {
+    const sel = document.getSelection(); if (!sel.rangeCount) return;
+    const r = sel.getRangeAt(0), n = r.startContainer, host = (n.nodeType === 1 ? n : n.parentElement);
+    const el = host && host.closest && host.closest('[data-adm-prose]'); if (!el) return;
+    this.rteEl = el; this.rteRange = r.cloneRange();
+    const blk = host.closest('h2,h3,h4,blockquote,p,li'); const tag = blk ? blk.tagName.toLowerCase() : 'p';
+    const block = /^(h2|h3|h4|blockquote)$/.test(tag) ? tag : 'p';
+    if (block !== this.state.rteBlock) this.setState({ rteBlock: block });
+  };
+  rteRestore() {
+    const el = this.rteEl; if (!el || !document.contains(el)) return false;
+    el.focus({ preventScroll: true });
+    const s = document.getSelection();
+    if (this.rteRange && el.contains(this.rteRange.startContainer)) { s.removeAllRanges(); s.addRange(this.rteRange); }
+    else { const r = document.createRange(); r.selectNodeContents(el); r.collapse(false); s.removeAllRanges(); s.addRange(r); }
+    return true;
+  }
+  rteEmit(now) {
+    const el = this.rteEl; if (!el || !el._set) return;
+    clearTimeout(this.rteT); const fn = el._set;
+    const go = () => fn(C().sanitize(el.innerHTML));
+    now ? go() : (this.rteT = setTimeout(go, 300));
+  }
+  rteExec(cmd, val) { if (!this.rteRestore()) return this.toast('Click inside the text first.', '#f4b400'); document.execCommand(cmd, false, val); this.rteDecorate(this.rteEl); this.rteEmit(true); this.rteTrack(); }
+  rteInsertImage() {
+    if (!this.rteEl) return this.toast('Click inside the text where the image should go.', '#f4b400');
+    const el = this.rteEl, range = this.rteRange && this.rteRange.cloneRange();
+    this.pickMedia(m => { if (!m) return; this.rteEl = el; this.rteRange = range; this.rteInsertMedia(m, null); });
+  }
+  rteUpload() {
+    if (!this.rteEl) return this.toast('Click inside the text where the image should go.', '#f4b400');
+    this.rteUpEl = this.rteEl; this.rteUpRange = this.rteRange && this.rteRange.cloneRange();
+    this.rteFileRef.current && this.rteFileRef.current.click();
+  }
+  rteInsertMedia(m, fig) {
+    const esc = C().esc;
+    const inner = `<img src="${m.src}" alt="${esc(m.alt || '')}"${m.title ? ` title="${esc(m.title)}"` : ''} data-media="${m.id}">` + (m.caption ? `<figcaption>${esc(m.caption)}</figcaption>` : '');
+    if (fig && document.contains(fig)) { fig.removeAttribute('data-ph'); fig.innerHTML = inner; this.rteEl = fig.closest('[data-adm-prose]'); }
+    else {
+      if (!this.rteRestore()) return;
+      document.execCommand('insertHTML', false, `<figure data-align="center" style="width:60%">${inner}</figure><p><br></p>`);
+      fig = [...this.rteEl.querySelectorAll('figure')].reverse().find(f => f.querySelector(`img[data-media="${m.id}"]`));
+    }
+    this.rteDecorate(this.rteEl); this.rteEmit(true);
+    if (fig) { const img = fig.querySelector('img'); img && img.addEventListener('load', () => this.rtePlace(), { once: true }); setTimeout(() => this.rteSelectImg(fig), 40); }
+  }
+  openSeoUpload(file, cb) {
+    const ok = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (!ok.includes(file.type)) return this.toast(`${file.name}: only JPG, PNG, WebP or GIF images are allowed.`, '#ff6a55');
+    if (file.size > 10 * 1024 * 1024) return this.toast(`${file.name}: larger than 10 MB.`, '#ff6a55');
+    const left = (this.seoQueue || []).length;
+    this.setState({ seoUp: { file, cb, url: URL.createObjectURL(file), name: C().slugify(file.name.replace(/\.[^.]+$/, '')), alt: '', title: '', caption: '', desc: '', err: '', busy: false, left } });
+  }
+  async confirmSeoUpload() {
+    const u = this.state.seoUp; if (!u || u.busy) return;
+    if (!u.alt.trim()) return this.setState({ seoUp: { ...u, err: 'Add alt text. It describes the image for search engines and screen readers.' } });
+    this.setState({ seoUp: { ...u, busy: true, err: '' } });
+    try {
+      const m = await C().addMedia(u.file);
+      const name = C().slugify(u.name) || m.name;
+      const seo = { name, alt: u.alt.trim(), title: u.title.trim(), caption: u.caption.trim(), desc: u.desc.trim() };
+      await C().updateMedia(m.id, seo);
+      URL.revokeObjectURL(u.url);
+      this.toast('Image added to the media library.');
+      u.cb && u.cb({ ...m, ...seo });
+      this.setState({ seoUp: null }, () => this.nextSeoUpload());
+    } catch (e) { this.setState({ seoUp: { ...u, busy: false, err: e.message } }); }
+  }
+  rtePlace() {
+    const f = this.rteFig, el = this.rteEl; if (!f || !el || !document.contains(f)) return;
+    const img = f.querySelector('img'); if (!img) return;
+    const w = el.parentElement.getBoundingClientRect(), r = img.getBoundingClientRect();
+    this.setState({ rteOv: { id: el.dataset.fid, top: r.top - w.top, left: r.left - w.left, w: r.width, h: r.height } });
+  }
+  rteHandle = corner => e => {
+    e.preventDefault(); e.stopPropagation();
+    const f = this.rteFig, el = this.rteEl; if (!f || !el) return;
+    const img = f.querySelector('img'), edW = el.clientWidth, startX = e.clientX, startW = img.getBoundingClientRect().width;
+    if (f.getAttribute('data-align') === 'full') f.setAttribute('data-align', 'center');
+    const dir = corner.includes('e') ? 1 : -1, mult = f.getAttribute('data-align') === 'center' ? 2 : 1;
+    const move = ev => { const nw = Math.max(60, Math.min(edW, startW + (ev.clientX - startX) * dir * mult)); const pct = Math.round(nw / edW * 100); f.style.width = pct + '%'; this.setState(s => ({ rteImg: { ...s.rteImg, w: String(pct), align: f.getAttribute('data-align') } })); this.rtePlace(); };
+    const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); this.rteEmit(true); };
+    window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+  };
+  rteSelectImg(fig) {
+    const img = fig.querySelector('img'); if (!img) return;
+    this.rteFig = fig; this.rteEl = fig.closest('[data-adm-prose]');
+    this.setState({ rteImg: { align: fig.getAttribute('data-align') || 'center', w: String(Math.round(parseFloat(fig.style.width) || 100)), alt: img.getAttribute('alt') || '', cap: !!fig.querySelector('figcaption') }, rteLink: null }, () => requestAnimationFrame(() => this.rtePlace()));
+  }
+  rteImgSet(fn, patch) { const f = this.rteFig; if (!f || !document.contains(f)) return this.setState({ rteImg: null }); fn(f, f.querySelector('img')); this.rteEmit(true); if (patch) this.setState(s => ({ rteImg: { ...s.rteImg, ...patch } })); requestAnimationFrame(() => this.rtePlace()); }
+  rteApplyLink() {
+    const L = this.state.rteLink; if (!L) return;
+    let url = L.url.trim(); if (!url) return;
+    if (!/^(https?:|mailto:|tel:|#|\/)/i.test(url)) url = 'https://' + url;
+    if (!this.rteRestore()) return;
+    const sel = document.getSelection();
+    if (sel.isCollapsed) document.execCommand('insertHTML', false, `<a href="${C().esc(url)}">${C().esc(url)}</a>`);
+    else document.execCommand('createLink', false, url);
+    this.rteEl.querySelectorAll('a').forEach(a => { if (a.getAttribute('href') === url) { if (L.blank) a.target = '_blank'; else a.removeAttribute('target'); } });
+    this.setState({ rteLink: null }); this.rteEmit(true);
+  }
+  measure() { const p = this.paneRef.current; if (!p) return; const r = p.getBoundingClientRect(); if (Math.abs(r.width - this.state.pane.w) > 1 || Math.abs(r.height - this.state.pane.h) > 1) this.setState({ pane: { w: r.width, h: r.height } }); }
+
+  toast(text, color) { clearTimeout(this.toastT); this.setState({ toast: { text, color: color || '#3ec46d' } }); this.toastT = setTimeout(() => this.setState({ toast: null }), 2800); }
+  ask(o) { return new Promise(res => this.setState({ confirm: { ...o, res } })); }
+  closeConfirm(v) { const c = this.state.confirm; this.setState({ confirm: null }); c && c.res(v); }
+  set(id, path, val) { C().updateDraft(id, d => { setIn(d, path, val); }); }
+  download(name, text, type) { const b = new Blob([text], { type: type || 'text/plain' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }
+
+  // ---------- context ----------
+  ctxEntity() {
+    const s = this.state;
+    if (s.nav === 'home') return 'home';
+    if (s.nav === 'videos') return 'videos';
+    if (s.nav === 'settings' || s.nav === 'seo') return 'site';
+    if ((s.nav === 'pages' || s.nav === 'blog') && s.editId && C().entity(s.editId)) return s.editId;
+    return null;
+  }
+  previewPath() {
+    const id = this.ctxEntity(), e = id && C().entity(id);
+    if (e && (e.type === 'page' || e.type === 'post')) return C().pathFor(e) || '/';
+    if (this.state.nav === 'blog') return '/blog';
+    return '/';
+  }
+  syncPreview() {
+    const f = this.frameRef.current; if (!f || !f.contentWindow) return;
+    const path = this.previewPath();
+    try { if (f.contentWindow.location.hash !== '#' + path) f.contentWindow.location.hash = '#' + path; } catch (e) {}
+    const sec = this.state.nav === 'home' && this.state.homeSec && (C().entity('home').draft.sections.find(x => x.id === this.state.homeSec) || {}).data;
+    if (sec && sec.anchor) setTimeout(() => { try { f.contentWindow.postMessage({ type: 'ayesha-scroll-to', anchor: sec.anchor }, '*'); } catch (e) {} }, 500);
+  }
+  go(nav) { this.setState({ nav, editId: null, tab: 'content', mediaSel: null, q: '', statusF: 'all', catF: 'all', vidErrors: [], uploadErrors: [] }); if (this.scrollRef.current) this.scrollRef.current.scrollTop = 0; }
+
+  // ---------- actions ----------
+  async publish(id) {
+    const cms = C(), e = cms.entity(id); if (!e) return;
+    if (e.type === 'page' || e.type === 'post') {
+      const d = e.draft;
+      if (!d.title || !d.title.trim()) return this.toast('Add a title before publishing.', '#ff6a55');
+      const slug = d.slug || cms.slugify(d.title);
+      if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return this.toast('Fix the URL slug before publishing.', '#ff6a55');
+      if (cms.slugTaken(slug, id, e.type)) return this.toast('That URL is already used by another ' + e.type + '.', '#ff6a55');
+      if (!d.slug) cms.updateDraft(id, x => { x.slug = slug; });
+    }
+    await cms.publish(id); await cms.flush();
+    this.toast('Published. The live site is updated.');
+    this.reloadSoon();
+  }
+  reloadSoon() { setTimeout(() => this.syncPreview(), 300); }
+  async unpublish(id) {
+    if (!(await this.ask({ title: 'Unpublish?', body: 'Visitors will no longer see this. Its URL will show “Page not found” and it leaves the sitemap. You can publish it again any time.', okLabel: 'Unpublish', danger: true }))) return;
+    await C().unpublish(id); this.toast('Unpublished.');
+  }
+  async discard(id) {
+    if (!(await this.ask({ title: 'Discard changes?', body: 'The draft goes back to the published version. A revision of your current draft is saved first.', okLabel: 'Discard', danger: true }))) return;
+    await C().discardDraft(id); this.rteVer = (this.rteVer || 0) + 1; this.forceUpdate(); this.toast('Changes discarded. Revision saved.');
+  }
+  async removeEntity(id) {
+    const e = C().entity(id); if (!e) return;
+    const live = !!e.live;
+    if (!(await this.ask({ title: `Delete “${e.draft.title || 'Untitled'}”?`, body: (live ? 'It is published. Its URL will show “Page not found” and it leaves the sitemap. ' : '') + 'This also deletes its revision history and cannot be undone.', okLabel: 'Delete permanently', danger: true }))) return;
+    await C().remove(id); if (this.state.editId === id) this.setState({ editId: null }); this.toast('Deleted.');
+  }
+  pickMedia(cb) { this.setState({ picker: { cb }, uploadErrors: [] }); }
+  // Every upload goes through the SEO dialog, one file at a time, and lands in the media library.
+  upload(files, choose) {
+    const list = [...files]; if (!list.length) return;
+    const insertCb = choose && this.state.picker ? this.state.picker.cb : null;
+    if (choose) this.setState({ picker: null });
+    this.seoQueue = list.map((f, i) => ({ f, cb: i === 0 && insertCb ? insertCb : (m => this.state.nav === 'media' && this.setState({ mediaSel: m.id })) }));
+    this.setState({ uploadErrors: [] });
+    this.nextSeoUpload();
+  }
+  nextSeoUpload() {
+    const n = this.seoQueue && this.seoQueue.shift(); if (!n) return;
+    this.openSeoUpload(n.f, n.cb);
+    if (!this.state.seoUp) this.nextSeoUpload();
+  }
+  cancelSeoUpload() { const u = this.state.seoUp; u && URL.revokeObjectURL(u.url); this.setState({ seoUp: null }, () => this.nextSeoUpload()); }
+
+  // ---------- field descriptors ----------
+  field(entId, base, f, data, opts) {
+    const cms = C(); const path = base.concat(f.key); const v = data ? data[f.key] : undefined;
+    const set = val => this.set(entId, path, val);
+    const id = 'f_' + entId + '_' + path.join('_');
+    const t = f.type;
+    const d = { id, label: f.label, showLabel: t !== 'toggle' && t !== 'info' && !!f.label, placeholder: f.placeholder || '', help: f.help || '', helpColor: '#7e7e7e', meta: '', metaColor: '#7e7e7e', span: f.span ? '1 / -1' : 'auto', border: '#3c3c3c',
+      isText: ['text', 'link', 'number', 'date'].includes(t), isTextarea: t === 'textarea', isRange: t === 'range', isToggle: t === 'toggle', isSelect: t === 'select', isImage: t === 'image', isRich: t === 'rich', isList: t === 'list', isChecks: t === 'checks',
+      inputType: t === 'number' ? 'number' : t === 'date' ? 'date' : (f.inputType || 'text'), list: t === 'link' ? 'dl-targets' : undefined, rows: f.rows || 3, value: v == null ? '' : v };
+    if (d.isText || d.isTextarea || d.isSelect) d.onChange = e => set(t === 'number' ? (e.target.value === '' ? '' : +e.target.value) : e.target.value);
+    if (d.isSelect) d.options = f.options;
+    if (d.isRange) Object.assign(d, { min: f.min, max: f.max, step: f.step || 1, unit: f.unit || '', meta: `${v}${f.unit || ''}`, onChange: e => set(Math.max(f.min, Math.min(f.max, +e.target.value || f.min))) });
+    if (d.isToggle) Object.assign(d, { checked: !!v, onChange: e => set(e.target.checked) });
+    if (t === 'video') { const isFile = /^vfile:/.test(v || ''); const meta = isFile ? cms.videoFileMeta(v) : null;
+      Object.assign(d, { isVideo: true, linkValue: isFile ? '' : (v || ''), onLink: e => set(e.target.value), isFile, fileName: meta ? meta.name + ' (' + (meta.size / 1048576).toFixed(1) + ' MB)' : (isFile ? 'Uploaded video' : ''), hasValue: !!v,
+        upLabel: this.state.vidBusy ? 'Uploading…' : (isFile ? 'Replace video' : 'Upload video'),
+        onFile: async e => { const file = e.target.files && e.target.files[0]; e.target.value = ''; if (!file) return; this.setState({ vidBusy: true }); try { const ref = await cms.addVideoFile(file); set(ref); this.toast('Video uploaded.'); } catch (err) { this.toast(err.message, '#ff6a55'); } this.setState({ vidBusy: false }); },
+        clear: () => set('') }); }
+    if (d.isImage) { const src = cms.mediaSrc(v); Object.assign(d, { src, noSrc: !src, pickLabel: src ? 'Change' : 'Choose image', pick: () => this.pickMedia(m => set('media:' + m.id)), clear: () => set('') }); }
+    if (d.isRich) {
+      const key = id + ':' + (this.rteVer || 0);
+      const setHtml = html => cms.updateDraft(entId, doc => { setIn(doc, path, html); const sk = base.concat(f.key + 'Src'); if (getIn(doc, sk) !== undefined) setIn(doc, sk, undefined); });
+      Object.assign(d, { minH: (f.minH || 380) + 'px', showLabel: !!f.label,
+        ov: (o => ({ display: o ? 'block' : 'none', top: o ? o.top + 'px' : '0', left: o ? o.left + 'px' : '0', w: o ? o.w + 'px' : '0', h: o ? o.h + 'px' : '0', label: o ? `${Math.round(o.w)} × ${Math.round(o.h)} · ${this.state.rteImg.w}%` : '', nw: this.rteHandle('nw'), ne: this.rteHandle('ne'), sw: this.rteHandle('sw'), se: this.rteHandle('se') }))(this.state.rteImg && this.state.rteOv && this.state.rteOv.id === id ? this.state.rteOv : null),
+        edRef: el => { if (!el) return; el._set = setHtml; el.dataset.fid = id; if (el.dataset.k !== key) { el.setAttribute('contenteditable', 'true'); el.innerHTML = cms.sanitize(v || '') || '<p><br></p>'; el.dataset.k = key; this.rteDecorate(el); } } });
+    }
+    if (f.video && v) { const p = cms.parseVideo(v); d.help = p ? `Detected: ${cms.PLATFORM_LABEL[p.platform]}` : cms.videoError(v); d.helpColor = p ? '#3ec46d' : '#ff6a55'; d.border = p ? '#3c3c3c' : '#ff6a55'; }
+    if (f.seo === 'title') { const len = (v || '').length; d.meta = `${len} / 60`; d.metaColor = len >= 30 && len <= 60 ? '#3ec46d' : len ? '#f4b400' : '#7e7e7e'; d.placeholder = 'Defaults to: ' + cms.effectiveTitle({ ...(opts && opts.doc), seo: {} }, opts && opts.kind, true); }
+    if (f.seo === 'desc') { const len = (v || '').length; d.meta = `${len} / 160`; d.metaColor = len >= 120 && len <= 160 ? '#3ec46d' : len ? '#f4b400' : '#7e7e7e'; }
+    if (f.slugFor) {
+      const e = cms.entity(entId), slug = v || '';
+      const bad = slug && !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug), taken = slug && cms.slugTaken(slug, entId, e.type);
+      d.help = taken ? 'This URL is already used.' : bad ? 'Use lowercase letters, numbers and hyphens only.' : `URL: ${f.slugFor}${slug || cms.slugify(data.title) || '…'}${slug ? '' : ' (generated from the title)'}`;
+      d.helpColor = taken || bad ? '#ff6a55' : '#7e7e7e'; d.border = taken || bad ? '#ff6a55' : '#3c3c3c';
+      d.onChange = ev => set(ev.target.value.toLowerCase().replace(/\s+/g, '-'));
+      if (e.live && e.live.slug && slug && slug !== e.live.slug && !taken && !bad) { d.help += ' · Publishing adds a redirect from the old URL.'; }
+    }
+    if (d.isChecks) { const sel = v || []; d.options = (f.options || []).map(o => ({ ...o, on: sel.includes(o.v), toggle: e => set(e.target.checked ? sel.concat(o.v) : sel.filter(x => x !== o.v)) })); }
+    if (d.isList) {
+      const arr = Array.isArray(v) ? v : [];
+      const openKey = id;
+      d.addLabel = 'Add ' + (f.itemLabel || 'item').toLowerCase();
+      d.add = () => { set(arr.concat(JSON.parse(JSON.stringify(f.blank || {})))); this.setState(s => ({ openItems: { ...s.openItems, [openKey + ':' + arr.length]: true } })); };
+      d.items = arr.map((it, i) => {
+        const k = openKey + ':' + i, open = !!this.state.openItems[k];
+        return {
+          num: pad(i + 1), title: (it && it[f.titleKey]) || `${f.itemLabel} ${i + 1}`, open, exp: open ? 'true' : 'false', rot: open ? 'rotate(180deg)' : 'none',
+          toggle: () => this.setState(s => ({ openItems: { ...s.openItems, [k]: !open } })),
+          up: () => { if (i > 0) { const n = arr.slice(); [n[i - 1], n[i]] = [n[i], n[i - 1]]; set(n); } },
+          down: () => { if (i < arr.length - 1) { const n = arr.slice(); [n[i + 1], n[i]] = [n[i], n[i + 1]]; set(n); } },
+          remove: async () => { if (await this.ask({ title: 'Remove this item?', body: `“${(it && it[f.titleKey]) || 'Item'}” will be removed from the draft. You can restore it from Revisions.`, okLabel: 'Remove', danger: true })) set(arr.filter((_, j) => j !== i)); },
+          fields: f.fields.map(sf => { const sd = this.field(entId, path.concat(i), sf, it); sd.span = sf.span ? '1 / -1' : 'auto'; return sd; })
+        };
+      });
+    }
+    return d;
+  }
+  panel(title, entId, base, schema, data, opts) { return { title, fields: schema.map(f => this.field(entId, base, f, data, opts)) }; }
+
+  seoBlock(doc, kind, entId) {
+    const cms = C(), a = cms.analyze(doc, kind, true), site = cms.siteSeo(true);
+    const path = kind === 'home' ? '/' : cms.pathFor(cms.entity(entId) || { type: kind }, doc) || '/';
+    const base = (site.baseUrl || 'https://[your-site]').replace(/\/+$/, '');
+    const desc = a.desc || cms.effectiveDesc(doc) || '';
+    const tl = a.title.length, dl = (doc.seo && doc.seo.desc || '').length;
+    const col = st => (st === 'pass' ? '#3ec46d' : st === 'improve' ? '#f4b400' : '#7e7e7e');
+    const og = cms.mediaSrc((doc.seo && doc.seo.ogImage) || doc.featuredImage || site.defaultOgImage);
+    return {
+      url: base + path, titleCut: a.title.length > 62 ? a.title.slice(0, 60) + '…' : a.title, descCut: desc.length > 162 ? desc.slice(0, 158) + '…' : (desc || 'No description yet.'),
+      titleLen: tl, descLen: dl, titleBar: Math.min(100, tl / 60 * 100) + '%', descBar: Math.min(100, dl / 160 * 100) + '%',
+      titleColor: tl >= 30 && tl <= 60 ? '#3ec46d' : '#f4b400', descColor: dl >= 120 && dl <= 160 ? '#3ec46d' : '#f4b400',
+      pass: a.counts.pass, improve: a.counts.improve, na: a.counts.na,
+      groups: a.groups.map(g => ({ name: g.name, checks: g.checks.map(c => ({ ...c, color: col(c.status), statusLabel: c.status === 'pass' ? 'Passed' : c.status === 'improve' ? 'Needs improvement' : 'Not applicable' })) })),
+      ogImg: og, noOgImg: !og, ogTitle: (doc.seo && doc.seo.ogTitle) || a.title, ogDesc: (doc.seo && doc.seo.ogDesc) || desc, domain: base.replace(/^https?:\/\//, '')
+    };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const base = { booting: s.booting, showLogin: false, showApp: false, targets: [], navItems: [], panels: [], v: {}, bar: {}, seo: { groups: [] }, secList: [], addTypes: [], stats: [], pending: [], list: { rows: [] }, cats: [], vids: [], vidErrors: [], media: [], uploadErrors: [], redirects: [], indexRows: [], tabs: [], devices: [], revs: [], cfm: {}, mSel: {}, secActions: {}, toastT: 'translateY(16px)', toastOp: 0, toastText: '', toastColor: '#3ec46d', picker: false, revOpen: false, confirm: false };
+    if (s.booting || !window.AyeshaCMS || !C().state) return base;
+    const cms = C(), st = cms.state;
+    const toast = { toastT: s.toast ? 'none' : 'translateY(16px)', toastOp: s.toast ? 1 : 0, toastText: s.toast ? s.toast.text : '', toastColor: s.toast ? s.toast.color : '#3ec46d' };
+    const cfm = s.confirm ? { title: s.confirm.title, body: s.confirm.body, okLabel: s.confirm.okLabel || 'OK', okBg: s.confirm.danger ? '#c8200f' : '#c8200f', accent: s.confirm.danger ? '#e22718' : '#3c3c3c', ok: () => this.closeConfirm(true), cancel: () => this.closeConfirm(false) } : {};
+    const common = { ...toast, cfm, confirm: !!s.confirm, cfmCancelRef: this.cfmCancelRef, stop: e => e.stopPropagation() };
+    if (!s.authed) {
+      return { ...base, ...common, booting: false, showLogin: true, loginMode: s.mode === 'login', resetMode: s.mode === 'reset', loginPw: s.loginPw, resetCode: s.resetCode, resetPw: s.resetPw, resetPw2: s.resetPw2, authErr: s.authErr, authMsgColor: s.authOk ? '#3ec46d' : '#ff6a55',
+        onLoginPw: e => this.setState({ loginPw: e.target.value, authErr: '' }), onResetCode: e => this.setState({ resetCode: e.target.value }), onResetPw: e => this.setState({ resetPw: e.target.value }), onResetPw2: e => this.setState({ resetPw2: e.target.value }),
+        toReset: () => this.setState({ mode: 'reset', authErr: '' }), toLogin: () => this.setState({ mode: 'login', authErr: '' }),
+        doLogin: async e => { e.preventDefault(); try { await cms.login(s.loginPw); this.setState({ authed: true, loginPw: '', authErr: '' }); } catch (err) { this.setState({ authErr: err.message }); } },
+        doReset: async e => { e.preventDefault(); if (s.resetPw !== s.resetPw2) return this.setState({ authErr: 'Passwords don’t match.', authOk: false }); try { await cms.resetPassword(s.resetCode, s.resetPw); this.setState({ mode: 'login', authErr: 'Password updated. Sign in with your new password.', authOk: true, resetCode: '', resetPw: '', resetPw2: '' }); } catch (err) { this.setState({ authErr: err.message, authOk: false }); } } };
+    }
+    const E = st.entities;
+    const narrow = s.w < 900, mid = s.w < 1280;
+    const previewOn = s.preview == null ? !mid : s.preview;
+    const ctx = this.ctxEntity(), ent = ctx && E[ctx];
+    const isDirty = id => cms.isDirty(id);
+    const NAV = [['overview', 'Overview'], ['home', 'Homepage', isDirty('home')], ['videos', 'Videos', isDirty('videos')], ['pages', 'Pages', cms.list('page').some(e => isDirty(e.id) && e.live)], ['blog', 'Blog', cms.list('post').some(e => isDirty(e.id) && e.live)], ['media', 'Media'], ['seo', 'SEO & sitemap'], ['settings', 'Site settings', isDirty('site')], ['account', 'Account']];
+    const homeD = E.home.draft, siteD = E.site.draft;
+    const anchors = homeD.sections.filter(x => x.data.anchor).map(x => ({ v: '#' + x.data.anchor, l: SEC_NAMES[x.type] }));
+    const pagesT = cms.list('page').map(e => ({ v: '/' + (e.draft.slug || cms.slugify(e.draft.title)), l: e.draft.title }));
+    const targets = anchors.concat([{ v: '/blog', l: 'Blog' }, { v: '/', l: 'Home' }], pagesT);
+    // top bar
+    let bar = { title: { overview: 'Overview', home: 'Homepage', videos: 'Videos', pages: 'Pages', blog: 'Blog', media: 'Media library', seo: 'SEO & sitemap', settings: 'Site settings', account: 'Account' }[s.nav] };
+    if (ent) {
+      const stt = cms.status(ctx), [sl, sc] = STATUS[stt] || ['', '#9a9a9a'];
+      const isDoc = ent.type === 'page' || ent.type === 'post';
+      Object.assign(bar, { entity: true, status: sl, statusColor: sc, revCount: ent.revisions.length,
+        openRevisions: () => this.setState({ revOpen: true }), saveRev: async () => { await cms.saveRevision(ctx, 'Saved revision'); this.toast('Revision saved.'); },
+        previewTab: () => window.open('index.html#' + this.previewPath(), 'ayesha-preview'),
+        canDiscard: !!ent.live && isDirty(ctx), discard: () => this.discard(ctx),
+        canUnpublish: isDoc && !!ent.live, unpublish: () => this.unpublish(ctx),
+        publish: () => this.publish(ctx), publishDisabled: !isDirty(ctx), publishOp: isDirty(ctx) ? 1 : 0.4,
+        publishLabel: !ent.live ? 'Publish' : isDirty(ctx) ? 'Publish changes' : 'Published' });
+      if (isDoc) { bar.title = ent.draft.title || 'Untitled'; bar.back = () => this.setState({ editId: null }); }
+      if (s.nav === 'seo') bar.title = 'SEO & sitemap';
+    }
+    const saveText = cms.saveStatus === 'saving' ? 'Saving draft…' : cms.saveStatus === 'error' ? 'Couldn’t save: ' + cms.error : cms.lastSaved ? 'Draft saved ' + cms.lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'All changes save automatically';
+    const v = {}; v[s.nav] = true;
+    let panels = [], seo = { groups: [] }, tabs = [], secList = [], secActions = {}, addTypes = [], list = { rows: [] };
+    const tabsFor = () => [['content', 'Content'], ['seo', 'SEO']].map(([k, l]) => ({ label: l, on: s.tab === k ? 'true' : 'false', color: s.tab === k ? '#fff' : '#9a9a9a', bar: s.tab === k ? '#e22718' : 'transparent', go: () => this.setState({ tab: k }) }));
+    // ---- views ----
+    if (s.nav === 'home') {
+      const secs = homeD.sections;
+      const sel = s.homeSec === 'seo' ? null : (secs.find(x => x.id === s.homeSec) || secs[0]);
+      secList = secs.map((x, i) => ({
+        label: SEC_NAMES[x.type] || x.type, sub: x.hidden ? 'Hidden' : (x.data.heading || x.data.label || x.data.eyebrow || '').slice(0, 40),
+        current: sel && sel.id === x.id && s.homeSec !== 'seo' ? 'true' : undefined, color: x.hidden ? '#7e7e7e' : '#fff',
+        bg: sel && sel.id === x.id && s.homeSec !== 'seo' ? '#1a1a1a' : '#0a0a0a', border: s.over === i && s.drag != null ? '#e22718' : (sel && sel.id === x.id && s.homeSec !== 'seo' ? '#3c3c3c' : '#1a1a1a'), op: s.drag === i ? 0.4 : 1,
+        select: () => this.setState({ homeSec: x.id }),
+        eye: x.hidden ? 'Show' : 'Hide', eyeColor: x.hidden ? '#f4b400' : '#9a9a9a', hideLabel: x.hidden ? 'Show section' : 'Hide section',
+        toggleHide: () => this.set('home', ['sections', i, 'hidden'], !x.hidden),
+        dragStart: e => { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', 'sec'); this.setState({ drag: i }); },
+        dragOver: e => { e.preventDefault(); if (s.over !== i) this.setState({ over: i }); },
+        drop: e => { e.preventDefault(); const from = this.state.drag; this.setState({ drag: null, over: null }); if (from == null || from === i) return; cms.updateDraft('home', d => { const [m] = d.sections.splice(from, 1); d.sections.splice(i, 0, m); }); this.toast('Section moved.'); },
+        dragEnd: () => this.setState({ drag: null, over: null })
+      }));
+      const present = new Set(secs.map(x => x.type));
+      addTypes = Object.keys(SEC_NAMES).filter(t => t === 'richtext' || !present.has(t)).map(t => ({ v: t, l: SEC_NAMES[t] }));
+      if (s.homeSec === 'seo') {
+        panels = [this.panel('Homepage SEO', 'home', ['seo'], SEO_FIELDS, homeD.seo, { doc: homeD, kind: 'home' }), this.panel('Social sharing', 'home', ['seo'], SOCIAL_FIELDS, homeD.seo)];
+        seo = this.seoBlock(homeD, 'home', 'home'); v.seoPanel = true;
+      } else if (sel) {
+        const i = secs.indexOf(sel);
+        panels = [this.panel(SEC_NAMES[sel.type], 'home', ['sections', i, 'data'], SCHEMAS[sel.type] || [], sel.data)];
+        secActions = { on: true, note: sel.hidden ? 'This section is hidden on the site.' : `Section ${i + 1} of ${secs.length}`,
+          up: () => i > 0 && cms.updateDraft('home', d => { const [m] = d.sections.splice(i, 1); d.sections.splice(i - 1, 0, m); }),
+          down: () => i < secs.length - 1 && cms.updateDraft('home', d => { const [m] = d.sections.splice(i, 1); d.sections.splice(i + 1, 0, m); }),
+          remove: async () => { if (await this.ask({ title: `Delete ${SEC_NAMES[sel.type]}?`, body: 'The section and its content are removed from the draft. Restore it from Revisions if needed. To keep it but not show it, use Hide instead.', okLabel: 'Delete section', danger: true })) { cms.updateDraft('home', d => { d.sections.splice(i, 1); }); this.setState({ homeSec: null }); } } };
+      }
+    }
+    if (s.nav === 'settings') panels = SITE_PANELS.map(([t, p, sch]) => this.panel(t, 'site', p, sch, getIn(siteD, p) || siteD));
+    if (s.nav === 'seo') {
+      panels = [this.panel('Site-wide SEO', 'site', ['seo'], SEO_SITE, siteD.seo)];
+      const sm = cms.sitemap();
+      Object.assign(v, { seoSite: true });
+      this._sm = sm;
+    }
+    if (s.nav === 'pages' || s.nav === 'blog') {
+      const type = s.nav === 'pages' ? 'page' : 'post';
+      if (ent) {
+        tabs = tabsFor(); v.tabs = true;
+        const d = ent.draft;
+        if (s.tab === 'content') {
+          const meta = type === 'page'
+            ? [F('title', 'Title', { span: true }), F('slug', 'URL slug', { slugFor: '/' }), F('featuredImage', 'Featured image', { type: 'image' })]
+            : [F('title', 'Title', { span: true }), F('slug', 'URL slug', { slugFor: '/blog/' }), F('date', 'Publication date', { type: 'date' }), F('excerpt', 'Excerpt', { type: 'textarea', rows: 2, span: true }), F('categories', 'Categories', { type: 'checks', options: st.taxonomy.categories.map(c => ({ v: c.id, l: c.name })) }), F('tags', 'Tags', { help: 'Comma separated' }), F('featuredImage', 'Featured image', { type: 'image' })];
+          const mp = this.panel('Details', ctx, [], meta, d);
+          const tagF = mp.fields.find(x => x.label === 'Tags'); if (tagF) { tagF.value = (d.tags || []).join(', '); tagF.onChange = e => this.set(ctx, ['tags'], e.target.value.split(',').map(x => x.trim()).filter(Boolean)); }
+          panels = [mp, this.panel('Content', ctx, [], [F('html', '', { type: 'rich', span: true, minH: 480 })], d)];
+        } else {
+          panels = [this.panel('Search', ctx, ['seo'], SEO_FIELDS, d.seo, { doc: d, kind: type }), this.panel('Social sharing', ctx, ['seo'], SOCIAL_FIELDS, d.seo)];
+          seo = this.seoBlock(d, type, ctx); v.seoPanel = true;
+        }
+      } else {
+        v.list = true;
+        const q = s.q.trim().toLowerCase();
+        const rows = cms.list(type).filter(e => (!q || (e.draft.title || '').toLowerCase().includes(q)) && (s.statusF === 'all' || cms.status(e.id) === s.statusF) && (type !== 'post' || s.catF === 'all' || (e.draft.categories || []).includes(s.catF)));
+        list = { label: type === 'page' ? 'Pages' : 'Posts', isBlog: type === 'post', q: s.q, status: s.statusF, cat: s.catF,
+          onQ: e => this.setState({ q: e.target.value }), onStatus: e => this.setState({ statusF: e.target.value }), onCat: e => this.setState({ catF: e.target.value }),
+          createLabel: type === 'page' ? 'New page' : 'New post',
+          create: () => { const id = cms.create(type); this.setState({ editId: id, tab: 'content' }); },
+          empty: !rows.length, emptyText: q || s.statusF !== 'all' ? 'Nothing matches these filters.' : type === 'page' ? 'No pages yet. The homepage is edited under Homepage.' : 'No posts yet.',
+          rows: rows.map(e => { const [sl, sc] = STATUS[cms.status(e.id)] || ['', '#999']; return { title: e.draft.title || 'Untitled', path: cms.pathFor(e) + (e.draft.slug ? '' : '(not set)'), status: sl, color: sc, when: ago(e.updatedAt), edit: () => this.setState({ editId: e.id, tab: 'content' }), remove: () => this.removeEntity(e.id), removeLabel: 'Delete ' + (e.draft.title || 'Untitled') }; }) };
+      }
+    }
+    // videos
+    const vItems = E.videos.draft.items;
+    const vids = s.nav === 'videos' ? vItems.map((it, i) => { const p = cms.parseVideo(it.url); return {
+      title: it.title, url: it.url, href: it.url, thumb: p && p.thumb, platform: p ? cms.PLATFORM_LABEL[p.platform] : 'Invalid', titleLabel: `Title for video ${i + 1}`,
+      onTitle: e => this.set('videos', ['items', i, 'title'], e.target.value),
+      up: () => i > 0 && cms.updateDraft('videos', d => { const [m] = d.items.splice(i, 1); d.items.splice(i - 1, 0, m); }),
+      down: () => i < vItems.length - 1 && cms.updateDraft('videos', d => { const [m] = d.items.splice(i, 1); d.items.splice(i + 1, 0, m); }),
+      remove: async () => { if (await this.ask({ title: 'Remove video?', body: `“${it.title || it.url}” will be removed from the draft list.`, okLabel: 'Remove', danger: true })) cms.updateDraft('videos', d => { d.items.splice(i, 1); }); },
+      border: s.over === i && s.drag != null ? '#e22718' : '#1a1a1a', op: s.drag === i ? 0.4 : 1,
+      dragStart: e => { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', 'vid'); this.setState({ drag: i }); },
+      dragOver: e => { e.preventDefault(); if (s.over !== i) this.setState({ over: i }); },
+      drop: e => { e.preventDefault(); const from = this.state.drag; this.setState({ drag: null, over: null }); if (from == null || from === i) return; cms.updateDraft('videos', d => { const [m] = d.items.splice(from, 1); d.items.splice(i, 0, m); }); },
+      dragEnd: () => this.setState({ drag: null, over: null }) }; }) : [];
+    // media
+    const media = st.media.map(m => ({ ...m, on: s.mediaSel === m.id ? 'true' : 'false', border: s.mediaSel === m.id ? '#e22718' : '#262626', noAlt: !m.alt, select: () => this.setState({ mediaSel: m.id }), chooseLabel: 'Use ' + m.name,
+      choose: () => { const cb = s.picker && s.picker.cb; this.setState({ picker: null }); cb && cb(m); } }));
+    const ms = st.media.find(m => m.id === s.mediaSel);
+    const mSel = ms ? { on: true, src: ms.src, name: ms.name, alt: ms.alt, meta: `${ms.w} × ${ms.h} · ${Math.round(ms.bytes / 1024)} KB`, usage: (u => u.length ? 'Used in: ' + u.join(', ') : 'Not used in any content.')(cms.mediaUsage(ms.id)),
+      title: ms.title || '', caption: ms.caption || '', desc: ms.desc || '', altLen: (ms.alt || '').length + ' / 125', altColor: !ms.alt ? '#f4b400' : (ms.alt.length > 125 ? '#f4b400' : '#7e7e7e'),
+      onName: e => cms.updateMedia(ms.id, { name: cms.slugify(e.target.value) || e.target.value }), onAlt: e => cms.updateMedia(ms.id, { alt: e.target.value }),
+      onTitle: e => cms.updateMedia(ms.id, { title: e.target.value }), onCaption: e => cms.updateMedia(ms.id, { caption: e.target.value }), onDesc: e => cms.updateMedia(ms.id, { desc: e.target.value }),
+      remove: async () => { const u = cms.mediaUsage(ms.id); if (await this.ask({ title: 'Delete image?', body: u.length ? `It is used in: ${u.join(', ')}. Those places will show no image.` : 'This cannot be undone.', okLabel: 'Delete image', danger: true })) { cms.deleteMedia(ms.id); this.setState({ mediaSel: null }); } } } : { on: false };
+    // preview frame
+    const devW = { desktop: 1440, tablet: 834, mobile: 390 }[s.device];
+    const scale = Math.min(1, s.pane.w / devW);
+    const frameW = devW, frameH = s.pane.h / scale;
+    // overview
+    const all = Object.values(E);
+    const pendingList = all.filter(e => e.type !== 'site' || true).filter(e => isDirty(e.id) && (e.live || ['home', 'site', 'videos'].includes(e.id)));
+    const rev = ent ? ent.revisions : [];
+    return {
+      ...base, ...common, booting: false, showApp: true, targets,
+      appCols: narrow ? 'minmax(0,1fr)' : previewOn ? `224px minmax(0,1fr) ${mid ? '40%' : '44%'}` : '224px minmax(0,1fr)',
+      appRows: narrow ? 'auto minmax(0,1fr)' : 'minmax(0,1fr)', asideRow: narrow ? '1' : '1', mainRow: narrow ? '2' : '1', previewRow: narrow ? '1 / -1' : '1',
+      asideDir: narrow ? 'row' : 'column', asideOx: narrow ? 'auto' : 'hidden', asideOy: narrow ? 'hidden' : 'auto', brandDisplay: narrow ? 'none' : 'flex', navPad: narrow ? '6px' : '10px 8px',
+      previewPos: narrow ? 'fixed' : 'relative', previewInset: narrow ? '0' : 'auto',
+      navItems: NAV.map(([k, l, dot]) => ({ label: l, dot: !!dot, current: s.nav === k ? 'page' : undefined, bg: s.nav === k ? '#1a1a1a' : 'transparent', bar: s.nav === k ? '#e22718' : 'transparent', color: s.nav === k ? '#fff' : '#bbbbbb', go: () => this.go(k) })),
+      logout: () => { cms.flush().then(() => { cms.logout(); this.setState({ authed: false, mode: 'login', authErr: '' }); }); },
+      bar, saveText, saveColor: cms.saveStatus === 'error' ? '#ff6a55' : cms.saveStatus === 'saving' ? '#f4b400' : '#7e7e7e',
+      previewOn, previewBtnBg: previewOn ? '#1a1a1a' : 'transparent', previewBtnLabel: previewOn ? 'Hide preview' : 'Show preview',
+      togglePreview: () => this.setState({ preview: !previewOn }),
+      v, panels, seo, tabs, secList, secActions, addTypes, list,
+      addSection: e => { const t = e.target.value; if (!t) return; const tpl = t === 'richtext' ? { label: '', anchor: 'section-' + Math.random().toString(36).slice(2, 6), heading: 'New section', html: '<p>Write here.</p>' } : JSON.parse(JSON.stringify((cms.defaults.home().sections.find(x => x.type === t) || {}).data || {})); const id = cms.uid('s'); cms.updateDraft('home', d => { d.sections.push({ id, type: t, hidden: false, data: tpl }); }); this.setState({ homeSec: id }); this.toast(SEC_NAMES[t] + ' added at the end. Drag to move it.'); },
+      selectHomeSeo: () => this.setState({ homeSec: 'seo' }), homeSeoBg: s.homeSec === 'seo' ? '#1a1a1a' : 'transparent',
+      homeCols: s.nav === 'home' && !narrow ? '240px minmax(0,1fr)' : 'minmax(0,1fr)',
+      proseStyle: React.createElement('style', null, cms.proseCSS('data-adm-prose') + '[data-adm-prose] figure{cursor:pointer}[data-adm-prose] figure img{user-select:none}[data-adm-prose] figure[data-ph]{display:flex !important;aspect-ratio:16/9;align-items:center;justify-content:center;border:2px dashed #f4b400;background:#141414}[data-adm-prose] figure[data-ph]:hover{border-color:#ffffff}[data-adm-prose] figure[data-ph] figcaption{color:#f4b400;padding:0 16px;font-size:14px;text-align:center;pointer-events:none}'),
+      rte: (() => {
+        const I = s.rteImg, L = s.rteLink, btn = (title, label, run, extra) => ({ title, label, run, weight: extra === 'b' ? '700' : '500', fstyle: extra === 'i' ? 'italic' : 'normal', deco: extra === 'u' ? 'underline' : 'none' });
+        return {
+          keep: e => { if (!/^(SELECT|INPUT|OPTION)$/.test(e.target.tagName)) e.preventDefault(); },
+          blockVal: s.rteBlock || 'p',
+          block: e => this.rteExec('formatBlock', `<${e.target.value}>`),
+          btns: [
+            btn('Bold (Ctrl+B)', 'B', () => this.rteExec('bold'), 'b'), btn('Italic (Ctrl+I)', 'I', () => this.rteExec('italic'), 'i'), btn('Underline (Ctrl+U)', 'U', () => this.rteExec('underline'), 'u'),
+            btn('Bulleted list', '• List', () => this.rteExec('insertUnorderedList')), btn('Numbered list', '1. List', () => this.rteExec('insertOrderedList')),
+            btn('Link (Ctrl+K)', 'Link', () => { this.rteRestore(); this.setState({ rteLink: { url: '', blank: false }, rteImg: null }); }),
+            btn('Upload image from computer', 'Upload image', () => this.rteUpload()), btn('Insert image from media library', 'From library', () => this.rteInsertImage()),
+            btn('Insert image placeholder', 'Placeholder', () => this.rteExec('insertHTML', '<figure data-align="center" data-ph="1" style="width:60%"><figcaption>Image placeholder · click to add an image</figcaption></figure><p><br></p>')), btn('Divider', 'Divider', () => this.rteExec('insertHorizontalRule')),
+            btn('Clear formatting', 'Clear', () => this.rteExec('removeFormat')), btn('Undo (Ctrl+Z)', '↶ Undo', () => this.rteExec('undo')), btn('Redo (Ctrl+Shift+Z)', '↷ Redo', () => this.rteExec('redo'))
+          ],
+          linkOpen: !!L, linkUrl: L ? L.url : '', linkBlank: L ? L.blank : false,
+          onLinkUrl: e => this.setState({ rteLink: { ...L, url: e.target.value } }), onLinkBlank: e => this.setState({ rteLink: { ...L, blank: e.target.checked } }),
+          linkKey: e => { if (e.key === 'Enter') { e.preventDefault(); this.rteApplyLink(); } if (e.key === 'Escape') this.setState({ rteLink: null }); },
+          applyLink: () => this.rteApplyLink(), unlink: () => { this.setState({ rteLink: null }); this.rteExec('unlink'); }, closeLink: () => this.setState({ rteLink: null }),
+          imgOpen: !!I, imgW: I ? I.w : '', imgAlt: I ? I.alt : '', imgCap: I ? I.cap : false, altBorder: I && I.alt.trim() ? '#3c3c3c' : '#f4b400',
+          aligns: [['left', 'Left'], ['center', 'Center'], ['right', 'Right'], ['full', 'Full width']].map(([k, label]) => ({ label, on: I && I.align === k ? 'true' : 'false', bg: I && I.align === k ? '#c8200f' : 'transparent',
+            pick: () => this.rteImgSet(f => { f.setAttribute('data-align', k); if (k === 'full') f.style.width = '100%'; else if (k !== 'center' && (parseFloat(f.style.width) || 100) > 60) f.style.width = '45%'; }, { align: k, w: k === 'full' ? '100' : (k !== 'center' && +I.w > 60 ? '45' : I.w) }) })),
+          onImgW: e => { const raw = e.target.value, v = Math.max(10, Math.min(100, parseInt(raw, 10) || 100)); this.rteImgSet(f => { f.style.width = v + '%'; }, { w: raw }); },
+          onImgAlt: e => { const v = e.target.value; this.rteImgSet((f, img) => img.setAttribute('alt', v), { alt: v }); },
+          onImgCap: e => { const on = e.target.checked; this.rteImgSet(f => { const c = f.querySelector('figcaption'); if (on && !c) { const n = document.createElement('figcaption'); n.textContent = 'Caption'; n.setAttribute('contenteditable', 'true'); f.appendChild(n); } if (!on && c) c.remove(); }, { cap: on }); },
+          replaceImg: () => { const f = this.rteFig; this.pickMedia(m => { if (!m || !f) return; this.rteFig = f; this.rteImgSet((fig, img) => { img.src = m.src; img.setAttribute('data-media', m.id); }); }); },
+          removeImg: () => { this.rteImgSet(f => f.remove()); this.rteFig = null; this.setState({ rteImg: null }); },
+          doneImg: () => { this.rteFig = null; this.setState({ rteImg: null }); },
+          onInput: e => { this.rteEl = e.currentTarget; this.rteEmit(); if (s.rteImg) this.rtePlace(); },
+          onFocus: e => { this.rteEl = e.currentTarget; },
+          onBlur: e => { this.rteEl = e.currentTarget; this.rteEmit(true); },
+          onClick: e => { const ph = e.target.closest && e.target.closest('figure[data-ph]'); if (ph) { e.preventDefault(); this.rteEl = e.currentTarget; this.rteFig = null; this.setState({ rteImg: null }); return this.pickMedia(m => m && this.rteInsertMedia(m, ph)); } const fig = e.target.closest && e.target.closest('figure'); if (fig && e.target.tagName === 'IMG') { e.preventDefault(); this.rteSelectImg(fig); } else if (s.rteImg && !e.target.closest('figcaption')) this.setState({ rteImg: null }); },
+          onKey: e => { const mod = e.ctrlKey || e.metaKey; if (mod && e.key.toLowerCase() === 'k') { e.preventDefault(); this.setState({ rteLink: { url: '', blank: false }, rteImg: null }); } },
+          onPaste: e => { e.preventDefault(); this.rteEl = e.currentTarget; const html = e.clipboardData.getData('text/html'), text = e.clipboardData.getData('text/plain'); document.execCommand('insertHTML', false, html ? cms.sanitize(html) : cms.textToHtml(text)); this.rteDecorate(this.rteEl); this.rteEmit(true); }
+        };
+      })(),
+      pickForEditor: cb => this.pickMedia(cb),
+      // overview
+      stats: [['Homepage', STATUS[cms.status('home')][0], 'Edit sections', 'home'], ['Videos', vItems.length, 'In the work grid', 'videos'], ['Pages', cms.list('page').length, cms.list('page').filter(e => e.live).length + ' published', 'pages'], ['Posts', cms.list('post').length, cms.list('post').filter(e => e.live).length + ' published', 'blog'], ['Images', st.media.length, 'In the media library', 'media']].map(([label, value, sub, k]) => ({ label, value, sub, go: () => this.go(k) })),
+      pending: pendingList.map(e => ({ title: e.id === 'home' ? 'Homepage' : e.id === 'site' ? 'Site settings' : e.id === 'videos' ? 'Videos' : (e.draft.title || 'Untitled'), kind: e.type, when: ago(e.updatedAt), open: () => { const nav = { home: 'home', site: 'settings', videos: 'videos', page: 'pages', post: 'blog' }[e.type]; this.setState({ nav, editId: ['page', 'post'].includes(e.type) ? e.id : null, tab: 'content' }); }, publish: () => this.publish(e.id) })),
+      noPending: !pendingList.length,
+      // blog cats
+      cats: st.taxonomy.categories.map(c => ({ ...c, w: Math.max(60, c.name.length * 8 + 12) + 'px', rename: e => cms.mutate(S => { const x = S.taxonomy.categories.find(y => y.id === c.id); x.name = e.target.value; x.slug = cms.slugify(e.target.value); }), removeLabel: 'Delete category ' + c.name,
+        remove: async () => { if (await this.ask({ title: `Delete “${c.name}”?`, body: 'Posts keep their content but lose this category.', okLabel: 'Delete', danger: true })) cms.mutate(S => { S.taxonomy.categories = S.taxonomy.categories.filter(y => y.id !== c.id); Object.values(S.entities).forEach(en => { if (en.type === 'post') { en.draft.categories = (en.draft.categories || []).filter(x => x !== c.id); if (en.live) en.live.categories = (en.live.categories || []).filter(x => x !== c.id); } }); }); } })),
+      newCat: s.newCat, onNewCat: e => this.setState({ newCat: e.target.value }),
+      addCat: e => { e.preventDefault(); const n = s.newCat.trim(); if (!n) return; if (st.taxonomy.categories.some(c => c.name.toLowerCase() === n.toLowerCase())) return this.toast('That category exists.', '#f4b400'); cms.mutate(S => S.taxonomy.categories.push({ id: cms.uid('cat'), name: n, slug: cms.slugify(n) })); this.setState({ newCat: '' }); },
+      // videos
+      vids, vidInput: s.vidInput, onVidInput: e => this.setState({ vidInput: e.target.value }), vidErrors: s.vidErrors, vidCount: `${vItems.length} videos in the list`,
+      addVideos: () => {
+        const lines = s.vidInput.split(/\s+/).map(x => x.trim()).filter(Boolean); if (!lines.length) return;
+        const errs = [], add = [], ids = new Set(vItems.map(x => (cms.parseVideo(x.url) || {}).id));
+        lines.forEach(u => { const p = cms.parseVideo(u); if (!p) errs.push({ t: `${u}: ${cms.videoError(u)}` }); else if (ids.has(p.id)) errs.push({ t: `${u}: already in the list.` }); else { ids.add(p.id); add.push({ id: cms.uid('v'), url: p.href, title: `${cms.PLATFORM_LABEL[p.platform]} ${pad(vItems.filter(x => (cms.parseVideo(x.url) || {}).platform === p.platform).length + add.filter(a => cms.parseVideo(a.url).platform === p.platform).length + 1)}` }); } });
+        if (add.length) { cms.updateDraft('videos', d => { d.items = add.concat(d.items); }); this.toast(`${add.length} video(s) added to the top. Publish to show them.`); }
+        const failed = lines.filter(u => { const p = cms.parseVideo(u); return !p || !add.some(a => cms.parseVideo(a.url).id === p.id); });
+        this.setState({ vidErrors: errs, vidInput: failed.join('\n') });
+      },
+      // media
+      media, mSel, noMedia: !st.media.length, uploadErrors: s.uploadErrors,
+      seoUp: !!s.seoUp, su: s.seoUp ? { url: s.seoUp.url, name: s.seoUp.name, alt: s.seoUp.alt, title: s.seoUp.title, caption: s.seoUp.caption, desc: s.seoUp.desc, err: s.seoUp.err, busy: s.seoUp.busy, okLabel: s.seoUp.busy ? 'Uploading…' : 'Save to library', fileInfo: `${s.seoUp.file.name} · ${Math.round(s.seoUp.file.size / 1024)} KB${s.seoUp.left ? ` · ${s.seoUp.left} more after this` : ''}`, slugPreview: (cms.slugify(s.seoUp.name) || 'image') + '.' + (s.seoUp.file.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg'), altLen: s.seoUp.alt.length + ' / 125', altColor: !s.seoUp.alt ? '#f4b400' : s.seoUp.alt.length > 125 ? '#f4b400' : '#3ec46d', altBorder: s.seoUp.err && !s.seoUp.alt.trim() ? '#ff6a55' : '#3c3c3c' } : {},
+      suSet: k => e => { const val = e.target.value; this.setState(x => ({ seoUp: x.seoUp && { ...x.seoUp, [k]: val, err: '' } })); },
+      onSuName: e => { const val = e.target.value; this.setState(x => ({ seoUp: x.seoUp && { ...x.seoUp, name: val } })); },
+      onSuAlt: e => { const val = e.target.value; this.setState(x => ({ seoUp: x.seoUp && { ...x.seoUp, alt: val, err: '' } })); },
+      onSuTitle: e => { const val = e.target.value; this.setState(x => ({ seoUp: x.seoUp && { ...x.seoUp, title: val } })); },
+      onSuCaption: e => { const val = e.target.value; this.setState(x => ({ seoUp: x.seoUp && { ...x.seoUp, caption: val } })); },
+      onSuDesc: e => { const val = e.target.value; this.setState(x => ({ seoUp: x.seoUp && { ...x.seoUp, desc: val } })); },
+      confirmSu: e => { e && e.preventDefault(); this.confirmSeoUpload(); }, cancelSu: () => this.cancelSeoUpload(),
+      rteFileRef: this.rteFileRef,
+      rteFileChosen: e => { const file = e.target.files[0]; e.target.value = ''; if (!file) return; this.seoQueue = []; this.openSeoUpload(file, m => { this.rteEl = this.rteUpEl; this.rteRange = this.rteUpRange; this.rteInsertMedia(m, null); }); },
+      onFiles: e => { this.upload(e.target.files); e.target.value = ''; }, onPickerFiles: e => { this.upload(e.target.files, true); e.target.value = ''; },
+      dzOver: e => { e.preventDefault(); if (!s.dz) this.setState({ dz: true }); }, dzLeave: () => this.setState({ dz: false }), dzDrop: e => { e.preventDefault(); this.setState({ dz: false }); this.upload(e.dataTransfer.files); },
+      dzBorder: s.dz ? '#e22718' : '#3c3c3c', dzBg: s.dz ? '#1a0b08' : '#0a0a0a', mediaCols: ms && !narrow ? 'minmax(0,1fr) 300px' : 'minmax(0,1fr)',
+      picker: !!s.picker, closePicker: () => this.setState({ picker: null }),
+      // seo site
+      sitemapXml: this._sm ? this._sm.xml : '', sitemapCount: this._sm ? this._sm.urls.length : 0, robotsTxt: s.nav === 'seo' ? cms.robotsTxt() : '',
+      dlSitemap: () => this.download('sitemap.xml', cms.sitemap().xml, 'application/xml'), dlRobots: () => this.download('robots.txt', cms.robotsTxt()),
+      redirects: st.redirects.map(r => ({ ...r, kind: r.auto ? 'auto' : 'manual', remove: async () => { if (await this.ask({ title: 'Remove redirect?', body: `${r.from} will no longer forward to ${r.to}.`, okLabel: 'Remove', danger: true })) cms.mutate(S => { S.redirects = S.redirects.filter(x => x.id !== r.id); }); } })),
+      rdFrom: s.rdFrom, rdTo: s.rdTo, rdErr: s.rdErr, onRdFrom: e => this.setState({ rdFrom: e.target.value, rdErr: '' }), onRdTo: e => this.setState({ rdTo: e.target.value, rdErr: '' }),
+      addRedirect: e => { e.preventDefault(); const f = '/' + s.rdFrom.trim().replace(/^\/+/, ''), t = s.rdTo.trim(); if (f === '/' || !t) return this.setState({ rdErr: 'Enter both paths. The homepage can’t be redirected.' }); if (!/^(\/|https?:)/.test(t)) return this.setState({ rdErr: 'The destination must start with / or https://' }); if (st.redirects.some(r => r.from === f)) return this.setState({ rdErr: 'A redirect from that path already exists.' }); cms.mutate(S => S.redirects.push({ id: cms.uid('rd'), from: f, to: t, auto: false, createdAt: new Date().toISOString() })); this.setState({ rdFrom: '', rdTo: '' }); },
+      indexRows: s.nav === 'seo' ? all.filter(e => ['home', 'page', 'post'].includes(e.type)).map(e => { const d = e.live || e.draft; const idx = !!e.live && !(d.seo || {}).noindex; return { title: e.id === 'home' ? 'Homepage' : d.title || 'Untitled', path: cms.pathFor(e, d), state: !e.live ? 'Not published' : idx ? 'Indexed · in sitemap' : 'Noindex', color: idx ? '#3ec46d' : '#9a9a9a' }; }) : [],
+      // account
+      pwOld: s.pwOld, pwNew: s.pwNew, pwMsg: s.pwMsg, pwMsgColor: s.pwOk ? '#3ec46d' : '#ff6a55', onPwOld: e => this.setState({ pwOld: e.target.value }), onPwNew: e => this.setState({ pwNew: e.target.value }),
+      changePw: async e => { e.preventDefault(); try { await cms.changePassword(s.pwOld, s.pwNew); this.setState({ pwOld: '', pwNew: '', pwMsg: 'Password updated.', pwOk: true }); } catch (err) { this.setState({ pwMsg: err.message, pwOk: false }); } },
+      newCode: s.newCode, genCode: async () => { if (!(await this.ask({ title: 'Replace recovery code?', body: 'Your old recovery code will stop working.', okLabel: 'Generate' }))) return; const code = await cms.newRecoveryCode(); this.setState({ newCode: code }); },
+      exportBackup: () => this.download(`ayesha-cms-backup-${new Date().toISOString().slice(0, 10)}.json`, cms.exportJSON(), 'application/json'),
+      importBackup: async e => { const file = e.target.files[0]; e.target.value = ''; if (!file) return; if (!(await this.ask({ title: 'Restore backup?', body: 'All current content, media and revisions in this browser are replaced by the file. Download a backup first if unsure.', okLabel: 'Restore', danger: true }))) return; try { await cms.importJSON(await file.text()); this.toast('Backup restored.'); } catch (err) { this.toast(err.message, '#ff6a55'); } },
+      // revisions
+      revOpen: s.revOpen && !!ent, closeRev: () => this.setState({ revOpen: false }), noRevs: !rev.length,
+      revs: rev.map(r => ({ label: r.label, when: new Date(r.ts).toLocaleString(), restore: async () => { if (await this.ask({ title: 'Restore this revision?', body: 'It replaces the current draft (your current draft is saved as a revision first). The live site doesn’t change until you publish.', okLabel: 'Restore to draft' })) { await cms.restoreRevision(ctx, r.id); this.rteVer = (this.rteVer || 0) + 1; this.setState({ revOpen: false, openItems: {} }); this.toast('Revision restored to draft.'); } } })),
+      // preview
+      devices: [['desktop', 'Desktop'], ['tablet', 'Tablet'], ['mobile', 'Mobile']].map(([k, l]) => ({ label: l, on: s.device === k ? 'true' : 'false', bg: s.device === k ? '#c8200f' : 'transparent', pick: () => this.setState({ device: k }) })),
+      paneRef: this.paneRef, frameRef: this.frameRef, scrollRef: this.scrollRef, frameKey: String(s.frameKey),
+      frameSrc: 'index.html#' + this.previewPath(),
+      frameW: frameW + 'px', frameH: frameH + 'px', frameScale: String(scale), frameLeft: Math.max(0, (s.pane.w - frameW * scale) / 2) + 'px',
+      reloadPreview: () => { try { this.frameRef.current.contentWindow.location.reload(); } catch (e) {} }
+    };
+  }
+}
+</script>
+</body>
+</html>
