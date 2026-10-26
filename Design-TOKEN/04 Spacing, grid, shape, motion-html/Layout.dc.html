@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RAKA spacing, grid, shape and motion</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#8E5530}a:hover{color:#14110F}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1180px; box-sizing: border-box; padding: 64px 80px; background: #F6F0E8; color: #14110F; font-family: 'Manrope', system-ui, sans-serif; display: flex; flex-direction: column; gap: 40px">
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #E4D8CA; padding-bottom: 20px">
+    <h2 style="margin: 0; font-family: 'Libre Caslon Condensed', Georgia, serif; font-weight: 400; font-size: 68px; line-height: 1">Room to <span style="font-style: italic; color: #8E5530">breathe</span></h2>
+    <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6E6157">04 · Spacing, grid, shape, motion</span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px">
+
+    <div style="display: flex; flex-direction: column; gap: 14px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #8E5530">Spacing scale · 4px base</span>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 13px"><span style="width: 76px; font-weight: 600">space-1</span><span style="width: 4px; height: 14px; background: #CF8F63"></span><span style="color: #6E6157">4 · icon to label</span></div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 13px"><span style="width: 76px; font-weight: 600">space-2</span><span style="width: 8px; height: 14px; background: #CF8F63"></span><span style="color: #6E6157">8 · inside chips, tight stacks</span></div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 13px"><span style="width: 76px; font-weight: 600">space-3</span><span style="width: 12px; height: 14px; background: #CF8F63"></span><span style="color: #6E6157">12 · title to price</span></div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 13px"><span style="width: 76px; font-weight: 600">space-4</span><span style="width: 16px; height: 14px; background: #CF8F63"></span><span style="color: #6E6157">16 · mobile gutter, form fields</span></div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 13px"><span style="width: 76px; font-weight: 600">space-5</span><span style="width: 24px; height: 14px; background: #CF8F63"></span><span style="color: #6E6157">24 · card padding, desktop gutter</span></div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 13px"><span style="width: 76px; font-weight: 600">space-6</span><span style="width: 32px; height: 14px; background: #CF8F63"></span><span style="color: #6E6157">32 · between groups</span></div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 13px"><span style="width: 76px; font-weight: 600">space-7</span><span style="width: 48px; height: 14px; background: #CF8F63"></span><span style="color: #6E6157">48 · heading to content</span></div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 13px"><span style="width: 76px; font-weight: 600">space-8</span><span style="width: 64px; height: 14px; background: #CF8F63"></span><span style="color: #6E6157">64 · section gap on mobile</span></div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 13px"><span style="width: 76px; font-weight: 600">space-9</span><span style="width: 96px; height: 14px; background: #CF8F63"></span><span style="color: #6E6157">96 · section gap on tablet</span></div>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 13px"><span style="width: 76px; font-weight: 600">space-10</span><span style="width: 128px; height: 14px; background: #CF8F63"></span><span style="color: #6E6157">128 · section gap on desktop</span></div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #8E5530">Responsive grid · mobile first</span>
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; gap: 16px; align-items: center">
+          <div style="width: 300px; height: 40px; background: #FFFFFF; border: 1px solid #E4D8CA; box-sizing: border-box; padding: 0 22px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 5px"><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div></div>
+          <div style="font-size: 13px; line-height: 1.45"><strong style="font-weight: 600">Desktop 1280+</strong><br><span style="color: #6E6157">12 col · gutter 24 · margin 80 · content max 1280</span></div>
+        </div>
+        <div style="display: flex; gap: 16px; align-items: center">
+          <div style="width: 300px; height: 40px; background: #FFFFFF; border: 1px solid #E4D8CA; box-sizing: border-box; padding: 0 14px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 5px"><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div></div>
+          <div style="font-size: 13px; line-height: 1.45"><strong style="font-weight: 600">Laptop 1024 to 1279</strong><br><span style="color: #6E6157">12 col · gutter 24 · margin 48</span></div>
+        </div>
+        <div style="display: flex; gap: 16px; align-items: center">
+          <div style="width: 300px; display: flex"><div style="width: 200px; height: 40px; background: #FFFFFF; border: 1px solid #E4D8CA; box-sizing: border-box; padding: 0 12px; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); column-gap: 5px"><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div></div></div>
+          <div style="font-size: 13px; line-height: 1.45"><strong style="font-weight: 600">Tablet 600 to 1023</strong><br><span style="color: #6E6157">8 col · gutter 20 · margin 32</span></div>
+        </div>
+        <div style="display: flex; gap: 16px; align-items: center">
+          <div style="width: 300px; display: flex"><div style="width: 110px; height: 40px; background: #FFFFFF; border: 1px solid #E4D8CA; box-sizing: border-box; padding: 0 9px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 5px"><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div><div style="background: #F8E1D4"></div></div></div>
+          <div style="font-size: 13px; line-height: 1.45"><strong style="font-weight: 600">Mobile 0 to 599 · design here first</strong><br><span style="color: #6E6157">4 col · gutter 16 · margin 20</span></div>
+        </div>
+      </div>
+      <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.55; color: #6E6157">Product grids: 2 across on mobile, 3 on tablet, 4 on desktop. Hero images go full bleed; text stays inside the margins.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; border-top: 1px solid #E4D8CA; padding-top: 32px; flex: 1">
+
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #8E5530">Corner radius · crisp, as on the site</span>
+      <div style="display: flex; gap: 16px; align-items: flex-end">
+        <div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><div style="width: 60px; height: 60px; background: #E4D8CA"></div><span style="font-size: 12px; color: #6E6157">0</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><div style="width: 60px; height: 60px; background: #E4D8CA; border-radius: 2px"></div><span style="font-size: 12px; color: #6E6157">2</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><div style="width: 60px; height: 60px; background: #E4D8CA; border-radius: 6px"></div><span style="font-size: 12px; color: #6E6157">6</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><div style="width: 50px; height: 80px; background: #CF8F63; border-radius: 999px"></div><span style="font-size: 12px; color: #6E6157">capsule</span></div>
+      </div>
+      <div style="font-size: 13px; line-height: 1.7; color: #3A322C">
+        <div><strong style="font-weight: 600">0</strong> full-bleed photos, section blocks</div>
+        <div><strong style="font-weight: 600">2</strong> buttons, inputs, swatches, badges</div>
+        <div><strong style="font-weight: 600">6</strong> product cards, drawers, sheets</div>
+        <div><strong style="font-weight: 600">capsule</strong> one feature image per page, concern tags</div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #8E5530">Elevation · warm shadows</span>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+        <div style="height: 72px; border-radius: 6px; background: #FFFFFF; border: 1px solid #E4D8CA; padding: 12px; box-sizing: border-box; font-size: 12px"><strong style="font-weight: 600">e0</strong><br><span style="color: #6E6157">1px Sand border</span></div>
+        <div style="height: 72px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(20,17,15,0.06), 0 2px 8px rgba(20,17,15,0.05); padding: 12px; box-sizing: border-box; font-size: 12px"><strong style="font-weight: 600">e1</strong><br><span style="color: #6E6157">card hover</span></div>
+        <div style="height: 72px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 12px 32px rgba(20,17,15,0.10); padding: 12px; box-sizing: border-box; font-size: 12px"><strong style="font-weight: 600">e2</strong><br><span style="color: #6E6157">menus, sticky buy bar</span></div>
+        <div style="height: 72px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 24px 64px rgba(20,17,15,0.16); padding: 12px; box-sizing: border-box; font-size: 12px"><strong style="font-weight: 600">e3</strong><br><span style="color: #6E6157">bag drawer, modals</span></div>
+      </div>
+      <p style="margin: 0; font-size: 13px; line-height: 1.55; color: #6E6157">Shadows are tinted with Ink, never neutral grey. Most surfaces sit flat on e0.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #8E5530">Motion</span>
+      <div style="display: flex; flex-direction: column; border: 1px solid #E4D8CA; border-radius: 2px; background: #FFFFFF">
+        <div style="display: flex; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid #F0E8DE; font-size: 13px"><span style="font-weight: 600">fast · 150ms</span><span style="color: #6E6157">hover, press, toggles</span></div>
+        <div style="display: flex; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid #F0E8DE; font-size: 13px"><span style="font-weight: 600">base · 250ms</span><span style="color: #6E6157">accordions, image swap</span></div>
+        <div style="display: flex; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid #F0E8DE; font-size: 13px"><span style="font-weight: 600">slow · 450ms</span><span style="color: #6E6157">drawers, scroll reveals</span></div>
+        <div style="display: flex; justify-content: space-between; padding: 10px 14px; font-size: 13px"><span style="font-weight: 600">story · 700ms</span><span style="color: #6E6157">hero and launch moments</span></div>
+      </div>
+      <div style="font-size: 13px; line-height: 1.6; color: #3A322C">Ease "silk": <code style="font-size: 12px; background: #EDE3D6; padding: 2px 6px">cubic-bezier(.2,.7,.2,1)</code>. Reveals rise 24px and fade, once per page. With reduced motion on, fades only.</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

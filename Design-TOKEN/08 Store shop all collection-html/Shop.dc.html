@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RAKA shop all</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#8E5530}a:hover{color:#14110F}
+.rk-scroll{scrollbar-width:none}
+.rk-scroll::-webkit-scrollbar{display:none}
+.rk-card img{transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.rk-card:hover img{transform:scale(1.04)}
+</style>
+</helmet>
+<div style="background: #F6F0E8; color: #14110F; font-family: 'Manrope', system-ui, sans-serif; min-height: 100vh">
+
+  <div style="background: #E7A98A; text-align: center; padding: 10px 16px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase">Free delivery over Rs [X] · Cash on delivery [confirm]</div>
+  <header style="background: #FFFFFF; border-bottom: 1px solid #E4D8CA">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+      <a href="Home.dc.html" aria-label="RAKA home" style="display: flex; flex: none"><img src="./assets/b6150d91f238ad3ba77b3eb0b4d2b484.webp" alt="RAKA" style="width: 56px; height: 56px; object-fit: contain"></a>
+      <nav aria-label="Main" class="rk-scroll" style="flex: 1 1 300px; display: flex; gap: 22px; overflow-x: auto; white-space: nowrap; font-size: 14px; font-weight: 600">
+        <a href="Home.dc.html" style="color: #14110F; text-decoration: none; padding: 12px 0">Home</a>
+        <a href="#" style="color: #14110F; text-decoration: none; padding: 12px 0; border-bottom: 2px solid #CF8F63">Shop all</a>
+        <a href="#" style="color: #14110F; text-decoration: none; padding: 12px 0">Gift sets</a>
+        <a href="#" style="color: #14110F; text-decoration: none; padding: 12px 0">Hair concerns</a>
+        <a href="#" style="color: #14110F; text-decoration: none; padding: 12px 0">Journal</a>
+      </nav>
+      <div style="display: flex; gap: 2px; flex: none">
+        <button type="button" aria-label="Search" style="width: 44px; height: 44px; border: none; background: transparent; color: #14110F; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg></button>
+        <button type="button" aria-label="Wishlist" style="width: 44px; height: 44px; border: none; background: transparent; color: #14110F; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"></path></svg></button>
+        <button type="button" aria-label="Bag, {{bag}} items" style="height: 44px; padding: 0 14px 0 12px; border: none; border-radius: 999px; background: #14110F; color: #FFFFFF; display: flex; align-items: center; gap: 8px; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg>{{bag}}</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Collection banner -->
+  <section style="max-width: 1360px; margin: 0 auto; padding: 20px 24px 0">
+    <div style="position: relative; border-radius: 6px; overflow: hidden; background: #F8E1D4; display: flex; flex-wrap: wrap; min-height: 15rem">
+      <div style="flex: 1 1 420px; padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; justify-content: center; gap: 12px">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #8E5530">Home / Shop all</span>
+        <h1 style="margin: 0; font-family: 'Libre Caslon Condensed', Georgia, serif; font-weight: 400; font-size: clamp(2.6rem, 5vw, 4.2rem); line-height: 1">Shop <span style="font-style: italic; color: #8E5530">everything</span></h1>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3A322C; max-width: 32rem">Treatment oils, mulberry silk, hand-carved wood and Sialkot steel. Built around one ritual.</p>
+      </div>
+      <div style="flex: 1 1 380px; position: relative; min-height: 13rem">
+        <img src="./assets/02158027a0c5dd36c6885ee4ee6597ff.jpg" alt="Woman with long, glossy, flowing brown hair" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 30%">
+      </div>
+    </div>
+  </section>
+
+  <!-- Category chips -->
+  <section class="rk-scroll" style="max-width: 1360px; margin: 0 auto; padding: 20px 24px 0; display: flex; gap: 8px; overflow-x: auto; box-sizing: border-box">
+    <sc-for list="{{chips}}" as="c" hint-placeholder-count="8">
+      <button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="height: 42px; padding: 0 16px; border-radius: 999px; white-space: nowrap; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}">{{c.label}} <span style="font-weight: 500; opacity: 0.7">{{c.count}}</span></button>
+    </sc-for>
+  </section>
+
+  <!-- Body: filters + grid -->
+  <section style="max-width: 1360px; margin: 0 auto; padding: 24px 24px 80px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+
+    <aside aria-label="Filters" style="flex: 1 1 240px; max-width: 300px; display: flex; flex-direction: column; gap: 4px">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid #14110F"><span style="font-size: 16px; font-weight: 800">Filter</span><button type="button" onClick="{{clear}}" style="border: none; background: none; color: #8E5530; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700; text-decoration: underline; padding: 8px 0">Clear all</button></div>
+
+      <div style="padding: 16px 0; border-bottom: 1px solid #E4D8CA; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 14px; font-weight: 800">Concern</span>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" checked="" style="width: 18px; height: 18px; accent-color: #14110F">Hair fall <span style="color: #6E6157; margin-left: auto">[n]</span></label>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #14110F">Frizz <span style="color: #6E6157; margin-left: auto">[n]</span></label>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #14110F">Dryness <span style="color: #6E6157; margin-left: auto">[n]</span></label>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #14110F">Overnight care <span style="color: #6E6157; margin-left: auto">[n]</span></label>
+      </div>
+
+      <div style="padding: 16px 0; border-bottom: 1px solid #E4D8CA; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 14px; font-weight: 800">Material</span>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #14110F">Mulberry silk</label>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #14110F">Neem and sheesham wood</label>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #14110F">Japanese J2 steel</label>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #14110F">Brass and onyx</label>
+      </div>
+
+      <div style="padding: 16px 0; border-bottom: 1px solid #E4D8CA; display: flex; flex-direction: column; gap: 12px">
+        <span style="font-size: 14px; font-weight: 800">Finish</span>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap">
+          <button type="button" aria-label="Rose gold" style="width: 36px; height: 36px; border-radius: 999px; border: 2px solid #14110F; background: #D9A38A; box-shadow: inset 0 0 0 3px #FFFFFF"></button>
+          <button type="button" aria-label="Matte black" style="width: 36px; height: 36px; border-radius: 999px; border: 1px solid #CDBFAF; background: #2B2725"></button>
+          <button type="button" aria-label="Champagne gold" style="width: 36px; height: 36px; border-radius: 999px; border: 1px solid #CDBFAF; background: #D8C29A"></button>
+          <button type="button" aria-label="Ivory silk" style="width: 36px; height: 36px; border-radius: 999px; border: 1px solid #CDBFAF; background: #F4EDE1"></button>
+          <button type="button" aria-label="Charcoal silk" style="width: 36px; height: 36px; border-radius: 999px; border: 1px solid #CDBFAF; background: #3C3A39"></button>
+        </div>
+      </div>
+
+      <div style="padding: 16px 0; border-bottom: 1px solid #E4D8CA; display: flex; flex-direction: column; gap: 12px">
+        <span style="font-size: 14px; font-weight: 800">Price</span>
+        <div style="position: relative; height: 24px"><div style="position: absolute; left: 0; right: 0; top: 11px; height: 3px; background: #E4D8CA"></div><div style="position: absolute; left: 10%; right: 30%; top: 11px; height: 3px; background: #14110F"></div><span style="position: absolute; left: calc(10% - 9px); top: 3px; width: 18px; height: 18px; border-radius: 999px; background: #FFFFFF; border: 2px solid #14110F; box-sizing: border-box"></span><span style="position: absolute; right: calc(30% - 9px); top: 3px; width: 18px; height: 18px; border-radius: 999px; background: #FFFFFF; border: 2px solid #14110F; box-sizing: border-box"></span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px; color: #6E6157"><span>Rs [min]</span><span>Rs [max]</span></div>
+      </div>
+
+      <div style="padding: 16px 0; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 14px; font-weight: 800">Extras</span>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #14110F">Can be engraved or monogrammed</label>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #14110F">Gift ready</label>
+        <label style="display: flex; gap: 10px; align-items: center; font-size: 14px; min-height: 28px"><input type="checkbox" checked="" style="width: 18px; height: 18px; accent-color: #14110F">In stock now</label>
+      </div>
+    </aside>
+
+    <div style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap">
+        <span style="font-size: 14px; color: #6E6157"><strong style="color: #14110F">{{countLabel}}</strong> · showing launch catalogue</span>
+        <label style="display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600">Sort by
+          <select style="height: 42px; padding: 0 12px; border: 1px solid #E4D8CA; border-radius: 2px; background: #FFFFFF; font-family: 'Manrope', sans-serif; font-size: 14px; color: #14110F">
+            <option>Featured</option><option>Newest</option><option>Price, low to high</option><option>Price, high to low</option>
+          </select>
+        </label>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px">
+        <sc-for list="{{items}}" as="p" hint-placeholder-count="9">
+          <sc-if value="{{p.promo}}" hint-placeholder-val="{{ false }}">
+            <a href="#" class="rk-card" style="grid-column: span 2; position: relative; border-radius: 6px; overflow: hidden; min-height: 24rem; display: block; text-decoration: none; color: #14110F; background: #E9B23B">
+              <img src="./assets/e9fa13fc28f537edc39e1daba73b41c1.jpg" alt="Friends laughing on a city street with healthy-looking hair" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%">
+              <div style="position: absolute; left: 16px; right: 16px; bottom: 16px; background: #FFFFFF; border-radius: 6px; padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap">
+                <span style="font-family: 'Libre Caslon Condensed', serif; font-size: 28px; line-height: 1">Build your <span style="font-style: italic; color: #8E5530">ritual</span> and save [X]%</span>
+                <span style="height: 44px; padding: 0 18px; border-radius: 2px; background: #14110F; color: #FFFFFF; font-size: 14px; font-weight: 700; display: inline-flex; align-items: center">Build a bundle</span>
+              </div>
+            </a>
+          </sc-if>
+          <sc-if value="{{p.isProduct}}" hint-placeholder-val="{{ true }}">
+            <article class="rk-card" style="background: #FFFFFF; border: 1px solid #E4D8CA; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column">
+              <div style="position: relative; aspect-ratio: 4 / 5; background: {{p.bg}}; overflow: hidden">
+                <sc-if value="{{p.img}}" hint-placeholder-val="{{ false }}"><img src="{{p.img}}" alt="{{p.name}}" style="width: 100%; height: 100%; object-fit: cover; object-position: center 60%"></sc-if>
+                <sc-if value="{{p.noImg}}" hint-placeholder-val="{{ true }}"><div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #6E6157; font-size: 12px; font-weight: 600"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#8E5530" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-8 8"></path></svg>[Product photo]</div></sc-if>
+                <span style="position: absolute; top: 10px; left: 10px; padding: 5px 9px; border-radius: 2px; background: {{p.badgeBg}}; color: {{p.badgeFg}}; font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase">{{p.badge}}</span>
+              </div>
+              <div style="padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 5px; flex: 1">
+                <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8E5530">{{p.cat}}</span>
+                <span style="font-size: 15px; font-weight: 700; line-height: 1.3">{{p.name}}</span>
+                <span style="font-size: 13px; color: #6E6157">{{p.note}}</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px; gap: 8px">
+                  <span style="font-size: 16px; font-weight: 800">Rs [PRICE]</span>
+                  <button type="button" onClick="{{p.add}}" aria-label="Add {{p.name}} to bag" style="width: 40px; height: 40px; border-radius: 999px; border: none; background: #14110F; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+                </div>
+              </div>
+            </article>
+          </sc-if>
+        </sc-for>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; padding-top: 20px">
+        <span style="font-size: 13px; color: #6E6157">Showing {{shown}} of {{total}}</span>
+        <div style="width: 220px; height: 3px; background: #E4D8CA"><div style="width: {{progress}}; height: 3px; background: #14110F"></div></div>
+        <button type="button" style="height: 48px; padding: 0 28px; border-radius: 2px; border: 1px solid #14110F; background: #FFFFFF; color: #14110F; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700">Load more</button>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2600}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { cat: 'all', bag: 0 }; }
+  renderVals() {
+    const OIL = './assets/1590e816abe17cfd8e9d1d883693f433.jpg';
+    const BOX = './assets/05d03053f2e8215c0d19b91b54c53aad.jpg';
+    const C = [
+      ['all', 'All', 80], ['hair', 'Hair oils & care', 4], ['tools', 'Combs, brushes & silk', 17], ['mani', 'Mani-pedi', 20],
+      ['face', 'Brow & face', 7], ['spa', 'Bath & spa', 5], ['home', 'Ritual homeware', 7], ['men', 'Men', 5], ['gift', 'Gift sets', 9]
+    ];
+    const chips = C.map(([id, label, n]) => {
+      const on = this.state.cat === id;
+      return { label, count: String(n), on: String(on), border: on ? '#14110F' : '#E4D8CA', bg: on ? '#14110F' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14110F', pick: () => this.setState({ cat: id }) };
+    });
+    const P = (k, name, cat, note, bg, extra) => Object.assign({ k, name, cat, note, bg, img: null, badge: 'New', badgeBg: '#14110F', badgeFg: '#FFFFFF' }, extra || {});
+    const soon = { badge: 'Coming soon', badgeBg: '#FFFFFF', badgeFg: '#14110F' };
+    const all = [
+      P('hair', 'Hair Fall Control Treatment Oil', 'Treatment oil · 200 ml', 'Rosemary, arnica, jaborandi, biotin', '#EEEAE5', { img: OIL, badge: 'Launch' }),
+      P('hair', 'Scalp & Hair Growth Treatment Oil', 'Treatment oil · 200 ml', '[Approved benefit line]', '#F8E1D4'),
+      P('gift', 'Ritual Starter', 'Gift set', 'Oil, applicator, neem comb', '#EDE3D6', { img: BOX, badge: 'Set' }),
+      P('tools', 'Mulberry Silk Bonnet', '22 momme silk', 'Ivory, charcoal, [third colour]', '#F8E1D4'),
+      P('promo'),
+      P('mani', 'Signature Manicure Set, 7 pieces', 'Sialkot J2 steel', 'Leather case, monogram option', '#EDE3D6', { badge: 'Hero' }),
+      P('tools', 'Hand-carved Neem Comb', 'Chiniot wood', 'Wide teeth, engraving option', '#F3E2D5'),
+      P('tools', 'Sheesham Scalp Massager', 'Ritual tool', 'Soft silicone tips', '#EDE3D6'),
+      P('face', 'Slanted Brow Tweezers', 'Sialkot steel', 'Hand-aligned tips', '#F8E1D4'),
+      P('tools', 'Silk Scrunchie Set of 3', '22 momme silk', 'Gentle hold for oiled hair', '#F3E2D5'),
+      P('mani', 'Cuticle Nipper, quarter jaw', 'Sialkot J2 steel', 'Rose gold, matte black, champagne', '#EDE3D6'),
+      P('spa', 'Hair-towel Turban Wrap', 'Faisalabad cotton', 'Quick-dry, gentle on wet hair', '#F8E1D4'),
+      P('gift', 'Night Ritual', 'Gift set', 'Oil, silk bonnet, scrunchies', '#F3E2D5', { badge: 'Set' }),
+      P('home', 'Brass Oil-warming Katori', 'Lahore brass', 'Tin-lined, with spoon', '#EDE3D6', soon),
+      P('face', 'Onyx Gua Sha', 'Pakistani onyx', 'Hand-polished, velvet pouch', '#F8E1D4', soon),
+      P('men', "Gentleman's Grooming Kit", 'Wazirabad Damascus', 'Razor, strop, scissors, comb', '#F3E2D5', soon),
+      P('mani', 'Signature Pedicure Set, 10 pieces', 'Sialkot J2 steel', 'Matches the manicure set', '#EDE3D6', soon)
+    ];
+    const cat = this.state.cat;
+    const list = all.filter((p) => cat === 'all' ? true : (p.k === cat));
+    const items = list.map((p) => Object.assign({}, p, {
+      promo: p.k === 'promo', isProduct: p.k !== 'promo', noImg: !p.img,
+      add: () => this.setState({ bag: this.state.bag + 1 })
+    }));
+    const shown = items.filter((i) => i.isProduct).length;
+    const total = (C.find((c) => c[0] === cat) || C[0])[2];
+    return {
+      chips, items, bag: this.state.bag,
+      countLabel: total + ' products', shown: String(shown), total: String(total), progress: Math.min(100, Math.round(shown / total * 100)) + '%',
+      clear: () => this.setState({ cat: 'all' })
+    };
+  }
+}
+</script>
+</body>
+</html>
