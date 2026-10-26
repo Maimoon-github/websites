@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed:ital,wght@0,400;1,400&family=Manrope:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Surface & Base Colors */
+  --raka-snow: #F6F0E8;
+  --raka-paper: #FFFFFF;
+  --raka-ink: #14110F;
+  --raka-copper: #CF8F63;
+  --raka-alpenglow: #E7A98A;
+
+  /* Supporting Palette */
+  --raka-linen: #EDE3D6;
+  --raka-sand: #E4D8CA;
+  --raka-alpenglow-tint: #F8E1D4;
+  --raka-copper-wash: #F3E2D5;
+  --raka-copper-deep: #8E5530;
+  --raka-taupe: #6E6157;
+  --raka-bark: #3A322C;
+  --raka-ember: #C2412D;
+
+  /* Status Colors */
+  --raka-success-text: #2F6B4F;
+  --raka-success-bg: #E6F0E9;
+  --raka-warning-text: #7A4F0C;
+  --raka-warning-bg: #F7EBD6;
+  --raka-error-text: #B3261E;
+  --raka-error-bg: #F8E3E0;
+
+  /* Typography Font Families */
+  --font-display: 'Libre Caslon Condensed', Georgia, serif;
+  --font-interface: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-urdu: 'Noto Nastaliq Urdu', serif;
+
+  /* Spacing Scale (4px Base Grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* Radii */
+  --radius-crisp: 2px;
+  --radius-card: 6px;
+  --radius-capsule: 9999px;
+
+  /* Elevation Shadows (Ink Tinted) */
+  --shadow-e0: none;
+  --shadow-e1: 0 1px 2px rgba(20, 17, 15, 0.06), 0 2px 8px rgba(20, 17, 15, 0.05);
+  --shadow-e2: 0 12px 32px rgba(20, 17, 15, 0.10);
+  --shadow-e3: 0 24px 64px rgba(20, 17, 15, 0.16);
+
+  /* Motion & Easing */
+  --ease-silk: cubic-bezier(0.2, 0.7, 0.2, 1.0);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 450ms;
+  --duration-story: 700ms;
+}
+
+@layer base {
+  body {
+    background-color: var(--raka-snow);
+    color: var(--raka-ink);
+    font-family: var(--font-interface);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a {
+    color: var(--raka-copper-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--duration-fast) var(--ease-silk);
+  }
+
+  a:hover {
+    color: var(--raka-ink);
+  }
+
+  /* High contrast accessible focus outlines */
+  button:focus-visible,
+  input:focus-visible,
+  a:focus-visible,
+  [tabindex="0"]:focus-visible {
+    outline: 2px solid var(--raka-copper-deep);
+    outline-offset: 3px;
+  }
+}
+
+/* ==========================================================================
+   AUTO-LAYOUT ARCHITECTURAL UTILITIES
+   ========================================================================== */
+
+@layer utilities {
+  /* Predefined Auto Layout Screen Margin & Container Clamping */
+  .raka-container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1280px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  @media (min-width: 600px) {
+    .raka-container {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .raka-container {
+      padding-left: 48px;
+      padding-right: 48px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .raka-container {
+      padding-left: 80px;
+      padding-right: 80px;
+    }
+  }
+
+  /* Auto Layout Product Grid: 2 mobile -> 3 tablet -> 4 desktop */
+  .raka-product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  @media (min-width: 600px) {
+    .raka-product-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .raka-product-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
+    }
+  }
+
+  /* Standardized Section Vertical Rhythms */
+  .raka-section-spacing {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+
+  @media (min-width: 600px) {
+    .raka-section-spacing {
+      padding-top: var(--space-9);
+      padding-bottom: var(--space-9);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .raka-section-spacing {
+      padding-top: var(--space-10);
+      padding-bottom: var(--space-10);
+    }
+  }
+
+  /* Editorial Italic Word Flourish */
+  .raka-italic-turn {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--raka-copper-deep);
+  }
+}
+
+/* Scroll reveal motion keyframes */
+@keyframes rakaReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.raka-reveal-init {
+  animation: rakaReveal var(--duration-slow) var(--ease-silk) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes rakaReveal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .raka-reveal-init {
+    transform: none !important;
+  }
+}
