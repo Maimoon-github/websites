@@ -1,75 +1,116 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { SearchIcon, AccountIcon, BagIcon } from '@/components/icons';
-import { Container } from './Container';
+import { SearchIcon, AccountIcon, WishlistIcon, BagIcon, HelpIcon } from '@/components/icons';
+import { useCart } from '@/lib/cart-context';
 
 export function Header() {
+  const { bagCount } = useCart();
+
+  const navCategories = [
+    { label: 'Launch edit', href: '/shop', highlight: true },
+    { label: 'Hair oils', href: '/shop' },
+    { label: 'Silk & night', href: '/shop' },
+    { label: 'Combs & brushes', href: '/shop' },
+    { label: 'Mani-pedi', href: '/shop' },
+    { label: 'Brow & face', href: '/shop' },
+    { label: 'Bath & spa', href: '/shop' },
+    { label: 'Men', href: '/shop' },
+    { label: 'Gift sets', href: '#sets' },
+    { label: 'Hair concerns', href: '#concerns' },
+    { label: 'Journal', href: '#journal' },
+  ];
+
   return (
-    <header className="w-full bg-raka-paper border-b border-raka-sand sticky top-0 z-40 shadow-e1">
-      <Container className="flex items-center justify-between py-3.5">
-        {/* Navigation Links */}
-        <nav
-          role="navigation"
-          aria-label="Main Navigation"
-          className="hidden laptop:flex items-center gap-[22px] text-[14px] font-medium text-raka-ink"
+    <header className="bg-raka-paper border-b border-raka-sand sticky top-0 z-40">
+      <div className="max-w-[1360px] mx-auto px-6 py-2.5 flex items-center gap-4 flex-wrap">
+        {/* Brand Logo in Capsule Emblem */}
+        <Link href="/" aria-label="RAKA home" className="flex items-center flex-none">
+          <Image
+            src="/brand/raka-logo.webp"
+            alt="RAKA"
+            width={60}
+            height={60}
+            className="w-[60px] h-[60px] object-contain"
+            priority
+          />
+        </Link>
+
+        {/* Storefront Search Bar */}
+        <label
+          htmlFor="storefront-search"
+          className="flex-1 basis-[320px] flex items-center gap-2.5 h-[46px] px-4 bg-raka-snow border border-raka-sand rounded-capsule min-w-0 focus-within:border-raka-copper-deep focus-within:ring-1 focus-within:ring-raka-copper-deep transition-all"
         >
-          <Link href="/shop" className="no-underline text-raka-ink hover:text-raka-copper-deep transition-colors">
-            Shop
-          </Link>
-          <Link href="/concerns" className="no-underline text-raka-ink hover:text-raka-copper-deep transition-colors">
-            Hair concerns
-          </Link>
-          <Link href="/rituals" className="no-underline text-raka-ink hover:text-raka-copper-deep transition-colors">
-            Rituals
-          </Link>
-          <Link href="/story" className="no-underline text-raka-ink hover:text-raka-copper-deep transition-colors">
-            Our story
-          </Link>
-        </nav>
+          <SearchIcon size={18} className="text-raka-taupe flex-none" />
+          <span className="sr-only">Search RAKA</span>
+          <input
+            id="storefront-search"
+            type="search"
+            placeholder="Search oils, silk, combs, mani-pedi sets..."
+            className="flex-1 min-w-0 border-none bg-transparent font-interface text-[15px] text-raka-ink placeholder:text-raka-taupe outline-none"
+          />
+        </label>
 
-        {/* Brand Logo in Capsule Silhouette */}
-        <div className="flex items-center justify-center">
-          <Link href="/" className="inline-block" aria-label="RAKA Home">
-            <Image
-              src="/brand/raka-logo.webp"
-              alt="RAKA"
-              width={52}
-              height={52}
-              className="w-[52px] h-[52px] object-contain"
-              priority
-            />
+        {/* Action Controls (All touch targets >= 44x44px) */}
+        <div className="flex items-center gap-0.5 flex-none">
+          <Link
+            href="/help"
+            className="flex items-center gap-2 h-11 px-3 text-raka-ink no-underline text-[14px] font-semibold hover:text-raka-copper-deep transition-colors"
+          >
+            <HelpIcon size={20} aria-hidden="true" />
+            <span>Help</span>
           </Link>
-        </div>
 
-        {/* Accessible Action Icons (44x44px Touch Targets) */}
-        <div className="flex items-center gap-1.5">
           <button
             type="button"
-            aria-label="Search storefront"
-            className="w-11 h-11 flex items-center justify-center text-raka-ink hover:text-raka-copper-deep transition-colors rounded-crisp focus-visible:outline-none"
+            aria-label="Account"
+            className="w-11 h-11 border-none bg-transparent text-raka-ink flex items-center justify-center hover:text-raka-copper-deep transition-colors focus-visible:outline-none"
           >
-            <SearchIcon size={20} />
+            <AccountIcon size={21} aria-hidden="true" />
           </button>
+
           <button
             type="button"
-            aria-label="User Account"
-            className="w-11 h-11 flex items-center justify-center text-raka-ink hover:text-raka-copper-deep transition-colors rounded-crisp focus-visible:outline-none"
+            aria-label="Wishlist"
+            className="w-11 h-11 border-none bg-transparent text-raka-ink flex items-center justify-center hover:text-raka-copper-deep transition-colors focus-visible:outline-none"
           >
-            <AccountIcon size={20} />
+            <WishlistIcon size={21} aria-hidden="true" />
           </button>
+
           <button
             type="button"
-            aria-label="Shopping bag with items"
-            className="w-11 h-11 flex items-center justify-center text-raka-ink hover:text-raka-copper-deep transition-colors rounded-crisp relative focus-visible:outline-none"
+            aria-label={`Bag, ${bagCount} items`}
+            className="h-11 px-3.5 pl-3 border-none rounded-capsule bg-raka-ink text-raka-paper flex items-center gap-2 font-interface text-[14px] font-bold hover:bg-[#2B2420] active:scale-[0.98] transition-all focus-visible:outline-none"
           >
-            <BagIcon size={20} />
-            <span className="absolute top-1.5 right-1 w-4 h-4 rounded-capsule bg-raka-copper text-raka-ink text-[10px] font-bold flex items-center justify-center leading-none">
-              1
-            </span>
+            <BagIcon size={19} aria-hidden="true" />
+            <span>{bagCount}</span>
           </button>
         </div>
-      </Container>
+      </div>
+
+      {/* Sub-navigation categories */}
+      <nav
+        aria-label="Shop categories"
+        className="rk-scroll border-t border-[#F0E8DE] overflow-x-auto"
+      >
+        <div className="max-w-[1360px] mx-auto px-6 flex gap-[26px] whitespace-nowrap text-[14px] font-semibold">
+          {navCategories.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`py-[13px] no-underline transition-colors ${
+                item.highlight
+                  ? 'text-raka-ember hover:text-raka-ink'
+                  : 'text-raka-ink hover:text-raka-copper-deep'
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </nav>
     </header>
   );
 }

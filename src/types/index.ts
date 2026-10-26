@@ -88,6 +88,67 @@ export interface Product {
   isNew?: boolean;
 }
 
+/**
+ * Homepage Typed Data Models
+ */
+export interface Swatch {
+  name: string;
+  hex: string;
+}
+
+export interface HomeProduct {
+  name: string;
+  cat: string;
+  note: string;
+  price?: string;
+  bg: string;
+  img?: string | null;
+  badge?: string;
+  badgeBg?: string;
+  badgeFg?: string;
+  swatches?: Swatch[];
+}
+
+export interface HomeCategory {
+  name: string;
+  img?: string | null;
+  bg: string;
+  pos?: string;
+  href?: string;
+}
+
+export interface HomeReel {
+  src: string;
+  poster: string;
+  product: string;
+  views: string;
+  alt: string;
+  price?: string;
+}
+
+export interface HomeGiftSet {
+  name: string;
+  items: string;
+  tag: string;
+  img?: string | null;
+  bg: string;
+  price?: string;
+}
+
+export interface HomeReview {
+  poster: string;
+  product: string;
+  customerName?: string;
+  location?: string;
+}
+
+export interface HomeArticle {
+  title: string;
+  tag: string;
+  img: string;
+  href?: string;
+}
+
 export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;

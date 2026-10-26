@@ -2,6 +2,7 @@ import React from 'react';
 import { AnnouncementBar } from '@/components/layout/AnnouncementBar';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { CartProvider } from '@/lib/cart-context';
 
 /**
  * Predefined Storefront Auto-Layout Shell.
@@ -13,18 +14,20 @@ export default function StorefrontLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-col bg-raka-snow text-raka-ink">
-      {/* Predefined Top Announcement Bar */}
-      <AnnouncementBar />
+    <CartProvider>
+      <div className="min-h-screen flex flex-col bg-raka-snow text-raka-ink">
+        {/* Predefined Top Announcement Bar */}
+        <AnnouncementBar />
 
-      {/* Predefined Fixed Navigation Header */}
-      <Header />
+        {/* Predefined Fixed Navigation Header */}
+        <Header />
 
-      {/* Main Viewport with Fluid Auto-Layout */}
-      <main className="flex-1 flex flex-col w-full">{children}</main>
+        {/* Main Viewport with Fluid Auto-Layout */}
+        <main className="flex-1 flex flex-col w-full">{children}</main>
 
-      {/* Predefined Footer with Trust Strip & Rakaposhi Divider */}
-      <Footer />
-    </div>
+        {/* Predefined Footer with Trust Strip & Rakaposhi Divider */}
+        <Footer />
+      </div>
+    </CartProvider>
   );
 }

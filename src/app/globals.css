@@ -200,12 +200,49 @@
   animation: rakaReveal var(--duration-slow) var(--ease-silk) forwards;
 }
 
+/* Homepage Marquee & Smooth Transitions */
+@keyframes rk-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.rk-marquee {
+  animation: rk-marquee 38s linear infinite;
+}
+
+.rk-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.rk-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.rk-card img {
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.rk-card:hover img {
+  transform: scale(1.04);
+}
+
 @media (prefers-reduced-motion: reduce) {
   @keyframes rakaReveal {
     from { opacity: 0; }
     to { opacity: 1; }
   }
   .raka-reveal-init {
+    transform: none !important;
+  }
+  .rk-marquee {
+    animation: none;
+  }
+  .rk-card:hover img {
     transform: none !important;
   }
 }
