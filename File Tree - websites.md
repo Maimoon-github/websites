@@ -1,5 +1,6 @@
 # File Tree: websites
 
+
 ```
 ├── 📁 ai-engineer-portfolio
 │   ├── 📁 .aistudio
@@ -64,6 +65,7 @@
 │   │   ├── 📄 App.tsx
 │   │   ├── 🎨 index.css
 │   │   └── 📄 main.tsx
+│   ├── ⚙️ .gitignore
 │   ├── 📝 README.md
 │   ├── 📄 bun.lock
 │   ├── 🌐 index.html
@@ -74,7 +76,8 @@
 │   ├── 📄 server.ts
 │   ├── ⚙️ tsconfig.json
 │   └── 📄 vite.config.ts
-├── 📝 File Tree: websites.md
+├── ⚙️ .gitignore
+├── 📝 File Tree - websites.md
 └── 📝 Sitemap & Information Architecture.md
 ```
 
