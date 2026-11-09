@@ -165,3 +165,5 @@ export interface AdminSettings {
   systemPromptNote: string;
   newsletterEnabled: boolean;
 }
+
+export type AdminSiteSettings = AdminSettings;

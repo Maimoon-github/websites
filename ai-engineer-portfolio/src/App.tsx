@@ -33,10 +33,13 @@ import { ContactSection } from '@/components/ContactSection';
 import { AiAssistant } from '@/components/AiAssistant';
 import { ResumeModal, ResumeView } from '@/components/ResumeModal';
 import { Footer } from '@/components/Footer';
+import { AdminConsole } from '@/components/AdminConsole';
 import {
   PERSONAL_INFO,
   PROJECTS,
   ARTICLES,
+  TIMELINE,
+  SKILL_GROUPS,
   USES_STACK,
   KNOWLEDGE_CHUNKS,
 } from '@/data/portfolioData';
@@ -44,11 +47,10 @@ import { ProjectCategory, ProjectCaseStudy, ArticlePost, KnowledgeChunk } from '
 import { retrieveKnowledgeChunks, executeMcpTool, computeDeterministicEmbedding } from '@/lib/rag';
 import { useNavigation } from '@/hooks/useNavigation';
 import {
+  fetchPortfolioBundle,
   fetchAdminState,
   triggerRagReindex,
   updateAvailabilitySettings,
-  createAdminContentItem,
-  deleteAdminContentItem,
 } from '@/services/portfolioApi';
 
 export default function App() {
@@ -69,28 +71,42 @@ export default function App() {
   const [assistantContextScope, setAssistantContextScope] = useState<string | undefined>();
   const [copiedEmail, setCopiedEmail] = useState<boolean>(false);
 
-  // Admin & live availability state
+  // Live availability & dynamic portfolio bundle state synced with CMS store
   const [availabilityStatus, setAvailabilityStatus] = useState<string>(PERSONAL_INFO.status);
-  const [adminUnlocked, setAdminUnlocked] = useState<boolean>(true);
-  const [adminToken, setAdminToken] = useState<string>('maimoon-admin');
-  const [newContentTitle, setNewContentTitle] = useState<string>('');
-  const [newContentTags, setNewContentTags] = useState<string>('LangGraph, RAG, Agents');
-  const [newContentBody, setNewContentBody] = useState<string>('');
-  const [adminState, setAdminState] = useState<{
-    statusText?: string;
-    available?: boolean;
-    lastReindexedAt?: string;
-    chunkCount?: number;
-    chunks?: KnowledgeChunk[];
-    metrics?: {
-      totalChats: number;
-      upvotes: number;
-      downvotes: number;
-      topQueries: { query: string; count: number; timestamp: string }[];
-      contactsCount: number;
-      contacts: { id: string; name: string; email: string; projectType: string; message: string; createdAt: string }[];
-    };
-  } | null>(null);
+  const [portfolioBundle, setPortfolioBundle] = useState<{
+    personalInfo: typeof PERSONAL_INFO;
+    projects: ProjectCaseStudy[];
+    articles: ArticlePost[];
+    timeline: typeof TIMELINE;
+    skillGroups: typeof SKILL_GROUPS;
+    settings?: { available: boolean; statusText: string };
+  }>({
+    personalInfo: PERSONAL_INFO,
+    projects: PROJECTS,
+    articles: ARTICLES,
+    timeline: TIMELINE,
+    skillGroups: SKILL_GROUPS,
+    settings: { available: PERSONAL_INFO.available, statusText: PERSONAL_INFO.status },
+  });
+
+  const loadPortfolioBundle = async () => {
+    try {
+      const data = await fetchPortfolioBundle();
+      if (data && data.personalInfo) {
+        setPortfolioBundle(data);
+        if (data.settings?.statusText) {
+          setAvailabilityStatus(data.settings.statusText);
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to load dynamic portfolio bundle:', err);
+    }
+  };
+
+  useEffect(() => {
+    loadPortfolioBundle();
+  }, []);
+
   const [mcpTestTool, setMcpTestTool] = useState<string>('check_availability');
   const [mcpTestQuery, setMcpTestQuery] = useState<string>('LangGraph');
 
@@ -133,23 +149,6 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Fetch admin state when visiting /admin
-  const loadAdminMetrics = async () => {
-    try {
-      const data = await fetchAdminState();
-      setAdminState(data);
-      if (data.statusText) setAvailabilityStatus(data.statusText);
-    } catch {
-      // Fallback to local state
-    }
-  };
-
-  useEffect(() => {
-    if (currentPath === '/admin') {
-      loadAdminMetrics();
-    }
-  }, [currentPath]);
-
   const handleOpenAssistant = (prompt?: string, scope?: string) => {
     if (scope) setAssistantContextScope(scope);
     if (prompt) setAssistantInitialPrompt(prompt);
@@ -179,14 +178,14 @@ export default function App() {
     ? currentPath.replace('/work/', '').trim()
     : null;
   const matchedProject = workSlugMatch
-    ? PROJECTS.find((p) => p.slug === workSlugMatch)
+    ? portfolioBundle.projects.find((p) => p.slug === workSlugMatch)
     : null;
 
   const writingSlugMatch = currentPath.startsWith('/writing/')
     ? currentPath.replace('/writing/', '').trim()
     : null;
   const matchedArticle = writingSlugMatch
-    ? ARTICLES.find((a) => a.slug === writingSlugMatch)
+    ? portfolioBundle.articles.find((a) => a.slug === writingSlugMatch)
     : null;
 
   const renderRouteView = () => {
@@ -197,12 +196,15 @@ export default function App() {
             onNavigate={navigate}
             onOpenAssistant={(prompt) => handleOpenAssistant(prompt)}
             availabilityStatus={availabilityStatus}
+            personalInfo={portfolioBundle.personalInfo}
           />
           <Experience
+            timeline={portfolioBundle.timeline}
             onOpenResume={() => setIsResumeModalOpen(true)}
             onNavigate={navigate}
           />
           <Projects
+            projects={portfolioBundle.projects}
             selectedCategory={selectedCategory}
             onSelectCategory={handleCategoryChange}
             onSelectProject={(project) => setActiveProjectModal(project)}
@@ -210,11 +212,14 @@ export default function App() {
             onAskAi={(prompt) => handleOpenAssistant(prompt)}
           />
           <Articles
+            articles={portfolioBundle.articles}
             onSelectArticle={(article) => setActiveArticleModal(article)}
             onNavigate={navigate}
             onAskAi={(prompt) => handleOpenAssistant(prompt)}
           />
           <AboutSkills
+            personalInfo={portfolioBundle.personalInfo}
+            skillGroups={portfolioBundle.skillGroups}
             onNavigate={navigate}
             onAskAi={(prompt) => handleOpenAssistant(prompt)}
           />
@@ -226,6 +231,7 @@ export default function App() {
     if (currentPath === '/work') {
       return (
         <Projects
+          projects={portfolioBundle.projects}
           selectedCategory={selectedCategory}
           onSelectCategory={handleCategoryChange}
           onSelectProject={(project) => setActiveProjectModal(project)}
@@ -250,6 +256,7 @@ export default function App() {
     if (currentPath === '/writing') {
       return (
         <Articles
+          articles={portfolioBundle.articles}
           onSelectArticle={(article) => setActiveArticleModal(article)}
           onNavigate={navigate}
           onAskAi={(prompt) => handleOpenAssistant(prompt)}
@@ -273,11 +280,14 @@ export default function App() {
       return (
         <>
           <AboutSkills
+            personalInfo={portfolioBundle.personalInfo}
+            skillGroups={portfolioBundle.skillGroups}
             onNavigate={navigate}
             onAskAi={(prompt) => handleOpenAssistant(prompt)}
             isFullPage
           />
           <Experience
+            timeline={portfolioBundle.timeline}
             onOpenResume={() => navigate('/resume')}
             onNavigate={navigate}
           />
@@ -288,6 +298,10 @@ export default function App() {
     if (currentPath === '/resume') {
       return (
         <ResumeView
+          personalInfo={portfolioBundle.personalInfo}
+          timeline={portfolioBundle.timeline}
+          projects={portfolioBundle.projects}
+          skillGroups={portfolioBundle.skillGroups}
           onNavigate={navigate}
           onAskAi={(prompt) => handleOpenAssistant(prompt)}
           isPage
@@ -515,272 +529,13 @@ export default function App() {
       );
     }
 
-    if (currentPath === '/admin') {
-      const handleReindex = async () => {
-        await triggerRagReindex();
-        loadAdminMetrics();
-      };
-
-      const handleUpdateStatus = async (nextStatus: string) => {
-        setAvailabilityStatus(nextStatus);
-        await updateAvailabilitySettings(nextStatus, true);
-        loadAdminMetrics();
-      };
-
-      const handleCreateContent = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!newContentTitle.trim() || !newContentBody.trim()) return;
-        await createAdminContentItem({
-          title: newContentTitle,
-          subtitle: 'Custom MDX Knowledge Chunk',
-          category: 'Agents & RAG',
-          summary: newContentBody.slice(0, 140),
-          tags: newContentTags.split(',').map((t) => t.trim()),
-          content: newContentBody,
-        });
-        setNewContentTitle('');
-        setNewContentBody('');
-        loadAdminMetrics();
-      };
-
-      const handleDeleteChunk = async (id: string) => {
-        await deleteAdminContentItem(id);
-        loadAdminMetrics();
-      };
-
-      const activeChunks = adminState?.chunks || KNOWLEDGE_CHUNKS;
-
+    if (currentPath.startsWith('/admin')) {
       return (
-        <section className="pt-28 pb-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#50C878] mb-1">
-                <Shield className="w-3.5 h-3.5" />
-                <span>Admin &amp; Observability Console (/admin · noindex)</span>
-              </div>
-              <h1 className="text-3xl font-extrabold text-slate-950 dark:text-white">
-                Content CRUD, RAG Vector Index &amp; Telemetry
-              </h1>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handleReindex}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0F52BA] text-white text-xs font-semibold cursor-pointer"
-              >
-                <RefreshCw className="w-3.5 h-3.5" />
-                <span>Re-Index RAG Corpus ({activeChunks.length} Chunks)</span>
-              </button>
-            </div>
-          </div>
-
-          {!adminUnlocked ? (
-            <div className="p-8 rounded-2xl bg-white dark:bg-[#101014] border border-slate-200 dark:border-white/10 max-w-md space-y-4">
-              <div className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
-                <Lock className="w-4 h-4 text-[#0F52BA]" />
-                <span>Enter Admin Passkey</span>
-              </div>
-              <input
-                type="password"
-                value={adminToken}
-                onChange={(e) => setAdminToken(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/10 text-xs font-mono"
-              />
-              <button
-                type="button"
-                onClick={() => setAdminUnlocked(true)}
-                className="px-4 py-2 rounded-xl bg-[#0F52BA] text-white text-xs font-semibold"
-              >
-                Unlock Console
-              </button>
-            </div>
-          ) : (
-            <>
-              {/* Top KPI Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="p-5 rounded-2xl bg-white dark:bg-[#101014] border border-slate-200 dark:border-white/10">
-                  <div className="text-xs font-mono text-slate-400">Indexed RAG Chunks</div>
-                  <div className="text-2xl font-extrabold text-slate-950 dark:text-white font-mono mt-1">
-                    {adminState?.chunkCount ?? activeChunks.length}
-                  </div>
-                  <div className="text-[11px] text-[#50C878] mt-1">
-                    pgvector / Qdrant / RRF Ready
-                  </div>
-                </div>
-                <div className="p-5 rounded-2xl bg-white dark:bg-[#101014] border border-slate-200 dark:border-white/10">
-                  <div className="text-xs font-mono text-slate-400">Assistant Queries</div>
-                  <div className="text-2xl font-extrabold text-slate-950 dark:text-white font-mono mt-1">
-                    {adminState?.metrics?.totalChats ?? 0}
-                  </div>
-                  <div className="text-[11px] text-slate-400 mt-1">
-                    👍 {adminState?.metrics?.upvotes ?? 0} · 👎 {adminState?.metrics?.downvotes ?? 0}
-                  </div>
-                </div>
-                <div className="p-5 rounded-2xl bg-white dark:bg-[#101014] border border-slate-200 dark:border-white/10">
-                  <div className="text-xs font-mono text-slate-400">Contact Leads</div>
-                  <div className="text-2xl font-extrabold text-slate-950 dark:text-white font-mono mt-1">
-                    {adminState?.metrics?.contactsCount ?? 0}
-                  </div>
-                  <div className="text-[11px] text-slate-400 mt-1">Honeypot + Rate-Limited</div>
-                </div>
-                <div className="p-5 rounded-2xl bg-white dark:bg-[#101014] border border-slate-200 dark:border-white/10">
-                  <div className="text-xs font-mono text-slate-400">Live Status Banner</div>
-                  <select
-                    value={availabilityStatus}
-                    onChange={(e) => handleUpdateStatus(e.target.value)}
-                    aria-label="Live Availability Status"
-                    className="mt-2 w-full px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-black border border-slate-200 dark:border-white/10 text-xs font-mono text-slate-900 dark:text-white"
-                  >
-                    <option value="Open to Opportunities">Open to Opportunities</option>
-                    <option value="Available for Q4/Q1 AI Consulting">
-                      Available for Q4/Q1 AI Consulting
-                    </option>
-                    <option value="Selective Advisory & Roles">Selective Advisory &amp; Roles</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Content CRUD & Live Vector Ingestion */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <form
-                  onSubmit={handleCreateContent}
-                  className="lg:col-span-5 p-6 rounded-2xl bg-white dark:bg-[#101014] border border-slate-200 dark:border-white/10 space-y-3"
-                >
-                  <h2 className="text-sm font-bold text-slate-950 dark:text-white">
-                    Ingest New MDX Post / RAG Knowledge Chunk
-                  </h2>
-                  <input
-                    type="text"
-                    required
-                    value={newContentTitle}
-                    onChange={(e) => setNewContentTitle(e.target.value)}
-                    placeholder="Post or Case Study Title..."
-                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white"
-                  />
-                  <input
-                    type="text"
-                    value={newContentTags}
-                    onChange={(e) => setNewContentTags(e.target.value)}
-                    placeholder="Comma-separated tags (e.g., LangGraph, Qdrant)"
-                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/10 text-xs font-mono text-slate-900 dark:text-white"
-                  />
-                  <textarea
-                    rows={3}
-                    required
-                    value={newContentBody}
-                    onChange={(e) => setNewContentBody(e.target.value)}
-                    placeholder="MDX content to embed and index into the live RAG store..."
-                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full py-2.5 rounded-xl bg-[#0F52BA] hover:bg-blue-600 text-white text-xs font-semibold cursor-pointer"
-                  >
-                    Embed &amp; Add to Vector Index
-                  </button>
-                </form>
-
-                <div className="lg:col-span-7 p-6 rounded-2xl bg-white dark:bg-[#101014] border border-slate-200 dark:border-white/10 space-y-3 max-h-[340px] overflow-y-auto">
-                  <h2 className="text-sm font-bold text-slate-950 dark:text-white">
-                    Indexed Vector Chunks ({activeChunks.length})
-                  </h2>
-                  <div className="space-y-2">
-                    {activeChunks.map((chunk) => {
-                      const sampleVec = computeDeterministicEmbedding(chunk.title, 4);
-                      return (
-                        <div
-                          key={chunk.id}
-                          className="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200/70 dark:border-white/5 flex items-center justify-between gap-3 text-xs"
-                        >
-                          <div className="min-w-0">
-                            <div className="font-bold text-slate-900 dark:text-white truncate">
-                              {chunk.title}
-                            </div>
-                            <div className="text-[10px] font-mono text-slate-400 truncate">
-                              {chunk.sourceType} · {chunk.url} · vec[{sampleVec.join(', ')}, ...]
-                            </div>
-                          </div>
-                          {chunk.id.startsWith('chunk-custom-') && (
-                            <button
-                              type="button"
-                              onClick={() => handleDeleteChunk(chunk.id)}
-                              className="px-2 py-1 rounded bg-[#DC143C]/15 text-[#DC143C] text-[10px] font-mono shrink-0 cursor-pointer"
-                            >
-                              Delete
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              {/* Recent Queries & Contact Submissions */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="p-6 rounded-2xl bg-white dark:bg-[#101014] border border-slate-200 dark:border-white/10 space-y-3">
-                  <h2 className="text-sm font-bold text-slate-950 dark:text-white">
-                    Recent RAG Chat Queries
-                  </h2>
-                  {adminState?.metrics?.topQueries && adminState.metrics.topQueries.length > 0 ? (
-                    <div className="space-y-2">
-                      {adminState.metrics.topQueries.map((q, idx) => (
-                        <div
-                          key={idx}
-                          className="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200/70 dark:border-white/5 flex items-center justify-between text-xs"
-                        >
-                          <span className="text-slate-800 dark:text-slate-200 font-mono truncate">
-                            {q.query}
-                          </span>
-                          <span className="text-[10px] font-mono text-slate-400 shrink-0 ml-2">
-                            {new Date(q.timestamp).toLocaleTimeString()}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-slate-500">
-                      No queries logged in this server session yet. Try asking a question in /ai!
-                    </p>
-                  )}
-                </div>
-
-                <div className="p-6 rounded-2xl bg-white dark:bg-[#101014] border border-slate-200 dark:border-white/10 space-y-3">
-                  <h2 className="text-sm font-bold text-slate-950 dark:text-white">
-                    Recent Contact Leads
-                  </h2>
-                  {adminState?.metrics?.contacts && adminState.metrics.contacts.length > 0 ? (
-                    <div className="space-y-2">
-                      {adminState.metrics.contacts.map((c) => (
-                        <div
-                          key={c.id}
-                          className="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200/70 dark:border-white/5 text-xs space-y-1"
-                        >
-                          <div className="flex items-center justify-between font-bold text-slate-900 dark:text-white">
-                            <span>
-                              {c.name} ({c.email})
-                            </span>
-                            <span className="text-[10px] font-mono text-[#50C878]">
-                              {c.projectType}
-                            </span>
-                          </div>
-                          <p className="text-slate-600 dark:text-slate-400 line-clamp-2">
-                            {c.message}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-slate-500">
-                      No inquiries submitted in this session yet.
-                    </p>
-                  )}
-                </div>
-              </div>
-            </>
-          )}
-        </section>
+        <AdminConsole
+          currentPath={currentPath}
+          onNavigate={navigate}
+          onStoreUpdated={loadPortfolioBundle}
+        />
       );
     }
 
@@ -870,6 +625,10 @@ export default function App() {
       <ResumeModal
         isOpen={isResumeModalOpen}
         onClose={() => setIsResumeModalOpen(false)}
+        personalInfo={portfolioBundle.personalInfo}
+        timeline={portfolioBundle.timeline}
+        projects={portfolioBundle.projects}
+        skillGroups={portfolioBundle.skillGroups}
         onNavigate={(path) => {
           setIsResumeModalOpen(false);
           navigate(path);

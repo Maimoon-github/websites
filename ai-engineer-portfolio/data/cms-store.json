@@ -561,7 +561,7 @@
     {
       "id": "seed-log-1",
       "query": "What has Maimoon shipped with LangGraph and CrewAI?",
-      "timestamp": "2026-11-09T06:55:17.516Z",
+      "timestamp": "2026-11-09T14:03:46.864Z",
       "sources": [
         "Case Study: AI-Learning-Career-Coach (Personalized AI Learning & Career Coach)"
       ],
@@ -570,7 +570,7 @@
     {
       "id": "seed-log-2",
       "query": "How does the Agentic-Review-Architecture pipeline work?",
-      "timestamp": "2026-11-09T09:55:17.516Z",
+      "timestamp": "2026-11-09T17:03:46.864Z",
       "sources": [
         "Case Study: Agentic-Review-Architecture (Agent Flow — Multi-Agent Orchestration System)"
       ],
@@ -587,16 +587,16 @@
       "budgetOrTimeline": "Q1 Launch · 8-Week Advisory",
       "message": "Impressed by your LangGraph + CrewAI orchestration and Celery critique loop architecture. Would love to discuss an agentic workflow audit.",
       "status": "new",
-      "timestamp": "2026-11-08T11:55:17.516Z"
+      "timestamp": "2026-11-08T19:03:46.864Z"
     }
   ],
   "subscribers": [
     {
       "id": "sub-seed-1",
       "email": "principal.architect@vectorops.dev",
-      "subscribedAt": "2026-11-06T11:55:17.516Z",
+      "subscribedAt": "2026-11-06T19:03:46.864Z",
       "source": "/writing"
     }
   ],
-  "lastIndexedAt": "2026-11-09T11:55:17.516Z"
+  "lastIndexedAt": "2026-11-09T19:05:49.980Z"
 }

@@ -63,7 +63,9 @@ export const Articles: React.FC<ArticlesProps> = ({
   const [selectedTag, setSelectedTag] = useState<string>(activeTagRoute || 'all');
 
   const allTags = Array.from(new Set(articles.flatMap((a) => a.tags)));
-  const allSeries = Array.from(new Set(articles.map((a) => a.series)));
+  const allSeries = Array.from(
+    new Set(articles.map((a) => a.series).filter((s): s is string => Boolean(s)))
+  );
 
   const effectiveTag = activeTagRoute || selectedTag;
 
@@ -73,11 +75,12 @@ export const Articles: React.FC<ArticlesProps> = ({
       article.tags.some((t) => t.toLowerCase() === effectiveTag.toLowerCase());
     const matchesSeries =
       !activeSeriesRoute ||
-      article.series
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '') === activeSeriesRoute.toLowerCase() ||
-      article.series.toLowerCase() === activeSeriesRoute.toLowerCase();
+      (Boolean(article.series) &&
+        (article.series!
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '') === activeSeriesRoute.toLowerCase() ||
+          article.series!.toLowerCase() === activeSeriesRoute.toLowerCase()));
     const q = searchQuery.trim().toLowerCase();
     const matchesSearch =
       !q ||
