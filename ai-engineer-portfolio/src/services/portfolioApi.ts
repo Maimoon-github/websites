@@ -127,7 +127,7 @@ export async function updateAvailabilitySettings(
   const res = await fetch('/api/admin/settings', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ statusText, available, ...extra }),
+    body: JSON.stringify({ statusText, available, ...(extra || {}) }),
   });
   if (!res.ok) throw new Error('Failed to update availability settings');
   return res.json();

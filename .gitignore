@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+dist/
+out/
+build/
+
+# Environment Variables
+.env
+.env.*
+*.local.env
+
+# IDE & OS Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs & Debugging
+npm-debug.log*
+yarn-debug.log*
+*.log
+next.config.local.js
+logs/
+
+# Cache & Temporary
+.cache/
+*.tsbuildinfo
+*.swp
+*.tmp
+
+# Security & Secrets
+*.pem
+*.key
