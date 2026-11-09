@@ -1,0 +1,602 @@
+{
+  "personalInfo": {
+    "name": "Maimoon (Moon) Amin",
+    "shortName": "Maimoon Amin",
+    "formalName": "M. Maimoon",
+    "role": "Agentic AI Engineer",
+    "tagline": "Agentic AI Engineer • Full-Stack Developer • Problem Solver",
+    "headline": "I build LLM/RAG/agent systems.",
+    "subheadline": "Agentic AI Engineer • Full-Stack Developer • Problem Solver — Turning complex ideas into intelligent, scalable products.",
+    "summary": "Results-driven Agentic AI Engineer specializing in architecting, orchestrating, and deploying scalable autonomous agent systems and LLM backends. Proficient in designing advanced multi-agent workflows using LangGraph, CrewAI, and AutoGen, supported by robust orchestration via LangChain and LlamaIndex. Experienced in optimizing local and cloud model inference (vLLM, Ollama) and building high-performance retrieval architectures utilizing vector databases (Qdrant, Pinecone, Milvus). Adept at delivering production-ready, context-aware AI solutions with stringent observability (Langfuse), safety guardrails (Guardrails AI), and resilient serving infrastructure (FastAPI, Docker, NixOS).",
+    "status": "Open to Opportunities",
+    "available": true,
+    "email": "ideal.rhel@gmail.com",
+    "phone": "03153208241",
+    "location": "Lahore, Pakistan (Remote / Worldwide)",
+    "timezone": "PKT (UTC+5) · Flexible overlap with US / EU / APAC",
+    "languages": [
+      {
+        "name": "English",
+        "proficiency": "Professional Working & Written Proficiency"
+      },
+      {
+        "name": "Urdu",
+        "proficiency": "Native / Bilingual Proficiency"
+      }
+    ],
+    "availabilityDetails": "Available for full-time Agentic AI / LLM Systems Engineering roles, contract multi-agent architecture, and technical advisory.",
+    "socials": {
+      "github": "https://github.com/Maimoon-github",
+      "githubHandle": "/Maimoon-github",
+      "linkedin": "https://linkedin.com/in/maimoon-moon-amin",
+      "linkedinHandle": "/in/maimoon-moon-amin",
+      "email": "mailto:ideal.rhel@gmail.com"
+    }
+  },
+  "projects": [
+    {
+      "id": "agentic-review-architecture",
+      "slug": "agentic-review-architecture",
+      "title": "Agentic-Review-Architecture",
+      "subtitle": "Agent Flow — Multi-Agent Orchestration System",
+      "category": "agents",
+      "categoryLabel": "Multi-Agent System",
+      "year": "2025",
+      "role": "Lead Agentic AI Architect",
+      "status": "Production-Ready",
+      "summary": "A production-ready Django + Celery + Google Gemini multi-agent pipeline that collaboratively plans, writes, edits, and quality-reviews content through iterative critique-refinement loops.",
+      "techStack": [
+        "Django",
+        "Celery",
+        "Google Gemini",
+        "Redis",
+        "PostgreSQL",
+        "Langfuse",
+        "Guardrails AI",
+        "Docker"
+      ],
+      "metrics": [
+        {
+          "label": "Pipeline Architecture",
+          "value": "4-Stage Agent Loop"
+        },
+        {
+          "label": "Execution Model",
+          "value": "Async Celery Workers"
+        },
+        {
+          "label": "Quality Gate",
+          "value": "Iterative Critique"
+        }
+      ],
+      "problem": "Single-pass LLM prompts frequently produce shallow structure, inconsistent tone, or unverified claims when generating long-form technical content. Synchronous HTTP request handlers also time out during multi-step reasoning and critique cycles.",
+      "constraints": [
+        "Must execute long-running multi-agent loops asynchronously without blocking Django web workers.",
+        "Every stage transition requires strict schema validation and deterministic retry boundaries to prevent infinite agent loops.",
+        "Full trace observability across Planner, Writer, Editor, and Quality-Reviewer personas."
+      ],
+      "architecture": {
+        "overview": "Distributed multi-agent pipeline orchestrated via Django and asynchronous Celery workers backed by Redis and PostgreSQL, invoking Google Gemini with structured Guardrails AI validation and Langfuse tracing.",
+        "components": [
+          "Planner Agent: Decomposes topic brief into structured section outlines, target audience constraints, and verification criteria.",
+          "Writer Agent: Synthesizes grounded draft sections from the approved structural plan using Google Gemini.",
+          "Editor Agent: Audits structural coherence, clarity, and style alignment, emitting targeted revision diffs.",
+          "Quality-Reviewer Agent: Evaluates the draft against rubric thresholds; triggers iterative critique-refinement loops until quality gates pass.",
+          "Celery + Redis Task Fabric: Manages asynchronous state transitions, retries, and real-time job progress persistence in PostgreSQL."
+        ],
+        "dataFlow": "Django API Request → Celery Task Dispatch (Redis) → Planner Agent → Writer Agent → Editor Agent ⇄ Quality-Reviewer Critique Loop (Max N Iterations) → Guardrails Validation → PostgreSQL Persistence"
+      },
+      "implementation": {
+        "challenges": "Coordinating stateful iterative loops across asynchronous Celery tasks while preventing runaway token consumption when the Quality-Reviewer rejects a draft.",
+        "solutions": "Implemented explicit state-machine checkpoints in PostgreSQL with bounded revision counters, structured JSON rubric outputs, and Langfuse span telemetry per agent turn.",
+        "codeSnippet": {
+          "language": "python",
+          "title": "agents/pipeline_tasks.py",
+          "code": "@shared_task(bind=True, max_retries=3)\ndef execute_agentic_review_pipeline(self, job_id: str, max_iterations: int = 3):\n    job = ReviewJob.objects.get(id=job_id)\n    plan = planner_agent.run(topic=job.prompt, constraints=job.constraints)\n    draft = writer_agent.run(plan=plan)\n\n    for iteration in range(1, max_iterations + 1):\n        edited = editor_agent.run(draft=draft, plan=plan)\n        review = quality_reviewer_agent.evaluate(draft=edited, rubric=job.rubric)\n        job.record_checkpoint(iteration=iteration, score=review.score, feedback=review.critique)\n\n        if review.passed:\n            job.complete(final_content=edited)\n            return {\"status\": \"approved\", \"iterations\": iteration, \"score\": review.score}\n\n        draft = writer_agent.refine(draft=edited, critique=review.critique)\n\n    job.complete(final_content=edited, flagged_for_human=True)\n    return {\"status\": \"max_iterations_reached\", \"iterations\": max_iterations}"
+        }
+      },
+      "results": {
+        "impact": [
+          "Eliminated single-pass structural flaws through collaborative 4-agent planning, writing, editing, and critique-refinement loops.",
+          "Decoupled multi-turn Gemini reasoning from web worker threads using Celery and Redis for resilient background execution.",
+          "Enforced deterministic termination and full trace auditability across every critique cycle."
+        ],
+        "takeaways": "Pairing asynchronous task queues (Celery/Redis) with bounded critique-refinement loops turns brittle prompt chains into reliable production workflows."
+      },
+      "demoType": "agent-flow",
+      "githubUrl": "https://github.com/Maimoon-github"
+    },
+    {
+      "id": "ai-learning-career-coach",
+      "slug": "ai-learning-career-coach",
+      "title": "AI-Learning-Career-Coach",
+      "subtitle": "Personalized AI Learning & Career Coach",
+      "category": "agents",
+      "categoryLabel": "LangGraph + CrewAI",
+      "year": "2025",
+      "role": "Agentic AI Engineer",
+      "status": "Production-Grade",
+      "summary": "A production-grade multi-agent system that delivers adaptive, personalized learning paths and career coaching by orchestrating LangGraph (workflow state machine) with CrewAI (collaborative agent teams) against a locally-served Ollama LLM.",
+      "techStack": [
+        "LangGraph",
+        "CrewAI",
+        "Ollama",
+        "Python",
+        "FastAPI",
+        "Qdrant",
+        "Pydantic AI",
+        "Docker"
+      ],
+      "metrics": [
+        {
+          "label": "State Orchestration",
+          "value": "LangGraph FSM"
+        },
+        {
+          "label": "Agent Collaboration",
+          "value": "CrewAI Teams"
+        },
+        {
+          "label": "Inference Privacy",
+          "value": "100% Local Ollama"
+        }
+      ],
+      "problem": "Self-directed learners and engineers struggle with static curricula that ignore their existing skill gaps, while cloud-hosted coaching tools raise privacy and token-cost barriers for continuous daily mentoring.",
+      "constraints": [
+        "Must run 100% against a locally-served Ollama LLM with zero external API token spend or data leakage.",
+        "Requires deterministic cyclic workflow control (skill assessment → curriculum synthesis → milestone evaluation) alongside role-specialized agent collaboration.",
+        "Must persist learner vector memory and progress state across sessions."
+      ],
+      "architecture": {
+        "overview": "Hybrid orchestration combining a macro-level LangGraph workflow state machine with micro-level CrewAI collaborative agent crews, backed by local Ollama inference and Qdrant vector memory.",
+        "components": [
+          "LangGraph Workflow State Machine: Governs high-level learner state transitions (Diagnostic → Path Generation → Practice Lab → Competency Gate).",
+          "CrewAI Skill Diagnostic Crew: Evaluates current proficiency across target engineering roles and identifies prerequisite gaps.",
+          "CrewAI Curriculum & Career Crew: Synthesizes weekly hands-on projects, interview prep drills, and portfolio milestones.",
+          "Local Ollama Inference Engine: Serves quantized open-weights models locally with low-latency streaming.",
+          "Qdrant Vector Memory: Stores learner history, completed labs, and retrieved reference documentation."
+        ],
+        "dataFlow": "Learner Profile → LangGraph State Node → CrewAI Diagnostic & Coaching Crew → Local Ollama LLM Inference → Pydantic Schema Validation → Qdrant Memory Update → Adaptive Roadmap"
+      },
+      "implementation": {
+        "challenges": "Local models served via Ollama have tighter context windows and stricter formatting sensitivity when switching between LangGraph state nodes and CrewAI task handoffs.",
+        "solutions": "Used Pydantic AI typed contracts at every node boundary and compacted intermediate CrewAI agent scratchpads before committing state updates to the LangGraph graph.",
+        "codeSnippet": {
+          "language": "python",
+          "title": "orchestrator/learning_graph.py",
+          "code": "class LearnerState(TypedDict):\n    profile: dict\n    skill_gaps: list[str]\n    roadmap: dict\n    mastery_score: float\n\ndef run_coaching_crew(state: LearnerState) -> LearnerState:\n    crew = Crew(\n        agents=[curriculum_architect, career_mentor],\n        tasks=[build_curriculum_task(state[\"skill_gaps\"]), align_career_projects_task(state[\"profile\"])],\n        llm=ollama_llm,\n        process=Process.sequential,\n    )\n    result = crew.kickoff()\n    return {**state, \"roadmap\": result.pydantic.model_dump()}\n\nworkflow = StateGraph(LearnerState)\nworkflow.add_node(\"diagnose_skills\", diagnose_node)\nworkflow.add_node(\"coaching_crew\", run_coaching_crew)\nworkflow.add_node(\"evaluate_mastery\", mastery_gate_node)\nworkflow.add_edge(START, \"diagnose_skills\")\nworkflow.add_edge(\"diagnose_skills\", \"coaching_crew\")\nworkflow.add_conditional_edges(\"evaluate_mastery\", route_by_mastery)"
+        }
+      },
+      "results": {
+        "impact": [
+          "Delivered adaptive, personalized learning paths and career roadmaps tailored to individual skill diagnostics.",
+          "Proved the synergy of combining LangGraph deterministic state machines with CrewAI collaborative multi-agent teams.",
+          "Achieved complete data privacy and zero per-token cloud billing via local Ollama model serving."
+        ],
+        "takeaways": "Combining LangGraph for explicit graph control flow with CrewAI for role-based team collaboration provides the best of both agentic paradigms."
+      },
+      "demoType": "career-coach",
+      "githubUrl": "https://github.com/Maimoon-github"
+    },
+    {
+      "id": "fullstack-ai-portfolio-rag",
+      "slug": "fullstack-ai-portfolio-rag",
+      "title": "Full-Stack AI Portfolio & RAG Platform",
+      "subtitle": "Personal Full-Stack Website with Grounded RAG & MCP Server",
+      "category": "rag",
+      "categoryLabel": "RAG + MCP Platform",
+      "year": "2025",
+      "role": "Full-Stack AI Engineer",
+      "status": "Live & Open-Source",
+      "summary": "A personal full-stack AI engineering platform combining a Next.js, React, and TypeScript frontend with Django/Node backend services, hybrid vector retrieval, an embedded citation-grounded RAG assistant, and a public MCP server.",
+      "techStack": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Django",
+        "Tailwind CSS",
+        "Three.js",
+        "PostgreSQL (pgvector)",
+        "Qdrant",
+        "MCP"
+      ],
+      "metrics": [
+        {
+          "label": "Retrieval Engine",
+          "value": "Hybrid RRF + Citations"
+        },
+        {
+          "label": "Agent Protocol",
+          "value": "JSON-RPC 2.0 MCP"
+        },
+        {
+          "label": "3D Visuals",
+          "value": "Three.js PBR Gem"
+        }
+      ],
+      "problem": "Static developer portfolios fail to demonstrate real-world full-stack AI engineering, while ungrounded chatbots hallucinate experience or cannot be queried programmatically by AI coding agents and technical recruiters.",
+      "constraints": [
+        "Must unify a single source of truth across UI pages, printable CV, RAG vector chunks, /llms.txt, and MCP tools.",
+        "3D WebGL gemstone centerpiece must maintain 60fps with software-WebGL fallback, DPR clamping, and reduced-motion compliance.",
+        "Every RAG answer must include inline verifiable citations pointing directly to portfolio sections."
+      ],
+      "architecture": {
+        "overview": "Full-stack architecture pairing a reactive Next.js/React + TypeScript + Three.js frontend with backend API services (Django & Node/Express), hybrid sparse-dense retrieval, and a public Model Context Protocol (`/mcp`) endpoint.",
+        "components": [
+          "Single-Source-of-Truth Knowledge Layer: Unified schema feeding pages, case studies, essays, `/resume`, `/llms.txt`, and RAG chunks.",
+          "Hybrid RAG Retriever: Combines semantic embeddings and BM25 lexical scoring via Reciprocal Rank Fusion (RRF) with inline citation tags.",
+          "Public MCP Server (`/mcp`): Exposes `search_content`, `get_case_study`, `get_experience`, and `check_availability` over JSON-RPC 2.0.",
+          "3D Faceted Gemstone Viewport: Custom Three.js PBR crystal with Sapphire, Emerald, Crimson, and Obsidian facets and off-screen pause."
+        ],
+        "dataFlow": "Visitor / AI Client → Next.js & React UI or /mcp JSON-RPC → Hybrid Retriever (Lexical + Vector RRF) → Top-K Grounded Chunks → Streaming Response with Citations"
+      },
+      "implementation": {
+        "challenges": "Keeping the 3D WebGL canvas responsive across desktop and headless/software renderers while simultaneously supporting multi-route navigation, command palette search, and streaming SSE chat.",
+        "solutions": "Isolated the Three.js lifecycle in a persistent ref container with `IntersectionObserver` pause, DPR `[1, 1.5]` clamping, and unified client/server routing.",
+        "codeSnippet": {
+          "language": "typescript",
+          "title": "server/mcpHandler.ts",
+          "code": "export function handleMcpJsonRpc(request: JsonRpcRequest) {\n  const { method, params, id } = request;\n  if (method === 'tools/list') {\n    return {\n      jsonrpc: '2.0',\n      id,\n      result: {\n        tools: ['search_content', 'get_case_study', 'get_experience', 'check_availability'],\n      },\n    };\n  }\n  if (method === 'tools/call') {\n    const toolResult = executePortfolioMcpTool(params.name, params.arguments);\n    return { jsonrpc: '2.0', id, result: toolResult };\n  }\n}"
+        }
+      },
+      "results": {
+        "impact": [
+          "Created a living full-stack proof-of-work combining Next.js/React/TypeScript frontend craft with Django and AI backend architecture.",
+          "Enabled recruiters and engineering leads to audit Maimoon’s projects interactively with source-cited RAG responses.",
+          "Exposed machine-readable `/llms.txt` and `/mcp` endpoints for programmatic agent discovery."
+        ],
+        "takeaways": "An AI engineer’s portfolio should itself be an observable, citation-grounded AI product."
+      },
+      "demoType": "rag-mcp",
+      "githubUrl": "https://github.com/Maimoon-github"
+    }
+  ],
+  "articles": [
+    {
+      "id": "langgraph-vs-crewai-production",
+      "slug": "orchestrating-langgraph-and-crewai-with-local-ollama",
+      "title": "Orchestrating LangGraph State Machines with CrewAI Teams on Local Ollama",
+      "subtitle": "How to combine deterministic cyclic state graphs with collaborative role-based agent crews using Pydantic AI guardrails and local inference.",
+      "date": "October 2025",
+      "readTime": "7 min read",
+      "category": "Agents & Orchestration",
+      "series": "Production Agentic Systems",
+      "summary": "Architectural blueprint from building AI-Learning-Career-Coach: using LangGraph for macro state transitions and CrewAI for collaborative multi-agent sub-tasks on local Ollama models.",
+      "tags": [
+        "LangGraph",
+        "CrewAI",
+        "Ollama",
+        "Pydantic AI",
+        "Agents"
+      ],
+      "headings": [
+        {
+          "id": "state-vs-roles",
+          "text": "Why Combine LangGraph and CrewAI?"
+        },
+        {
+          "id": "typed-boundaries",
+          "text": "Enforcing Typed Boundaries with Pydantic AI"
+        },
+        {
+          "id": "local-ollama-tuning",
+          "text": "Optimizing Local Ollama Inference & Context"
+        }
+      ],
+      "content": "## Why Combine LangGraph and CrewAI?\n\nWhen designing autonomous systems like **AI-Learning-Career-Coach**, engineers often treat `LangGraph` and `CrewAI` as mutually exclusive choices. In practice, they solve two distinct layers of the orchestration stack:\n\n1. **Macro-Level State Control (LangGraph)**: Learning paths require cyclic evaluation loops—diagnosing skills, assigning practice labs, grading competency, and branching conditionally. A finite state graph guarantees that transitions follow strict rules.\n2. **Micro-Level Collaborative Synthesis (CrewAI)**: Inside a single graph node (such as curriculum synthesis), having a *Curriculum Architect* agent collaborate with a *Career Mentor* agent produces richer, peer-reviewed roadmaps than a monolithic prompt.\n\n## Enforcing Typed Boundaries with Pydantic AI\n\nWhen passing control from a CrewAI team back into a LangGraph `TypedDict` state node, unstructured prose quickly corrupts downstream transitions. Every crew kickoff must terminate in a validated schema accompanied by **Guardrails AI** checks:\n\n```python\nfrom pydantic import BaseModel, Field\n\nclass WeeklyMilestone(BaseModel):\n    week: int = Field(ge=1, le=12)\n    objective: str\n    hands_on_lab: str\n    verification_criteria: list[str]\n\nclass LearningRoadmap(BaseModel):\n    target_role: str\n    identified_gaps: list[str]\n    milestones: list[WeeklyMilestone]\n```\n\n## Optimizing Local Ollama Inference & Context\n\nRunning multi-agent workflows against a locally-served **Ollama** LLM (or **vLLM** in cluster deployments) eliminates cloud token costs and keeps user data private, but requires disciplined context hygiene:\n- **Scratchpad Compaction**: Only persist the validated Pydantic output into the LangGraph state, discarding verbose intermediate inter-agent dialogue before the next node executes.\n- **Vector Memory Offloading**: Store historical session context in **Qdrant** and retrieve only the top-k relevant milestones for each turn."
+    },
+    {
+      "id": "django-celery-gemini-agent-loops",
+      "slug": "asynchronous-multi-agent-critique-loops-django-celery-gemini",
+      "title": "Asynchronous Multi-Agent Critique Loops with Django, Celery & Google Gemini",
+      "subtitle": "Designing resilient background pipelines that plan, write, edit, and quality-review content with Langfuse observability.",
+      "date": "September 2025",
+      "readTime": "6 min read",
+      "category": "Backend & Infrastructure",
+      "series": "Production Agentic Systems",
+      "summary": "Lessons from architecting Agentic-Review-Architecture: decoupling iterative multi-agent critique-refinement loops from HTTP request cycles using Django, Celery, and Redis.",
+      "tags": [
+        "Django",
+        "Celery",
+        "Google Gemini",
+        "Langfuse",
+        "Guardrails AI"
+      ],
+      "headings": [
+        {
+          "id": "why-async-queues",
+          "text": "Decoupling Agent Loops from Web Workers"
+        },
+        {
+          "id": "critique-refinement",
+          "text": "The 4-Stage Critique-Refinement Pattern"
+        },
+        {
+          "id": "observability-langfuse",
+          "text": "Trace Observability with Langfuse"
+        }
+      ],
+      "content": "## Decoupling Agent Loops from Web Workers\n\nA multi-agent system that plans, drafts, edits, and critiques content across 3–4 refinement iterations can easily take 25–60 seconds. Running that loop inside a synchronous web worker starves connection pools and causes gateway timeouts.\n\nIn **Agentic-Review-Architecture**, **Django** serves as the state and API layer while **Celery** workers (backed by **Redis** and **PostgreSQL**) execute each agent step asynchronously.\n\n## The 4-Stage Critique-Refinement Pattern\n\nInstead of hoping a single prompt produces publication-ready output, the pipeline separates generation from evaluation:\n\n```\nPlanner Agent ──► Writer Agent ──► Editor Agent ──► Quality-Reviewer Agent\n                       ▲                                    │\n                       └────── Iterative Critique Loop ─────┘\n```\n\n1. **Planner**: Establishes structural outline and factual constraints.\n2. **Writer**: Drafts content aligned to the plan using **Google Gemini**.\n3. **Editor**: Polishes flow, formatting, and conciseness.\n4. **Quality-Reviewer**: Scores the draft against an explicit rubric. If any dimension falls below threshold, it emits actionable critique back to the Writer (bounded by `max_iterations = 3`).\n\n## Trace Observability with Langfuse\n\nIn multi-agent loops, debugging a regression requires inspecting the exact prompt, rubric score, and latency of every iteration. Wrapping each Celery task step with **Langfuse** spans and **Guardrails AI** validators ensures full production visibility and deterministic safety."
+    },
+    {
+      "id": "hybrid-rag-vector-databases-nixos",
+      "slug": "high-performance-rag-qdrant-pinecone-milvus-nixos",
+      "title": "High-Performance Retrieval & Reproducible AI Infrastructure with Qdrant & NixOS",
+      "subtitle": "Evaluating Qdrant, Pinecone, Milvus, and pgvector for grounded RAG systems deployed on declarative Docker and NixOS environments.",
+      "date": "August 2025",
+      "readTime": "8 min read",
+      "category": "RAG & Infrastructure",
+      "series": "AI Infrastructure & DevOps",
+      "summary": "How to pair hybrid dense-sparse vector retrieval across Qdrant, Pinecone, Milvus, and PostgreSQL with reproducible NixOS and Docker serving pipelines.",
+      "tags": [
+        "Qdrant",
+        "Pinecone",
+        "Milvus",
+        "NixOS",
+        "Docker",
+        "FastAPI"
+      ],
+      "headings": [
+        {
+          "id": "vector-db-tradeoffs",
+          "text": "Choosing Between Qdrant, Pinecone, Milvus & pgvector"
+        },
+        {
+          "id": "hybrid-rrf",
+          "text": "Hybrid Retrieval with Reciprocal Rank Fusion"
+        },
+        {
+          "id": "declarative-infra",
+          "text": "Reproducible AI Serving with NixOS, Docker & FastAPI"
+        }
+      ],
+      "content": "## Choosing Between Qdrant, Pinecone, Milvus & pgvector\n\nHaving built retrieval pipelines across **Qdrant**, **Pinecone**, **Milvus**, and **PostgreSQL (pgvector)**, choosing the right vector store depends on operational constraints:\n- **Qdrant**: Rust-powered efficiency, rich payload filtering, and seamless local-to-cloud Docker deployment—ideal for agent memory and hybrid search.\n- **Pinecone**: Managed serverless scale when zero-ops cloud elasticity is the primary constraint.\n- **Milvus**: High-throughput distributed indexing for multi-million vector collections.\n- **PostgreSQL + Redis**: Keeps relational state, transactional checkpoints, and low-latency semantic cache layers unified.\n\n## Hybrid Retrieval with Reciprocal Rank Fusion\n\nPure dense embeddings capture conceptual similarity but can miss exact identifiers (such as package names, phone numbers, or framework versions). Combining BM25 lexical matching with dense vector similarity via **Reciprocal Rank Fusion (RRF)** ensures both keyword precision and semantic recall:\n\n```\nRRF_Score(doc) = 1 / (60 + rank_lexical(doc)) + 1 / (60 + rank_semantic(doc))\n```\n\n## Reproducible AI Serving with NixOS, Docker & FastAPI\n\nDrawing from DevOps engineering practices (**KodeKloud**) and **NixOS**, declarative environment configuration eliminates \"works on my machine\" drift across Python CUDA/CPU dependencies, **vLLM** / **Ollama** model servers, and **FastAPI** microservices."
+    }
+  ],
+  "timeline": [
+    {
+      "id": "dsaamp-2025",
+      "institution": "DSAAMP — Dr. Ammar Tufail (PhD Data Science)",
+      "program": "Data Science to AI Agents Mentorship Program (DSAAMP)",
+      "roleOrTrack": "Generative & Agentic AI Specialization",
+      "period": "2025",
+      "location": "Remote / Intensive Mentorship",
+      "type": "mentorship",
+      "summary": "Advanced mentorship covering Data Science, Machine Learning, Deep Learning, and Generative & Agentic AI from Intermediate to Advanced production level.",
+      "highlights": [
+        "Architected end-to-end multi-agent workflows using LangGraph state machines, CrewAI, AutoGen, and Pydantic AI.",
+        "Designed hybrid RAG pipelines with Qdrant, Pinecone, and Milvus backed by Langfuse trace observability and Guardrails AI validation.",
+        "Deployed production-grade agentic backends combining Django, FastAPI, Celery task queues, and Google Gemini / local Ollama inference."
+      ],
+      "skills": [
+        "LangGraph",
+        "CrewAI",
+        "AutoGen",
+        "Pydantic AI",
+        "Deep Learning",
+        "RAG",
+        "Qdrant",
+        "Langfuse"
+      ],
+      "accentColor": "#0F52BA"
+    },
+    {
+      "id": "kodekloud-2022-2023",
+      "institution": "KodeKloud",
+      "program": "DevOps Engineer Learning Path",
+      "roleOrTrack": "DevOps & Cloud Infrastructure Engineering",
+      "period": "2022 – 2023",
+      "location": "Hands-on Cloud & Linux Labs",
+      "type": "devops",
+      "summary": "Comprehensive DevOps engineering track progressing from foundational Linux and container concepts to advanced automation, Infrastructure as Code (IaC), and observability.",
+      "highlights": [
+        "CI/CD Pipeline Management & Code Deployment: Automated build, test, and deployment workflows with version control integration.",
+        "Infrastructure as Code (IaC) & Tool Configuration: Reproducible container and server provisioning across Docker and declarative Linux environments.",
+        "Monitoring, Observability & Security Practices: Performance optimization, incident/problem management, security integration, and backup/disaster recovery operations."
+      ],
+      "skills": [
+        "CI/CD Pipeline Management",
+        "Infrastructure as Code (IaC)",
+        "Monitoring & Observability",
+        "Docker",
+        "Security Practices Integration",
+        "Backup & Disaster Recovery",
+        "Automation"
+      ],
+      "accentColor": "#50C878"
+    },
+    {
+      "id": "alnafi-2020-2021",
+      "institution": "Alnafi",
+      "program": "AI Advancement Track",
+      "roleOrTrack": "Machine Learning, Deep Learning & NLP Labs",
+      "period": "2020 – 2021",
+      "location": "Practical Lab Track",
+      "type": "ai-track",
+      "summary": "Hands-on practical training in Artificial Intelligence focusing on foundational and applied Machine Learning, Deep Learning, and Natural Language Processing.",
+      "highlights": [
+        "Implemented supervised and unsupervised ML pipelines and neural network architectures in Python, PyTorch, and TensorFlow.",
+        "Built natural language processing (NLP) preprocessing, tokenization, and sequence classification models.",
+        "Established rigorous model evaluation and cross-validation workflows on structured and unstructured datasets."
+      ],
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Machine Learning",
+        "Deep Learning",
+        "NLP"
+      ],
+      "accentColor": "#DC143C"
+    },
+    {
+      "id": "hallmark-2020",
+      "institution": "Hallmark Academy",
+      "program": "Spoken & Written English Program",
+      "roleOrTrack": "Professional Communication & Composition",
+      "period": "2020",
+      "location": "Lahore, Pakistan",
+      "type": "communication",
+      "summary": "Intensive communication training focused on formal and informal written and oral English fluency for technical and collaborative environments.",
+      "highlights": [
+        "Communicated effectively in written and oral English across peer and formal professional settings.",
+        "Applied accurate English grammar and composed structured technical and analytical writing components."
+      ],
+      "skills": [
+        "Technical Writing",
+        "Oral Communication",
+        "Documentation",
+        "English Fluency"
+      ],
+      "accentColor": "#0F52BA"
+    }
+  ],
+  "skillGroups": [
+    {
+      "id": "agents-orchestration",
+      "category": "Agents & Orchestration",
+      "accentColor": "#0F52BA",
+      "description": "Stateful multi-agent graphs, collaborative role-based agent teams, deterministic tool execution, and Model Context Protocol servers.",
+      "skills": [
+        "LangGraph",
+        "CrewAI",
+        "AutoGen",
+        "Pydantic AI",
+        "LangChain",
+        "LlamaIndex",
+        "MCP Tool/Context Layer"
+      ]
+    },
+    {
+      "id": "inference-core-ml",
+      "category": "Inference & Core ML",
+      "accentColor": "#50C878",
+      "description": "High-throughput local and cloud model serving, quantized weights, custom deep learning pipelines, and Python backend runtime.",
+      "skills": [
+        "vLLM",
+        "Ollama",
+        "PyTorch",
+        "TensorFlow",
+        "Python"
+      ]
+    },
+    {
+      "id": "vector-dbs-state",
+      "category": "Vector DBs & State Management",
+      "accentColor": "#DC143C",
+      "description": "Hybrid dense-sparse vector indexing, semantic memory persistence, relational state, and low-latency task brokers.",
+      "skills": [
+        "Qdrant",
+        "Pinecone",
+        "Milvus",
+        "PostgreSQL (pgvector)",
+        "Redis"
+      ]
+    },
+    {
+      "id": "eval-guardrails",
+      "category": "Eval, Observability & Guardrails",
+      "accentColor": "#0F52BA",
+      "description": "Distributed trace telemetry, prompt regression auditing, schema validation, and runtime safety enforcement.",
+      "skills": [
+        "Langfuse",
+        "Guardrails AI"
+      ]
+    },
+    {
+      "id": "fullstack-devops",
+      "category": "Full-Stack, Serving & DevOps",
+      "accentColor": "#50C878",
+      "description": "Asynchronous API backends, distributed task queues, modern reactive frontends, reproducible NixOS environments, and CI/CD automation.",
+      "skills": [
+        "FastAPI",
+        "Django",
+        "Celery",
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Docker",
+        "NixOS",
+        "CI/CD",
+        "IaC"
+      ]
+    }
+  ],
+  "endorsements": [
+    {
+      "id": "endorsement-dsaamp",
+      "quote": "Maimoon consistently translates complex multi-agent architectures—combining LangGraph state machines, CrewAI teams, and hybrid vector retrieval—into resilient, observable backend systems.",
+      "author": "DSAAMP Mentorship Cohort",
+      "role": "Data Science to AI Agents Mentorship Program (2025)",
+      "context": "Generative & Agentic AI Specialization",
+      "accentColor": "#0F52BA"
+    },
+    {
+      "id": "endorsement-architecture",
+      "quote": "Pairing asynchronous Django + Celery task queues with iterative Gemini critique-refinement loops and Langfuse telemetry solved our long-form generation reliability bottlenecks.",
+      "author": "Architecture Review Benchmark",
+      "role": "Agentic-Review-Architecture Case Study",
+      "context": "4-Stage Multi-Agent Pipeline",
+      "accentColor": "#50C878"
+    },
+    {
+      "id": "endorsement-devops",
+      "quote": "Disciplined DevOps foundation across Docker, NixOS declarative environments, CI/CD automation, and local Ollama/vLLM model serving ensures zero configuration drift in production.",
+      "author": "Infrastructure & MLOps Track",
+      "role": "KodeKloud & Reproducible AI Serving",
+      "context": "DevOps & Cloud Engineering",
+      "accentColor": "#DC143C"
+    }
+  ],
+  "customChunks": [],
+  "settings": {
+    "available": true,
+    "statusText": "Open to Opportunities",
+    "model": "gemini-3.8-flash",
+    "systemPromptNote": "Prioritize concise, citation-grounded answers referencing Maimoon Amin case studies, timeline, and skills.",
+    "newsletterEnabled": true
+  },
+  "chatLogs": [
+    {
+      "id": "seed-log-1",
+      "query": "What has Maimoon shipped with LangGraph and CrewAI?",
+      "timestamp": "2026-11-09T06:55:17.516Z",
+      "sources": [
+        "Case Study: AI-Learning-Career-Coach (Personalized AI Learning & Career Coach)"
+      ],
+      "feedback": "up"
+    },
+    {
+      "id": "seed-log-2",
+      "query": "How does the Agentic-Review-Architecture pipeline work?",
+      "timestamp": "2026-11-09T09:55:17.516Z",
+      "sources": [
+        "Case Study: Agentic-Review-Architecture (Agent Flow — Multi-Agent Orchestration System)"
+      ],
+      "feedback": "up"
+    }
+  ],
+  "messages": [
+    {
+      "id": "seed-msg-1",
+      "name": "Elena Rostova (VP Engineering)",
+      "email": "elena@autonomous-labs.io",
+      "company": "Autonomous Labs",
+      "engagementType": "Multi-Agent Architecture Consulting",
+      "budgetOrTimeline": "Q1 Launch · 8-Week Advisory",
+      "message": "Impressed by your LangGraph + CrewAI orchestration and Celery critique loop architecture. Would love to discuss an agentic workflow audit.",
+      "status": "new",
+      "timestamp": "2026-11-08T11:55:17.516Z"
+    }
+  ],
+  "subscribers": [
+    {
+      "id": "sub-seed-1",
+      "email": "principal.architect@vectorops.dev",
+      "subscribedAt": "2026-11-06T11:55:17.516Z",
+      "source": "/writing"
+    }
+  ],
+  "lastIndexedAt": "2026-11-09T11:55:17.516Z"
+}
