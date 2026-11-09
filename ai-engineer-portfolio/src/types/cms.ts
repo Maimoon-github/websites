@@ -6,12 +6,11 @@
 
 // --- Admin & Site Configuration ---
 export interface AdminSettings {
-  isLiveAvailable: boolean; // Controls the 'availability badge' on the Hero section
-  primaryModel: 'gemini-3.8-flash' | string; // Configured LLM model
-  systemPromptTemplate: string; // The main prompt for the RAG assistant
-  siteName: string; // Global site title
-  timezone: string; // e.g., 'Asia/Kolkata'
-  // Add other operational settings here
+  available: boolean;
+  statusText: string;
+  model: 'gemini-3.8-flash' | string;
+  systemPromptNote: string;
+  newsletterEnabled: boolean;
 }
 
 // --- Content Entities ---

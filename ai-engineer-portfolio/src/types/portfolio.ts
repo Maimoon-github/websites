@@ -158,7 +158,7 @@ export interface NewsletterSubscriber {
   source: string;
 }
 
-export interface AdminSiteSettings {
+export interface AdminSettings {
   available: boolean;
   statusText: string;
   model: string;

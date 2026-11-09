@@ -4,7 +4,8 @@ import {
   ArticlePost,
   TimelineItem,
   SkillGroup,
-} from '@/types/portfolio';
+  AdminSettings,
+} from '@/types/cms';
 
 export async function fetchPortfolioBundle() {
   const res = await fetch('/api/portfolio');
@@ -127,6 +128,70 @@ export async function updateAvailabilitySettings(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ statusText, available, ...extra }),
+  });
+  if (!res.ok) throw new Error('Failed to update availability settings');
+  return res.json();
+}
+
+export async function createAdminContentItem(payload: {
+  title: string;
+  subtitle: string;
+  category: string;
+  summary: string;
+  tags: string[];
+  content: string;
+}) {
+  const res = await fetch('/api/admin/content', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error('Failed to create content item');
+  return res.json();
+}
+
+export async function deleteAdminContentItem(id: string) {
+  const res = await fetch(`/api/admin/content/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Failed to delete content item');
+  return res.json();
+}
+
+export async function updateAdminMessageStatus(id: string, status: 'new' | 'read' | 'replied') {
+  const res = await fetch(`/api/admin/messages/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status }),
+  });
+  if (!res.ok) throw new Error('Failed to update message status');
+  return res.json();
+}
+
+export async function deleteAdminMessage(id: string) {
+  const res = await fetch(`/api/admin/messages/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Failed to delete message');
+  return res.json();
+}
+
+export async function resetAdminStore() {
+  const res = await fetch('/api/admin/reset', { method: 'POST' });
+  if (!res.ok) throw new Error('Failed to reset store');
+  return res.json();
+}
+
+export async function subscribeToNewsletter(email: string, source: string = '/newsletter') {
+  const res = await fetch('/api/newsletter', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, source }),
+  });
+  if (!res.ok) throw new Error('Failed to subscribe');
+  return res.json();
+}
+ statusText, available, ...extra }),
   });
   if (!res.ok) throw new Error('Failed to update availability settings');
   return res.json();
