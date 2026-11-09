@@ -1,0 +1,6 @@
+{
+  "name": "Alex Chen - 3D AI Engineer Portfolio",
+  "description": "Production-ready 3D & motion-driven portfolio for an AI Engineer, featuring a custom faceted gemstone visualizer, interactive LLM/RAG/Agent case studies, and a grounded AI assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

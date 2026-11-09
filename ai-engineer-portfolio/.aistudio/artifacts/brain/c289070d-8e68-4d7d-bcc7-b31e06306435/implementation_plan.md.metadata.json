@@ -1,0 +1,6 @@
+{
+  "summary": "Master Engineering Plan for Maimoon (Moon) Amin's Full-Stack AI Engineer Portfolio & Centralized Admin Console with file-backed JSON persistence, full CRUD across Projects/Posts/Resume/Settings, sub-routes (/admin/dashboard, /admin/content, /admin/knowledge, /admin/messages, /admin/settings), tag/series archives (/writing/tags/[tag], /writing/series/[slug]), /newsletter, and Home AI Teaser & Testimonials.",
+  "updatedAt": "2026-11-06T16:38:15.739866695Z",
+  "requestFeedback": true,
+  "userFacing": true
+}
