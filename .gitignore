@@ -1,0 +1,164 @@
+
+# ==========================================
+# NEXT.JS
+# ==========================================
+.next/
+out/
+build/
+dist/
+
+# ==========================================
+# NODE.JS / PACKAGE MANAGERS
+# ==========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Package manager caches
+.npm/
+.pnpm-store/
+.yarn/cache/
+.yarn/unplugged/
+
+# ==========================================
+# ENVIRONMENT VARIABLES / SECRETS
+# ==========================================
+.env
+.env.*
+!.env.example
+!.env.template
+
+# ==========================================
+# TYPESCRIPT
+# ==========================================
+*.tsbuildinfo
+next-env.d.ts
+
+# ==========================================
+# TESTING / COVERAGE
+# ==========================================
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+blob-report/
+
+# ==========================================
+# LINTING / FORMATTING
+# ==========================================
+.eslintcache
+.stylelintcache
+.prettiercache
+
+# ==========================================
+# IDE / EDITORS
+# ==========================================
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+*.swp
+*.swo
+*.swn
+*~
+
+# ==========================================
+# AI CODING AGENTS
+# ==========================================
+# Keep AGENTS.md, CLAUDE.md and project instructions tracked.
+# Ignore only local agent state and caches.
+.cursor/
+.claude/
+.antigravity/
+.aider*
+.mcp-cache/
+
+# ==========================================
+# OPERATING SYSTEM
+# ==========================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ==========================================
+# LOGS / TEMPORARY FILES
+# ==========================================
+logs/
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# ==========================================
+# BUILD / TOOL CACHES
+# ==========================================
+.turbo/
+.vercel/
+.cache/
+.parcel-cache/
+.esbuild/
+.rspack-cache/
+
+# ==========================================
+# DATABASE / LOCAL DATA
+# ==========================================
+*.sqlite
+*.sqlite3
+*.db
+prisma/*.db
+prisma/*.db-journal
+
+# ==========================================
+# 3D / MEDIA TEMPORARY FILES
+# ==========================================
+# Blender backups and temporary renders
+*.blend1
+*.blend2
+*.tmp.blend
+renders/
+tmp-renders/
+
+# ==========================================
+# DEPLOYMENT / LOCAL CONFIGURATION
+# ==========================================
+.vercel
+.netlify/
+.firebase/
+.serverless/
+
+# ==========================================
+# PYTHON (OPTIONAL BACKEND)
+# ==========================================
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ==========================================
+# GENERATED FILES
+# ==========================================
+*.orig
+*.rej
+*.stackdump
+
+# ==========================================
+.claude/
+.cursor/
+.gemini/
+.antigravity/
+.agent/
+.aide
+.temp/*
