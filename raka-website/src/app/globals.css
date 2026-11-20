@@ -26,10 +26,10 @@
   --color-raka-error-text: #B3261E;
   --color-raka-error-bg: #F8E3E0;
 
-  /* Typography Font Families */
-  --font-display: var(--font-display), 'Libre Caslon Condensed', Georgia, serif;
-  --font-interface: var(--font-interface), 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-urdu: var(--font-urdu), 'Noto Nastaliq Urdu', serif;
+  /* Typography Font Families - mapped distinctly to prevent cyclic self-references */
+  --font-display: var(--font-raka-display), 'Libre Caslon Condensed', Georgia, serif;
+  --font-interface: var(--font-raka-interface), 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-urdu: var(--font-raka-urdu), 'Noto Nastaliq Urdu', serif;
 
   /* Breakpoints */
   --breakpoint-tablet: 600px;

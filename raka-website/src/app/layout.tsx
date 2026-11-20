@@ -16,20 +16,20 @@ const libreCaslonCondensed = localFont({
       style: "italic",
     },
   ],
-  variable: "--font-display",
+  variable: "--font-raka-display",
   display: "swap",
 });
 
 const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-interface",
+  variable: "--font-raka-interface",
   display: "swap",
 });
 
 const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
   weight: ["400", "700"],
   subsets: ["arabic"],
-  variable: "--font-urdu",
+  variable: "--font-raka-urdu",
   display: "swap",
 });
 
