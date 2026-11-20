@@ -73,13 +73,3 @@ When approval is granted to introduce animation and 3D libraries:
 2. **Minimal & Incremental Edits:** Make surgical, well-defined modifications. Never overwrite working code unnecessarily.
 3. **Continuous Verification:** After code changes, verify that `npm run lint` and `npx tsc --noEmit` pass with zero errors.
 4. **Transparent Reporting:** Report every file created, updated, or removed with a clear explanation of changes.
-
-
-
-`.temp/demo/Design-TOKEN/01 Brand foundations-html`
-`.temp/demo/Design-TOKEN/02 Color-html`
-`.temp/demo/Design-TOKEN/03 Typography-html`
-`.temp/demo/Design-TOKEN/04 Spacing, grid, shape, motion-html`
-`.temp/demo/Design-TOKEN/05 Components-html`
-`.temp/demo/Design-TOKEN/06 Imagery, icons, voice-html`
-`.temp/demo/Design-TOKEN/07 motion-html`

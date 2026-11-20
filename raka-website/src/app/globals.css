@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed:ital,wght@0,400;1,400&family=Manrope:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -28,9 +27,9 @@
   --color-raka-error-bg: #F8E3E0;
 
   /* Typography Font Families */
-  --font-display: 'Libre Caslon Condensed', Georgia, serif;
-  --font-interface: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-urdu: 'Noto Nastaliq Urdu', serif;
+  --font-display: var(--font-display), 'Libre Caslon Condensed', Georgia, serif;
+  --font-interface: var(--font-interface), 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-urdu: var(--font-urdu), 'Noto Nastaliq Urdu', serif;
 
   /* Breakpoints */
   --breakpoint-tablet: 600px;
@@ -78,10 +77,6 @@
   --raka-taupe: #6E6157;
   --raka-bark: #3A322C;
   --raka-ember: #C2412D;
-
-  --font-display: 'Libre Caslon Condensed', Georgia, serif;
-  --font-interface: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-urdu: 'Noto Nastaliq Urdu', serif;
 
   --ease-silk: cubic-bezier(0.2, 0.7, 0.2, 1.0);
   --duration-fast: 150ms;
